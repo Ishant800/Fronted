@@ -31,8 +31,8 @@ const islogin = false
 </div>) : 
 
 (<div className="">
-    <button className="text-[18px] hover:bg-blue-700 bg-blue-500 text-white rounded-xl p-2 w-[120px]">Signup</button>
-    {/* <button className="text-[18px] ml-2 border-2 border-blue-600 text-blue-600 rounded-xl p-2 w-[120px]">Signup</button> */}
+    {/* <button className="text-[16px] p-1 hover:bg-blue-700 bg-blue-500 text-white rounded-xl  w-[120px]">Signup</button> */}
+    <button className="text-[18px] ml-2 border-2 bg-slate-50 border-blue-500 text-blue-500 rounded-lg p-1 w-[120px]">Signin</button>
 
 </div>)}
 

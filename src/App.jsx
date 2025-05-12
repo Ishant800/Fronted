@@ -1,13 +1,17 @@
-import Navabar from "./components/navbar/navbar"
+import Homepage from "./components/homepage/home"
+import{BrowserRouter,Routes,Route} from 'react-router-dom'
+
 
 function App() {
   return (
-   <div>
-   <Navabar/>
-   <div className="h-screen w-full bg-red-800">
+   <BrowserRouter>
+   <Routes>
+<Route path="/" element={<Homepage/>}/>
 
-   </div>
-   </div>
+   </Routes>
+   
+   
+   </BrowserRouter>
   )
 }
 
