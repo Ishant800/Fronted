@@ -10,14 +10,16 @@ import Navabar from "../navbar/navbar"
 function Homepage() {
   return (
     <div>
-        <Navabar/>
-        <Landingpage/>
-        <Landingpage1/>
-        <Searchroom/>
-        <Landingpage2/>
-        <Landingpage4/>
-        <Landingpage3/>
-        <Footer/>
+      <Navabar />
+
+      <Landingpage />
+
+      <Searchroom />
+      <Landingpage1 />
+      <Landingpage2 />
+      <Landingpage4 />
+      <Landingpage3 />
+      <Footer />
     </div>
   )
 }
