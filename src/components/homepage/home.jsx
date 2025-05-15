@@ -1,5 +1,5 @@
 import Footer from "../footer/footer"
-import Searchroom from "../form/searchroom"
+
 import Landingpage from "../main/Landingpage"
 import Landingpage1 from "../main/landingpage1"
 import Landingpage2 from "../main/landingpage2"
@@ -13,8 +13,6 @@ function Homepage() {
       <Navabar />
 
       <Landingpage />
-
-      <Searchroom />
       <Landingpage1 />
       <Landingpage2 />
       <Landingpage4 />
