@@ -6,25 +6,25 @@ function Landingpage() {
   return (
     <div className="h-screen  bg-slate-200 bg-cover bg-[linear-gradient(rgba(0,0,100,0.5)),url(/images/hero.jpg)]  ">
 
-      <div className="flex px-20 py-30 flex-row ">
+      <div className="flex px-20 py-20 flex-row ">
 
         <div className="w-1/2 flex flex-col">
-          <div className=''>
-            <h1 className='text-5xl font-semibold text-slate-200'>Find A Perfect Room in <span className='text-5xl font-semibold text-blue-500'>MeroRoom</span> </h1>
-            <p className='text-[17px] text-gray-200 mt-7 font-medium w-[80%] '>MeroRoom connects you with ideal living spaces that match your budget and lifestyle. Browse thousands of quality rooms and connect directly with landlords.</p>
+          <div className='mt-10'>
+            <h1 className='text-5xl font-bold leading-tight text-gray-900'>Find A Perfect Room <br /> <span className='text-blue-500'>In MeroRoom</span> </h1>
+            <p className=' max-w-md text-lg text-gray-400  mt-7 font-medium w-[80%] '>MeroRoom connects you with ideal living spaces that match your budget and lifestyle. Browse thousands of quality rooms and connect directly with landlords.</p>
 
           </div>
 
           <div className="pt-15 justify-start flex flex-row gap-10">
             <div className="flex flex-row">
-              <button className="bg-blue-500 text-sm text-white font-medium px-5 py-3 flex flex-row items-center gap-2 rounded-sm">
+              <button className="bg-blue-500 hover:bg-blue-700 transition text-md text-white font-medium px-5 py-3 flex flex-row items-center gap-2 rounded-sm">
                 Browse room
                 <FaArrowRight />
               </button>
             </div>
 
             <div className="flex flex-row">
-              <button className=" bg-slate-50 border text-sm text-blue-500 font-medium px-5 py-3 flex flex-row items-center gap-2 rounded-sm">
+              <button className=" bg-slate-50 border text-md text-blue-500 font-medium px-5 py-3 flex flex-row items-center gap-2 rounded-sm">
                 Learn more
                 <FaArrowRight />
               </button>
@@ -32,13 +32,14 @@ function Landingpage() {
           </div>
 
               <div className="mt-10">
-        <h1 className="text-xl font-mono text-gray-300">Trust by 1000+ Peoples </h1>
+        
         <div className="flex flex-row">
-          <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww" alt="" className="rounded-full h-12 w-12" />
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTH4dlV0UI27TlS52PbJ2N78hINGV4m43mKg&s" alt="" className="rounded-full h-12 w-12" />
-          <img src="https://static.vecteezy.com/system/resources/thumbnails/057/704/776/small/young-woman-with-glasses-smiles-confidently-during-classroom-session-photo.jpg" alt="" className="rounded-full h-12 w-12" />
-          <img src="https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?cs=srgb&dl=pexels-olly-733872.jpg&fm=jpg" alt="" className="rounded-full h-12 w-12" />
+          <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww" alt="" className="w-10 h-10 rounded-full border-2 border-white shadow-sm" />
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTH4dlV0UI27TlS52PbJ2N78hINGV4m43mKg&s" alt="" className="w-10 h-10 rounded-full border-2 border-white shadow-sm" />
+          <img src="https://static.vecteezy.com/system/resources/thumbnails/057/704/776/small/young-woman-with-glasses-smiles-confidently-during-classroom-session-photo.jpg" alt="" className="w-10 h-10 rounded-full border-2 border-white shadow-sm" />
+          <img src="https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?cs=srgb&dl=pexels-olly-733872.jpg&fm=jpg" alt="" className="w-10 h-10 rounded-full border-2 border-white shadow-sm" />
         </div>
+        <span className="text-sm font-medium font-mono  text-gray-300">Trusted by 1,000+ people</span>
       </div>
 
 

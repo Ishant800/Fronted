@@ -3,6 +3,7 @@ import Maincontent from "./pages/maincontent"
 import Navbarmini from "./pages/navbar"
 import Sidebar from "./pages/sidebar"
 import Setting from "./pages/setting"
+import Profile from "../profile/profile"
 
 function Dashboard() {
   return (
@@ -14,10 +15,10 @@ function Dashboard() {
           <Routes>
             <Route path="/" element={<Maincontent />} />
             <Route path="setting" element={<Setting />} />
-            {/* <Route path="profile" element={<Profile />} />
-            <Route path="customers" element={<Customers />} />
+            <Route path="profile" element={<Profile/>} />
+            {/* <Route path="customers" element={<Customers />} />
             <Route path="message" element={<Message />} />
-            <Route path="list-room" element={<ListRoom />} /> */}
+            <Route path="list-room" element={<ListRoom />} />  */}
           </Routes>
         </div>
       </div>

@@ -2,8 +2,33 @@
 import { MdEmail } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { IoHomeSharp } from "react-icons/io5";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
+import { useNavigate } from "react-router-dom";
+import { loginUser } from "../redux/authredux";
+import { Link } from "react-router-dom";
 function Loginpage() {
+    const dispatch = useDispatch()
+    const {user} = useSelector((state)=>state.auth)
+    const navigate = useNavigate()
+    const [formdata,setformdata] = useState({
+        email:"",
+        password:""
+    })
+
+const handleSubmit =(e)=>{
+e.preventDefault()
+dispatch(loginUser(formdata)) 
+}
+
+useEffect(() => {
+  if (user) {
+    navigate("/");
+  }
+}, [user, navigate]);
+
+
     return (
 
         <div className="lg:h-screen flex items-center justify-center bg-blue-200">
@@ -16,7 +41,7 @@ function Loginpage() {
                         </div>
                         <span className="text-md py-2 font-medium text-gray-600">Wellcome back again ! we are happy to see you again</span>
 
-                        <form action="" className="mt-10">
+                        <form onSubmit={handleSubmit} className="mt-10">
 
                             <div className="mt-5   flex flex-col">
                                 <label className="text-md font-medium text-gray-500" htmlFor="">Email</label>
@@ -29,6 +54,9 @@ function Loginpage() {
                                         className="p-3 w-full bg-transparent text-sm font-medium placeholder-gray-400 outline-none"
                                         placeholder="email@gmail.com"
                                         aria-label="enter your email"
+                                        name="email"
+                                        value={formdata.email}
+                                        onChange={(e)=>setformdata({...formdata,email:e.target.value})}
                                     />
                                 </div>
                             </div>
@@ -48,13 +76,20 @@ function Loginpage() {
                                         className="p-3 w-full bg-transparent text-sm font-medium placeholder-gray-400 outline-none"
                                         placeholder="*************"
                                         aria-label="enter your strong password"
+                                        name="emial"
+                                        value={formdata.password}
+                                        onChange={(e)=>setformdata({...formdata,password:e.target.value})}
                                     />
                                 </div>
+
                             </div>
 
                             <div className="mt-7 w-full">
-                                <button className="text-lg capitalize w-full p-3 rounded-md font-medium bg-blue-500 text-white">Sign in</button>
+                                <button type="submit" className="text-lg capitalize w-full p-3 rounded-md font-medium bg-blue-500 text-white">Sign in</button>
                             </div>
+                            <Link to='/signup'>
+                               <span className="text-blue-600 mt-3">Dont have an account signup</span>
+                               </Link>
                         </form>
                     </div>
                 </div>

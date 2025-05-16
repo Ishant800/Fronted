@@ -1,6 +1,5 @@
 import { IoMenu } from "react-icons/io5";
 import { IoIosColorPalette } from "react-icons/io";
-import { MdOutlineLogout } from "react-icons/md";
 import { IoSettingsOutline } from "react-icons/io5";
 import { BsHouseAddFill } from "react-icons/bs";
 import { MdOutlineMessage } from "react-icons/md";
@@ -10,7 +9,7 @@ import { NavLink } from "react-router-dom";
 
 function Sidebar() {
   return (
-    <div className="w-1/5 px-7 bg-slate-900 h-full">
+    <div className="w-1/5 px-7 bg-slate-900 h-160">
       <div className="flex flex-row justify-between py-2 items-center">
         <h1 className="text-xl font-semibold text-gray-100">Dashboard</h1>
         <IoMenu size={25} color="gray" />
@@ -89,11 +88,6 @@ function Sidebar() {
         <span className="text-slate-200 font-medium text-[17px]">Settings</span>
       </NavLink>
 
-      <div className="mt-50 mb-6">
-        <button className="flex rounded-md border py-2 px-5 w-full border-white items-center justify-center gap-2 text-white text-[17px]">
-          Logout <MdOutlineLogout />
-        </button>
-      </div>
     </div>
   );
 }

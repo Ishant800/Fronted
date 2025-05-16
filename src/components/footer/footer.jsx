@@ -35,7 +35,7 @@ function Footer() {
             <a className="text-sm font-medium text-gray-400 pt-2" href="">Pricing</a>
             <a className="text-sm font-medium text-gray-400 pt-2" href="">FAQS</a>
 
-          </nav>
+          </nav>  
         </div>
 
         {/* third part */}

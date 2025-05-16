@@ -10,15 +10,15 @@ function Landingpage2() {
     }, {
       id: 2,
       icons: <FaFacebookMessenger size={30} color="blue" />,
-      title: "Search Rooms",
-      desc: "Browse through verified listings with detailed descriptions, photos, and reviews."
+      title: "Connects and Chat",
+      desc: "Message landlords directly, ask questions, and schedule viewings through our platform."
 
     },
     {
       id: 3,
       icons: <FaKey size={30} color="blue" />,
-      title: "Search Rooms",
-      desc: "Browse through verified listings with detailed descriptions, photos, and reviews."
+      title: "Book & Move In",
+      desc: "Secure your room with online booking and payments, then move into your new space."
     }]
   return (
     <div className="h-full bg-slate-200 flex items-center flex-col">
@@ -28,9 +28,9 @@ function Landingpage2() {
         </span>
       </div>
 
-      <div className="flex flex-row items-center justify-around">
+      <div className="flex flex-row items-center mx-20 gap-10 my-10 justify-around">
         {data.map(item => (
-          <div key={item.id} className="m-10 flex flex-col items-center justify-center rounded-xl p-5 w-1/3 bg-slate-100  ">
+          <div key={item.id} className=" flex flex-col items-center justify-center rounded-xl p-5  bg-slate-100  ">
             <div className="bg-blue-100 flex flex-col items-center justify-center rounded-full h-20 w-20 ">
               {item.icons}
             </div>
