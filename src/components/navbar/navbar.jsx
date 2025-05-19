@@ -10,7 +10,7 @@ function Navabar() {
   const {islogin} = useSelector((state)=> state.auth)
 
   return (
-    <div className="h-[70px] w-full bg-gray-50 sticky top-0 flex justify-around  items-center">
+    <div className="h-[70px] w-full bg-gray-100 sticky top-0 flex justify-around  items-center">
 
 
       {/* Webpage logo*/}
@@ -39,7 +39,7 @@ function Navabar() {
               <Link to="/dashboard/profile">
               <div className="text-md hover:bg-slate-100 font-semibold text-gray-700  rounded-xl px-3 py-2">Profile</div>
               </Link>
-             <Link to="/dashboard">
+             <Link to="/dashboard" target="blank">
                <div className="text-md hover:bg-slate-100 font-semibold text-gray-700  rounded-xl px-3 py-2">Dashbaord</div>
 
              </Link>
@@ -60,9 +60,10 @@ function Navabar() {
       </div>) :
 
         (<div className="">
-
+          <Link to='/login'>
+          
           <button className="text-[18px] ml-2 border-2 bg-slate-50 border-blue-500 text-blue-500 rounded-lg p-1 w-[120px]">Signin</button>
-
+          </Link>
         </div>)}
 
     </div>

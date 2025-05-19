@@ -5,13 +5,16 @@ import { BsHouseAddFill } from "react-icons/bs";
 import { MdOutlineMessage } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
 import { FaUsers } from "react-icons/fa6";
-import { NavLink } from "react-router-dom";
+import { NavLink,Link } from "react-router-dom";
 
 function Sidebar() {
   return (
-    <div className="w-1/5 px-7 bg-slate-900 h-160">
+    <div className="w-1/5 px-7 bg-slate-900 h-screen">
       <div className="flex flex-row justify-between py-2 items-center">
-        <h1 className="text-xl font-semibold text-gray-100">Dashboard</h1>
+        <Link to="/">
+        
+        <h1 className="text-xl font-semibold text-gray-100">MeroRoom</h1>
+        </Link>
         <IoMenu size={25} color="gray" />
       </div>
 
@@ -37,7 +40,7 @@ function Sidebar() {
         }
       >
         <CgProfile size={18} color="white" />
-        <span className="text-slate-200 font-medium text-[17px]">Profile</span>
+        <span className="text-slate-200 font-medium text-[17px]">Account</span>
       </NavLink>
 
       <NavLink
@@ -65,7 +68,7 @@ function Sidebar() {
       </NavLink>
 
       <NavLink
-        to="/dashboard/list-room"
+        to="/dashboard/listroom"
         className={({ isActive }) =>
           `flex mt-3 items-center px-4 py-2 rounded-md gap-3 ${
             isActive ? "bg-blue-500" : "hover:bg-slate-600"

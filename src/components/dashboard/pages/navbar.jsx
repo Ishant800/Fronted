@@ -7,8 +7,6 @@ function Navbarmini() {
 
 
         <div className='flex flex-row justify-between items-center p-3 bg-cyan-800'>
-          
-           
             <div className="items-center flex gap-2">
                 <IoHomeSharp size={26} color="white" />
              <Link to='/'>

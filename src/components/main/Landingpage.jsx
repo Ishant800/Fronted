@@ -10,7 +10,7 @@ function Landingpage() {
 
         <div className="w-1/2 flex flex-col">
           <div className='mt-10'>
-            <h1 className='text-5xl font-bold leading-tight text-gray-900'>Find A Perfect Room <br /> <span className='text-blue-500'>In MeroRoom</span> </h1>
+            <h1 className='text-5xl font-bold leading-tight text-slate-200'>Find A Perfect Room <br /> <span className='text-blue-500'>In MeroRoom</span> </h1>
             <p className=' max-w-md text-lg text-gray-400  mt-7 font-medium w-[80%] '>MeroRoom connects you with ideal living spaces that match your budget and lifestyle. Browse thousands of quality rooms and connect directly with landlords.</p>
 
           </div>
@@ -46,7 +46,7 @@ function Landingpage() {
 
          </div>
 
-         <form action="" className=" w-120 ml-40  bg-slate-100 rounded-2xl">
+         <form action="" className=" w-120 ml-40  bg-slate-100 rounded-xl">
           <div className="px-10 py-10">
             <h1 className="text-2xl font-medium  text-gray-800">Find Room Near Your Location</h1>
           </div>
@@ -59,7 +59,7 @@ function Landingpage() {
               </span>
               <input
                 type="text"
-                className="p-3 w-full bg-transparent text-sm font-medium placeholder-gray-400 outline-none"
+                className="p-3 w-full bg-transparent font-medium placeholder-gray-400 outline-none"
                 placeholder="Where do you want to stay?"
                 aria-label="Search for a location to stay"
               />
@@ -75,7 +75,7 @@ function Landingpage() {
               </span>
               <input
                 type="text"
-                className="p-3 w-full bg-transparent text-sm font-medium placeholder-gray-400 outline-none"
+                className="p-3 w-full bg-transparent  font-medium placeholder-gray-400 outline-none"
                 placeholder="Enter your budget range"
                 aria-label="budget"
               />
@@ -91,7 +91,7 @@ function Landingpage() {
               </span>
               <input
                 type="text"
-                className="p-3 w-full bg-transparent text-sm font-medium placeholder-gray-400 outline-none"
+                className="p-3 w-full bg-transparent  ont-medium placeholder-gray-400 outline-none"
                 placeholder="Select room type"
                 aria-label="budget"
               />
@@ -100,10 +100,8 @@ function Landingpage() {
 
 
           <div className="px-10 py-5">
-            <button className="text-md w-full p-3 rounded-xl font-medium text-white bg-blue-500">Search available room</button>
+            <button className="text-md w-full p-3 rounded-md font-medium text-white bg-blue-500">Search available room</button>
           </div>
-
-
 
         </form>
 

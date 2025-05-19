@@ -38,7 +38,7 @@ const authSlice = createSlice({
   initialState: {
     user: null,
     loading: false,
-    islogin:true,
+    islogin:false,
     error: null,
   },
   reducers: {
@@ -57,11 +57,12 @@ state.user = action.payload
       state.user = action.payload;
       console.log(action.payload,"data form reducer")
       localStorage.setItem('user', JSON.stringify(action.payload));
+      state.islogin = true
     });
     builder.addCase(loginUser.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload;
-      state.islogin = true
+      state.islogin = false
     });
 
     // Register
