@@ -3,8 +3,8 @@ import { FaFacebookF, FaInstagram, FaLinkedin, FaTwitter } from "react-icons/fa"
 
 function Footer() {
   return (
-    <div className="w-full gap-5 bg-slate-800 ">
-      <div className="pt-10 flex items-center  justify-around">
+    <div className="w-full overflow-hidden gap-5 bg-slate-800 ">
+      <div className="pt-10 flex items-center justify-around">
         {/* firstpart */}
         <div className="flex flex-col">
           <div className="items-center flex gap-2">
