@@ -1,7 +1,7 @@
 
 function Landingpage3() {
   return (
-    <div className='h-100 flex  flex-col justify-center items-center bg-sky-600 w-full'>
+    <div className='h-100 flex flex-col justify-center items-center bg-sky-600 w-full'>
       <h1 className='text-white font-bold text-3xl '>Get Exclusive Offers
       </h1>
       <h2 className='text-slate-200 font-medium w-1/3 text-center pt-5 text-lg '>Subscribe to our newsletter and be the first to receive special promotions, travel tips, and seasonal discounts.</h2>

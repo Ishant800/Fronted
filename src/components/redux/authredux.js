@@ -1,4 +1,3 @@
-
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
@@ -10,7 +9,7 @@ export const loginUser = createAsyncThunk('auth/loginUser', async (userData, thu
     const res = await axios.post(`${API_URL}/userlogin`, userData);
     return res.data;
   } catch (err) {
-    console.log(err)
+    return res.err
   }
 });
 
@@ -19,7 +18,7 @@ export const registerUser = createAsyncThunk('auth/registerUser', async (userDat
     const res = await axios.post(`${API_URL}/usersignup`, userData);
     return res.data; 
   } catch (err) {
-    console.log(err)
+    return res.err
   }
 });
 
@@ -43,7 +42,13 @@ const authSlice = createSlice({
   },
   reducers: {
     setUser:(state,action)=>{
-state.user = action.payload
+      state.user = !!action.payload
+      state.islogin = true
+    },
+    setLogout:(state)=>{
+      state.islogin = false
+      localStorage.removeItem("user")
+      state.user = null
     }
   },
   extraReducers: (builder) => {
@@ -56,7 +61,10 @@ state.user = action.payload
       state.loading = false;
       state.user = action.payload;
       console.log(action.payload,"data form reducer")
-      localStorage.setItem('user', JSON.stringify(action.payload));
+      if(action.payload.acesstoken){
+       localStorage.setItem('user', action.payload.acesstoken);
+      }
+     
       state.islogin = true
     });
     builder.addCase(loginUser.rejected, (state, action) => {
@@ -87,5 +95,5 @@ state.user = action.payload
 });
   
 
-export const  {setUser} = authSlice.actions
+export const  {setUser,setLogout} = authSlice.actions
 export default authSlice.reducer;

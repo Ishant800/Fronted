@@ -12,7 +12,7 @@ import { registerUser } from "../redux/authredux";
 function Signup() {
 
  const dispatch = useDispatch()
-//  const{loading,error} = useSelector((state)=>state.auth)
+
 
     const[formdata,setformdata] = useState({
        username:"",
@@ -107,7 +107,7 @@ dispatch(registerUser(formdata))
                             <div className="mt-3 flex justify-center ">
                                 <Link to="/login">
                               
-                                <span className=" text-center text-gray-800 font-medium text-md">already have an account <span className="text-blue-400 font-medium">signin</span></span>
+                                <span className=" text-center text-gray-600 font-medium text-sm">Already have an account <span className="text-blue-400 font-medium">signin</span></span>
                               </Link>
                             </div>
 

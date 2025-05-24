@@ -1,13 +1,26 @@
+import { FaUsers } from "react-icons/fa"
 
-import Profile from "../../profile/profile"
 
 function Maincontent() {
-  // const userdetails = JSON.parse(localStorage.getItem("user"))
-  // const username = userdetails.user.username
-  return (
-    <div className="h-screen bg-blue-100 p-5">
-       <h2 className="text-gray-500 text-center font-semibold">Wellcome back, <span className="font-bold capitalize text-gray-900">John Doe</span>  here's what happen today! </h2>
-      <Profile/>
+return (
+    <div className="h-scree px-20 py-5">
+       <h2 className="text-gray-700 text-2xl py-5 font-bold">Dashboard Overview </h2>
+     
+     <div className="flex justify-between items-center">
+
+        <div className="p-5 bg-white gap-5 flex items-center rounded-xl">
+          
+           <div className="flex-col justify-between">
+            <span className="text-md block font-medium py-5 px-5">Total Users</span>
+             <span className="text-slate-800 text-xl py-5 px-5 font-bold">1000</span>
+           </div>
+           <div className="py-5 px-5 bg-slate-100 rounded-full">
+                <FaUsers size={30} color="blue"/>
+           </div>
+          
+           
+        </div>
+     </div>
    
     </div>
   )

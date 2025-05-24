@@ -4,7 +4,7 @@ import { RiLockPasswordLine } from "react-icons/ri";
 import { IoHomeSharp } from "react-icons/io5";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
+import { toast } from 'react-toastify';
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../redux/authredux";
 import { Link } from "react-router-dom";
@@ -17,25 +17,40 @@ function Loginpage() {
         password:""
     })
 
-const handleSubmit =(e)=>{
+const handleSubmit =async(e)=>{
 e.preventDefault()
-dispatch(loginUser(formdata)) 
+const matched = await dispatch(loginUser(formdata)) 
+if(loginUser.fulfilled.match(matched)){
+  toast.success("Login Successful",{
+    hideProgressBar:true,
+    autoClose:2000,
+    closeButton:false,
+    draggable:false,
+    pauseOnHover:false,
+    
+
+  });
+  navigate("/")
 }
+ else {
+ toast.error("Login Failed",{
+    hideProgressBar:true,
+    autoClose:2000,
+    closeButton:false,
+    draggable:false,
+    pauseOnHover:false,
+});
+ }
 
-useEffect(() => {
-  if (user) {
-    navigate("/");
-  }
-}, [user, navigate]);
 
-
+}
     return (
 
-        <div className="lg:h-screen flex items-center justify-center bg-blue-200">
+        <div className="h-screen  overflow-x-hidden flex items-center justify-center bg-blue-200">
             <div className="bg-white mx-40 w-1/3 rounded-2xl">
 
                 <div className=" p-5">
-                    <div className="p-10">
+                    <div className="px-10 py-10">
                         <div className="items-center flex gap-2">
                             <IoHomeSharp size={26} color="blue" /> <h1 className="text-2xl font-medium  text-blue-600"> MeroRoom</h1>
                         </div>
@@ -55,6 +70,7 @@ useEffect(() => {
                                         placeholder="email@gmail.com"
                                         aria-label="enter your email"
                                         name="email"
+                                        required
                                         value={formdata.email}
                                         onChange={(e)=>setformdata({...formdata,email:e.target.value})}
                                     />
@@ -77,6 +93,7 @@ useEffect(() => {
                                         placeholder="*************"
                                         aria-label="enter your strong password"
                                         name="emial"
+                                        required
                                         value={formdata.password}
                                         onChange={(e)=>setformdata({...formdata,password:e.target.value})}
                                     />
@@ -88,7 +105,7 @@ useEffect(() => {
                                 <button type="submit" className="text-lg capitalize w-full p-3 rounded-md font-medium bg-blue-500 text-white">Sign in</button>
                             </div>
                             <Link to='/signup'>
-                               <span className="text-blue-600 mt-3">Dont have an account signup</span>
+                               <span className="text-gray-500 px-20 text-center text-sm font-medium py-3">Dont have an account <span className="text-blue-500">signup</span> </span>
                                </Link>
                         </form>
                     </div>

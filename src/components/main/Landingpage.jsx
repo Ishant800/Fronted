@@ -2,7 +2,7 @@ import { FaArrowRight } from 'react-icons/fa'
 
 function Landingpage() {
   return (
-    <div className="min-h-screen  bg-slate-200 bg-cover bg-[linear-gradient(rgba(0,0,0,0.7)),url(/images/hero.jpg)]  ">
+    <div className="min-h-screen pb-4 bg-slate-200 bg-cover bg-[linear-gradient(rgba(0,0,0,0.7)),url(/images/hero.jpg)]  ">
 
       <div className="flex pt-20 items-center justify-center flex-row ">
 
@@ -69,8 +69,16 @@ function SearchRoom (){
 
           <div className='flex pt-3 flex-col'>
             <span className='text-lg mb-2 font-semibold'>Categories</span>
-            <input type="text"  
-            className='px-4 py-2 w-70 shadow outline-none border rounded-md border-gray-600'/>
+            <select   
+            className='px-4 py-2 w-70 shadow outline-none border rounded-md border-gray-600'>
+           <option className='' value="">Select your categories --</option>
+           <option value="single bed">Single Bed</option>
+           <option value="double bed">Double Bed</option>
+           <option value="apartment">Apartment</option>
+           <option value="flat">Flat</option>
+           <option value="office">Office</option>
+
+              </select>
           </div>
       </div>
 
