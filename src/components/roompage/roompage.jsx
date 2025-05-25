@@ -39,7 +39,7 @@ function Roompage() {
            
   <div>
     
-   <img src={data.images} 
+   <img src={data.images[0]} 
     alt=""
     className="w-full h-100 object-contain rounded-md" />
     <h1 className="text-3xl mt-4 font-bold text-slate-700">{data.roomtitle}</h1>

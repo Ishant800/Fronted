@@ -40,8 +40,12 @@ function Navabar() {
 
        
           <div className="flex flex-row items-center">
-            <img onClick={()=>setpopup(!popup)} className="rounded-full relative object-cover h-10 w-10" src="https://static-cse.canva.com/blob/1911653/tools_transparent-background_promo-showcase_01-AFTER.jpg" alt="" />
-            {popup && ( <div className="flex-col justify-center items-center absolute right-2 mt-65 w-48 p-3 bg-white rounded-md shadow-lg z-50">
+            <img 
+            onMouseEnter={()=>setpopup(!popup)}
+           className="rounded-full relative object-cover h-10 w-10" src="https://static-cse.canva.com/blob/1911653/tools_transparent-background_promo-showcase_01-AFTER.jpg" alt="" />
+            {popup && ( <div
+            onMouseLeave={()=>setpopup(!popup)}
+            className="flex-col justify-center items-center absolute right-2 mt-65 w-48 p-3 bg-white rounded-md shadow-lg z-50">
               <Link to="/dashboard/profile">
               <div className="text-md hover:bg-slate-100 font-semibold text-gray-700  rounded-xl px-3 py-2">Profile</div>
               </Link>

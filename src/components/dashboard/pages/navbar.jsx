@@ -10,7 +10,7 @@ function Navbarmini() {
             <div className="items-center flex gap-2">
                 <IoHomeSharp size={26} color="white" />
              <Link to='/'>
-                <h1 className="text-2xl font-medium  text-white"> MeroRoom</h1>
+                <h1 className="text-2xl font-medium text-white"> MeroRoom</h1>
                </Link>
                 <h1 className="text-xl ml-10 font-medium text-gray-300">Adminsitrative dashboard</h1>
 

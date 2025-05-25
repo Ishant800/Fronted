@@ -2,126 +2,112 @@ import { useState } from "react";
 import { IoHomeSharp } from "react-icons/io5";
 import { useDispatch } from "react-redux";
 import { addRoom } from "../redux/roomredux";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 
 function Addroom() {
   const dispatch = useDispatch();
+
   const [formData, setFormData] = useState({
     roomtitle: "",
     categories: "",
     roomsize: "",
     description: "",
-    status: "available",
     features: "",
-    location: "", // Added location field
+    location: "",
     city: "",
     address: "",
     country: "Nepal",
     room_price_monthly: "",
-    available_from: "", // Fixed typo
+    available_from: "",
   });
-  const [image, setImage] = useState(null);
 
-  const handleChange = (e) => {
-    const { name, value, type, files } = e.target;
-    if (type === "file") {
-      const file = files[0];
-      if (file) {
-        setImage(file);
-      }
-    } else {
-      setFormData({ ...formData, [name]: value });
-    }
+  const [files, setFiles] = useState([]);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const removeImage = () => {
-    setImage(null);
+  const handleFileChange = (e) => {
+    const Files = e.target.files;
+    setFiles((prevFiles) => [...prevFiles, ...Files]);
+  };
+
+  const removeFile = (index) => {
+    setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const token = localStorage.getItem('user');
-    if (!token) {
-      toast.error("Please log in to add a room", {
-        hideProgressBar: true,
-        autoClose: 2000,
-        closeButton: false,
-        draggable: false,
-        pauseOnHover: false,
-      });
+    if (files.length === 0) {
+      toast.error("Please upload at least one image");
       return;
     }
 
     const data = new FormData();
+   
     for (const key in formData) {
       data.append(key, formData[key]);
     }
-    if (image) {
-      data.append("images", image);
-    }
 
-    const Matched = await dispatch(addRoom(data));
-    if (addRoom.fulfilled.match(Matched)) {
-      toast.success("Room added successfully", {
-        hideProgressBar: true,
-        autoClose: 2000,
-        closeButton: false,
-        draggable: false,
-        pauseOnHover: false,
-      });
-      setFormData({
-        roomtitle: "",
-        categories: "",
-        roomsize: "",
-        description: "",
-        status: "available",
-        features: "",
-        location: "",
-        city: "",
-        address: "",
-        country: "Nepal",
-        room_price_monthly: "",
-        available_from: "",
-      });
-      setImage(null); // Reset image
-    } else {
-      toast.error(Matched.payload?.message || "Failed to add room", {
-        hideProgressBar: true,
-        autoClose: 2000,
-        closeButton: false,
-        draggable: false,
-        pauseOnHover: false,
-      });
+    
+    files.forEach((file) => data.append("images", file));
+
+    try {
+      const res = await dispatch(addRoom(data));
+
+      if (addRoom.fulfilled.match(res)) {
+        toast.success("Room added successfully!");
+        setFormData({
+          roomtitle: "",
+          categories: "",
+          roomsize: "",
+          description: "",
+          features: "",
+          location: "",
+          city: "",
+          address: "",
+          country: "Nepal",
+          room_price_monthly: "",
+          available_from: "",
+        });
+        setFiles([]);
+      } else {
+        throw new Error(res.payload?.message || "Something went wrong");
+      }
+    } catch (err) {
+      toast.error(err.message);
     }
   };
 
   return (
-    <div className="bg-slate-200 w-full max-w-3xl rounded-2xl p-10 shadow-md">
-      <div className="flex items-center gap-2 mb-6">
-        <IoHomeSharp size={26} color="blue" />
-        <h1 className="text-2xl font-semibold text-blue-600">
-          List Your Room in MeroRoom
+    <div className="bg-white  max-w-xl rounded-2xl p-5 shadow-md">
+      <div className="flex items-center gap-2 mb-4">
+       
+        <h1 className="text-xl font-medium text-blue-600">
+          Add Properties
         </h1>
       </div>
+
       <form onSubmit={handleSubmit}>
-        {/* Title */}
+        
         <FormField
           label="Title"
           name="roomtitle"
           value={formData.roomtitle}
-          onChange={handleChange}
+          onChange={handleInputChange}
           placeholder="Enter related title"
         />
 
-        {/* Category */}
-        <div className="mb-5">
+       
+        <div className="mb-3">
           <label className="text-md font-medium text-gray-700">Category</label>
           <select
             name="categories"
             value={formData.categories}
-            onChange={handleChange}
-            className="w-full p-3 bg-slate-100 rounded-md mt-2 outline-none"
+            onChange={handleInputChange}
+            className="w-full px-2 py-1.5 bg-slate-100 rounded-md mt-2 outline-none"
           >
             <option value="">Select Category</option>
             <option value="single bed">Single Bed</option>
@@ -132,129 +118,123 @@ function Addroom() {
           </select>
         </div>
 
-        {/* Room Size */}
+       
         <FormField
           label="Room Size"
           name="roomsize"
           value={formData.roomsize}
-          onChange={handleChange}
-          placeholder="220sq/ft"
+          onChange={handleInputChange}
+          placeholder="220 sq/ft"
         />
 
-        {/* Image Upload */}
-        <div className="mb-5">
+        
+        <div className="mb-3">
           <label className="text-md font-medium text-gray-700">Upload Images</label>
           <input
             type="file"
-            name="images"
-            className="px-4 py-2 w-full cursor-auto bg-slate-100 rounded-md"
-            onChange={handleChange}
-            accept="image/jpeg,image/png,image/jpg"
+            name="files"
+            multiple
+            onChange={handleFileChange}
+            className="px-4 py-2 w-full cursor-pointer bg-slate-100 rounded-md mt-2"
           />
-          {image && (
-            <div className="mt-2">
-              <span>{image.name}</span>
-              <button
-                type="button"
-                onClick={removeImage}
-                className="ml-4 text-red-500"
+          <ul className="mt-2">
+            {files.map((file, index) => (
+              <li
+                key={index}
+                className="flex justify-between items-center text-sm"
               >
-                Remove
-              </button>
-            </div>
-          )}
+                {file.name}
+                <button
+                  type="button"
+                  onClick={() => removeFile(index)}
+                  className="text-red-500 ml-2"
+                >
+                  ❌
+                </button>
+              </li>
+            ))}
+          </ul>
         </div>
 
-        {/* Description */}
+       
         <FormField
           label="Description"
           name="description"
           value={formData.description}
-          onChange={handleChange}
-          placeholder="Provide some information..."
+          onChange={handleInputChange}
+          placeholder="Provide room details"
         />
 
-        {/* Status */}
-        <div className="mb-5">
-          <label className="text-md font-medium text-gray-700">Status</label>
-          <div className="flex gap-6 mt-2">
-            {["available", "booked"].map((status) => (
-              <label key={status} className="flex items-center gap-2">
-                <input
-                  type="radio"
-                  name="status"
-                  value={status}
-                  checked={formData.status === status}
-                  onChange={handleChange}
-                />
-                <span className="capitalize text-gray-600">{status}</span>
-              </label>
-            ))}
-          </div>
-        </div>
-
-        {/* Features */}
+        
         <FormField
           label="Features"
           name="features"
           value={formData.features}
-          onChange={handleChange}
+          onChange={handleInputChange}
           placeholder="e.g. WiFi, AC, Balcony"
         />
 
-        {/* Location */}
+       
         <FormField
           label="Location"
           name="location"
           value={formData.location}
-          onChange={handleChange}
+          onChange={handleInputChange}
           placeholder="e.g. Near City Center"
         />
 
-        {/* City */}
-        <FormField
-          label="City"
-          name="city"
-          value={formData.city}
-          onChange={handleChange}
-          placeholder="e.g. Kathmandu"
-        />
-
-        {/* Address */}
+       
+        <div className="mb-3">
+          <label className="text-md font-medium text-gray-700">City</label>
+          <select
+            name="categories"
+            value={formData.city}
+            onChange={handleInputChange}
+            className="w-full px-2 py-1.5 bg-slate-100 rounded-md mt-2 outline-none"
+          >
+            <option value="">Select city</option>
+            <option value="single bed">Single Bed</option>
+            <option value="double bed">Double Bed</option>
+            <option value="apartment">Apartment</option>
+            <option value="office">Office</option>
+            <option value="flat">Flat</option>
+          </select>
+        </div>
+        
         <FormField
           label="Address"
           name="address"
           value={formData.address}
-          onChange={handleChange}
+          onChange={handleInputChange}
           placeholder="e.g. Hamro Bazar Back Side"
         />
 
-        {/* Price */}
+        
         <FormField
           label="Monthly Price"
           name="room_price_monthly"
           value={formData.room_price_monthly}
-          onChange={handleChange}
-          placeholder="$200"
+          onChange={handleInputChange}
+          placeholder="e.g. 15000"
         />
 
-        {/* Available From */}
-        <div className="mb-5">
+        
+        <div className="mb-3">
           <label className="text-md font-medium text-gray-700">Available From</label>
           <input
             type="date"
-            className="w-full p-3 bg-slate-100 rounded-md mt-2 outline-none"
             name="available_from"
-            onChange={handleChange}
             value={formData.available_from}
+            onChange={handleInputChange}
+            className="w-full px-2 py-1.5 bg-slate-100 rounded-md mt-2 outline-none"
           />
         </div>
 
-        {/* Submit */}
-        <div className="mt-7">
+        
+        <div className="mt-4">
           <button
             type="submit"
-            className="w-full p-3 text-white font-medium text-lg rounded-md bg-blue-500 hover:bg-blue-600 transition"
+            className="w-full px-2 py-1.5 text-white font-medium text-md rounded-md bg-blue-500 hover:bg-blue-600 transition"
           >
             Submit Room Listing
           </button>
@@ -266,7 +246,7 @@ function Addroom() {
 
 function FormField({ label, name, value, onChange, placeholder }) {
   return (
-    <div className="mb-5">
+    <div className="mb-3">
       <label className="text-md font-medium text-gray-700">{label}</label>
       <input
         type="text"
@@ -274,7 +254,7 @@ function FormField({ label, name, value, onChange, placeholder }) {
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        className="w-full p-3 bg-slate-100 rounded-md mt-2 outline-none"
+        className="w-full px-2 py-1.5 bg-slate-100 rounded-md mt-1 outline-none text-sm"
       />
     </div>
   );

@@ -98,11 +98,11 @@ const [city,setcity] = useState("")
            {data && data.length > 0 ?(data.map((item,index) =>(
 
 
-            <div onClick={()=> navigate(`/rooms/${item.roomid}`)} key={index} className=" shadow-sm object-contain rounded-md shadow-gray-400 w-90 h-full" >
+            <div onClick={()=> navigate(`/rooms/${item._id}`)} key={index} className=" shadow-sm object-contain rounded-md shadow-gray-400 w-90 h-full" >
                   <div className="">
                     
-                     <img src={item.images} alt="" className="h-50 rounded-t-md  w-full" />
-                        {/* <span className="absolute top-0 right-2 bg-blue-400 text-sm text-white px-3 rounded-sm py-2">{item.status}</span> */}
+                     <img src={item.images[0]} alt="" className="h-50 rounded-t-md  w-full" />
+                       
                   </div>
                  
 

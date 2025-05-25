@@ -8,7 +8,7 @@ import Roomlist from "../roompage/roomlist"
 
 function Dashboard() {
   return (
-    <div className="h-screen bg-slate-200 overflow-hidden flex flex-row">
+    <div className=" max-h-screen bg-white overflow-hidden flex flex-row">
       
         <Sidebar />
         <div className="flex-1">
