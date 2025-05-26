@@ -10,7 +10,7 @@ import { loginUser } from "../redux/authredux";
 import { Link } from "react-router-dom";
 function Loginpage() {
     const dispatch = useDispatch()
-    const {user} = useSelector((state)=>state.auth)
+    
     const navigate = useNavigate()
     const [formdata,setformdata] = useState({
         email:"",

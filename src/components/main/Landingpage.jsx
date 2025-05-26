@@ -47,7 +47,7 @@ function SearchRoom (){
       
       <div className='flex-col w-full items-center justify-center'>
        
-        <div className='flex flex-row w-full gap-10' >
+        <div className='flex flex-row w-full justify-center gap-10' >
           
           <div className='flex pt-3 flex-col'>
             <span className='text-lg mb-2 font-semibold'>Location</span>
@@ -61,11 +61,6 @@ function SearchRoom (){
             className='px-4 py-2 w-70 shadow outline-none border rounded-md border-gray-600'/>
           </div>
 
-          <div className='flex pt-3   flex-col'>
-            <span className='text-lg mb-2 font-semibold'>Check Out</span>
-            <input type='date'  
-            className='px-4 py-2 w-70 shadow outline-none border rounded-md border-gray-600'/>
-          </div>
 
           <div className='flex pt-3 flex-col'>
             <span className='text-lg mb-2 font-semibold'>Categories</span>

@@ -46,19 +46,30 @@ function Addroom() {
     }
 
     const data = new FormData();
-   
+
+    // Append formData fields to FormData
     for (const key in formData) {
-      data.append(key, formData[key]);
+      if (formData[key]) {
+        data.append(key, formData[key]);
+      }
     }
 
-    
+    // Append image files
     files.forEach((file) => data.append("images", file));
+
+    
 
     try {
       const res = await dispatch(addRoom(data));
 
       if (addRoom.fulfilled.match(res)) {
-        toast.success("Room added successfully!");
+        toast.success("Room added successfully!",{
+           hideProgressBar:true,
+    autoClose:2000,
+    closeButton:false,
+    draggable:false,
+    pauseOnHover:false,
+        });
         setFormData({
           roomtitle: "",
           categories: "",
@@ -77,21 +88,24 @@ function Addroom() {
         throw new Error(res.payload?.message || "Something went wrong");
       }
     } catch (err) {
-      toast.error(err.message);
+      toast.error(err.message,{
+        hideProgressBar:true,
+    autoClose:2000,
+    closeButton:false,
+    draggable:false,
+    pauseOnHover:false,
+      });
     }
   };
 
   return (
-    <div className="bg-white  max-w-xl rounded-2xl p-5 shadow-md">
+    <div className="bg-white max-w-xl rounded-2xl p-5 shadow-md">
       <div className="flex items-center gap-2 mb-4">
-       
-        <h1 className="text-xl font-medium text-blue-600">
-          Add Properties
-        </h1>
+        <IoHomeSharp className="text-blue-600" />
+        <h1 className="text-xl font-medium text-blue-600">Add Properties</h1>
       </div>
 
       <form onSubmit={handleSubmit}>
-        
         <FormField
           label="Title"
           name="roomtitle"
@@ -100,7 +114,6 @@ function Addroom() {
           placeholder="Enter related title"
         />
 
-       
         <div className="mb-3">
           <label className="text-md font-medium text-gray-700">Category</label>
           <select
@@ -118,7 +131,6 @@ function Addroom() {
           </select>
         </div>
 
-       
         <FormField
           label="Room Size"
           name="roomsize"
@@ -127,7 +139,6 @@ function Addroom() {
           placeholder="220 sq/ft"
         />
 
-        
         <div className="mb-3">
           <label className="text-md font-medium text-gray-700">Upload Images</label>
           <input
@@ -139,10 +150,7 @@ function Addroom() {
           />
           <ul className="mt-2">
             {files.map((file, index) => (
-              <li
-                key={index}
-                className="flex justify-between items-center text-sm"
-              >
+              <li key={index} className="flex justify-between items-center text-sm">
                 {file.name}
                 <button
                   type="button"
@@ -156,7 +164,6 @@ function Addroom() {
           </ul>
         </div>
 
-       
         <FormField
           label="Description"
           name="description"
@@ -165,7 +172,6 @@ function Addroom() {
           placeholder="Provide room details"
         />
 
-        
         <FormField
           label="Features"
           name="features"
@@ -174,7 +180,6 @@ function Addroom() {
           placeholder="e.g. WiFi, AC, Balcony"
         />
 
-       
         <FormField
           label="Location"
           name="location"
@@ -183,24 +188,21 @@ function Addroom() {
           placeholder="e.g. Near City Center"
         />
 
-       
         <div className="mb-3">
           <label className="text-md font-medium text-gray-700">City</label>
           <select
-            name="categories"
+            name="city"
             value={formData.city}
             onChange={handleInputChange}
             className="w-full px-2 py-1.5 bg-slate-100 rounded-md mt-2 outline-none"
           >
-            <option value="">Select city</option>
-            <option value="single bed">Single Bed</option>
-            <option value="double bed">Double Bed</option>
-            <option value="apartment">Apartment</option>
-            <option value="office">Office</option>
-            <option value="flat">Flat</option>
+            <option value="">Select City</option>
+            <option value="Kathmandu">Kathmandu</option>
+            <option value="Pokhara">Pokhara</option>
+            <option value="Bhaktapur">Bhaktapur</option>
           </select>
         </div>
-        
+
         <FormField
           label="Address"
           name="address"
@@ -209,7 +211,6 @@ function Addroom() {
           placeholder="e.g. Hamro Bazar Back Side"
         />
 
-        
         <FormField
           label="Monthly Price"
           name="room_price_monthly"
@@ -218,7 +219,6 @@ function Addroom() {
           placeholder="e.g. 15000"
         />
 
-        
         <div className="mb-3">
           <label className="text-md font-medium text-gray-700">Available From</label>
           <input
@@ -230,7 +230,6 @@ function Addroom() {
           />
         </div>
 
-        
         <div className="mt-4">
           <button
             type="submit"
