@@ -56,9 +56,24 @@ export const deleteroom = createAsyncThunk('room/deleteroom', async (id, thunkAP
                 Authorization: `Bearer ${token}`
             }
         })
-        console.log(id, res.status)
+       
         return { id, status: res.status }
 
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error.response?.data || error.message)
+    }
+})
+
+export const updateroom = createAsyncThunk('room/updateroom',async({id,data},thunkAPI)=>{
+    try {
+        const res = await axios.put(`${api}/updateroom/${id}`,data,{
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+            
+        })
+
+        return {id,data:res.data.room}
     } catch (error) {
         return thunkAPI.rejectWithValue(error.response?.data || error.message)
     }
@@ -148,6 +163,28 @@ const roomSlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         });
+
+
+        // for updateroom
+builder.addCase(updateroom.pending, (state) => {
+    state.loading = true;
+    state.error = null;
+});
+builder.addCase(updateroom.fulfilled, (state, action) => {
+    state.loading = false;
+    const { id, data } = action.payload;
+    state.userrooms = state.userrooms.map(room =>
+        room._id === id ? data : room
+    );
+    state.room = state.room.map(room =>
+        room._id === id ? data : room
+    );
+});
+builder.addCase(updateroom.rejected, (state, action) => {
+    state.loading = false;
+    state.error = action.payload;
+});
+
 
     }
 

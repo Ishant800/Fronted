@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Addroom from "./components/roompage/addroom"
 import Roomview from "./components/roompage/roomview"
 import Roompage from "./components/roompage/roompage"
+import Updateroom from "./components/roompage/updateroom"
  
 function App() {
  
@@ -20,6 +21,7 @@ function App() {
       <Route path="/addroom" element={<Addroom/>} />
         <Route path="/rooms" element={<Roomview/>} />
          <Route path="/rooms/:id" element={<Roompage/>} />
+         <Route path="/updaterooms/:id" element={<Updateroom/>} />
       </Routes>
 
 

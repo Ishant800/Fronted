@@ -3,83 +3,78 @@ import { AiOutlineMail } from "react-icons/ai";
 import { HiHomeModern } from "react-icons/hi2";
 import { MdOutlineLogout } from "react-icons/md";
 import { useState } from "react";
-import {Link} from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom';
 import { useDispatch } from "react-redux";
 import { setLogout } from "../redux/authredux";
+
 function Navabar() {
-  const [popup,setpopup] = useState(false)
-  const user = localStorage.getItem("user")
-  const dispatch = useDispatch()
+  const [popup, setPopup] = useState(false);
+  const user = localStorage.getItem("user");
+  const dispatch = useDispatch();
 
   return (
-    <div className="h-[70px] w-full bg-gray-100 sticky top-0 flex justify-between  items-center">
+    <div className="h-[60px] w-full bg-gray-100 sticky top-0 z-50 flex justify-between items-center px-4 sm:px-6 md:px-10 lg:px-20">
+      <div className="flex items-center gap-6">
+        <Link to="/" className="flex items-center gap-2">
+          <HiHomeModern size={26} className="text-blue-600" />
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-blue-600">MeroRoom</h1>
+        </Link>
 
-      <div className="items-center flex px-20 gap-2">
-        <HiHomeModern size={26} color="blue" /> <h1 className="text-2xl font-medium  text-sky-600"> MeroRoom</h1>
+        <nav className="hidden sm:flex gap-4 text-[16px] font-semibold text-gray-700">
+          <Link to='/' className="hover:text-sky-600">Home</Link>
+          <Link to='/rooms' className="hover:text-sky-600">Browse Rooms</Link>
+          <Link to='/about' className="hover:text-sky-600">About Us</Link>
+        </nav>
       </div>
 
-      {/* navigation */}
-      <nav className="flex gap-5 ">
-        <Link to='/'>
-                <div className="text-gray-500 hover:text-blue-600 font-semibold text-[17px]" >Home</div>
+      {user ? (
+        <div className="flex items-center gap-4">
+          <FaRegBell size={20} className="text-gray-600" />
+          <AiOutlineMail size={20} className="text-gray-600" />
 
-        </Link>
-<Link to='/rooms'>
-        <div className="text-gray-500 hover:text-blue-600 font-semibold text-[17px]" >Browse Rooms</div>
+          <div className="relative">
+            <img
+              onClick={() => setPopup(!popup)}
+              className="rounded-full object-cover h-10 w-10 cursor-pointer"
+              src="https://static-cse.canva.com/blob/1911653/tools_transparent-background_promo-showcase_01-AFTER.jpg"
+              alt="profile"
+            />
 
-</Link>
-        <div className="text-gray-500 hover:text-blue-600 font-semibold text-[17px]" >List Your Room</div>
-        <div className="text-gray-500 hover:text-blue-600 font-semibold text-[17px]" >About us</div>
-      </nav>
-
-      {/* activity wise ui */}
-      {user ? (<div className="gap-5 pr-15  flex items-center">
-        <FaRegBell size={20} />
-        <AiOutlineMail size={20} />
-
-
-       
-          <div className="flex flex-row items-center">
-            <img 
-            onMouseEnter={()=>setpopup(!popup)}
-           className="rounded-full relative object-cover h-10 w-10" src="https://static-cse.canva.com/blob/1911653/tools_transparent-background_promo-showcase_01-AFTER.jpg" alt="" />
-            {popup && ( <div
-            onMouseLeave={()=>setpopup(!popup)}
-            className="flex-col justify-center items-center absolute right-2 mt-65 w-48 p-3 bg-white rounded-md shadow-lg z-50">
-              <Link to="/dashboard/profile">
-              <div className="text-md hover:bg-slate-100 font-semibold text-gray-700  rounded-xl px-3 py-2">Profile</div>
-              </Link>
-             <Link to="/dashboard" target="blank">
-               <div className="text-md hover:bg-slate-100 font-semibold text-gray-700  rounded-xl px-3 py-2">Dashbaord</div>
-
-             </Link>
-              
-              <Link>
-              <div className="text-md hover:bg-slate-100 font-semibold text-gray-700  rounded-xl px-3 py-2">Settings</div>
-              </Link>
-              
-              
-              <button 
-              onClick={()=>dispatch(setLogout())}
-              className="flex hover:bg-slate-100 w-full cursor-pointer flex-row gap-1 px-3 py-2 text-md items-center font-semibold text-red-500  rounded-xl">Logout <MdOutlineLogout size={18} color="red"/> </button>
-              
-
-           </div>)}
-          
-
+            {popup && (
+              <div
+                onMouseLeave={() => setPopup(false)}
+                className="absolute right-0 mt-2 w-48 p-3 bg-white rounded-md shadow-lg z-50"
+              >
+                <NavLink to="/dashboard/profile" className="block px-3 py-2 rounded-md text-gray-700 hover:bg-slate-100 font-medium">
+                  Profile
+                </NavLink>
+                <NavLink to="/dashboard" target="_blank" className="block px-3 py-2 rounded-md text-gray-700 hover:bg-slate-100 font-medium">
+                  Dashboard
+                </NavLink>
+                <NavLink to="/dashboard/settings" className="block px-3 py-2 rounded-md text-gray-700 hover:bg-slate-100 font-medium">
+                  Settings
+                </NavLink>
+                <button
+                  onClick={() => dispatch(setLogout())}
+                  className="flex items-center gap-2 w-full px-3 py-2 text-red-500 hover:bg-slate-100 rounded-md font-medium"
+                >
+                  Logout <MdOutlineLogout size={18} />
+                </button>
+              </div>
+            )}
           </div>
-      
-      </div>) :
-
-        (<div className="pr-10">
+        </div>
+      ) : (
+        <div>
           <Link to='/login'>
-          
-          <button className="text-md ml-2 border-2 text-white bg-sky-600 rounded-lg px-5 py-2 font-medium">Signin</button>
+            <button className="bg-sky-600 hover:bg-sky-700 text-white px-5 py-2 rounded-lg font-medium transition-all duration-300">
+              Sign In
+            </button>
           </Link>
-        </div>)}
-
+        </div>
+      )}
     </div>
-  )
+  );
 }
 
-export default Navabar
+export default Navabar;

@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { addRoom } from "../redux/roomredux";
 import { toast } from "react-toastify";
 
-function Addroom() {
+function Addroom({setIsShowed}) {
   const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({
@@ -230,12 +230,19 @@ function Addroom() {
           />
         </div>
 
-        <div className="mt-4">
+        <div className="mt-4 flex justify-between ">
           <button
             type="submit"
-            className="w-full px-2 py-1.5 text-white font-medium text-md rounded-md bg-blue-500 hover:bg-blue-600 transition"
+            className="px-2 py-1.5 text-white font-medium text-md rounded-md bg-blue-500 hover:bg-blue-600 transition"
           >
             Submit Room Listing
+          </button>
+           <button
+            type="submit"
+            onClick={()=>setIsShowed(false)}
+            className="px-2 py-1.5 text-white font-medium text-md rounded-md bg-red-500 hover:bg-blue-600 transition"
+          >
+            Cancel
           </button>
         </div>
       </form>

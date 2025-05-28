@@ -134,7 +134,7 @@ function Roomview() {
 
 
                   <div className="px-3 flex gap-2  justify-between items-center pb-2">
-                     <span className=" text-sm font-medium capitalaize flex text-gray-600 items-center">Available from: {item.availabele_from}</span>
+                     <span className=" text-sm font-medium capitalaize flex text-gray-600 items-center">Available from: {item.createdAt.slice(0,10)}</span>
 
                      <span className=" tetx-lg font-semibold capitalaize flex items-center"><FaDollarSign /> {item.room_price_monthly}<span className='text-gray-600 font-medium text-md'>/Month</span></span>
 

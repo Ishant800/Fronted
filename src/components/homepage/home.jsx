@@ -10,6 +10,7 @@ import Navabar from "../navbar/navbar"
 import Roomview from "../roompage/roomview"
 import { useDispatch } from "react-redux"
 import { setUser } from "../redux/authredux"
+import Fetauresroom from "../roompage/fetauresrom"
 
 function Homepage() {
   const dispatch = useDispatch()
@@ -23,19 +24,19 @@ dispatch(setUser(JSON.parse(user)))
 
 
   return (
-    <div>
+    <>
       <Navabar />
 
       <Landingpage />
-      <Roomview/>
-     
+      {/* <Roomview/> */}
+     <Fetauresroom/>
       <Categories/>
       
       <Landingpage2 />
       
       <Landingpage3 />
       <Footer />
-    </div>
+    </>
   )
 }
 

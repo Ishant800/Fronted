@@ -5,10 +5,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteroom, fetchuserrooms } from "../redux/roomredux";
 import { MdDelete } from "react-icons/md";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+
 function Roomlist() {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const { userrooms } = useSelector(state => state.room)
   const [isShowed, setIsShowed] = useState(false);
+ 
 
   const handledelete = async (id) => {
     try {
@@ -54,8 +58,12 @@ function Roomlist() {
   }, [dispatch]);
 
   return (
-    <div className="bg-gray-100 relative mx-auto h-auto font-sans overflow-y-auto">
+    <div className="bg-gray-100 relative mx-auto h-screen overflow-x-hidden font-sans ">
+       
       <div className="w-full py-5 px-10">
+
+          
+
         <div className="flex-row justify-between mb-3 w-full">
           <h1 className="text-xl font-medium ">Your properties</h1>
           <div className="flex justify-between mt-2 mb-3 w-full">
@@ -73,16 +81,12 @@ function Roomlist() {
           </div>
 
         </div>
+        
 
         {isShowed && (
           <div className="ml-50 absolute right-3 mb-10 top-20 left-20">
-            <Addroom />
-            <button
-              onClick={() => setIsShowed(false)}
-              className="px-2 py-1 bg-red-400 mb-2 text-white rounded-sm mt-2 font-sm"
-            >
-              Cancel
-            </button>
+            <Addroom setIsShowed={setIsShowed}/>
+            
           </div>
         )}
 
@@ -101,7 +105,9 @@ function Roomlist() {
           {userrooms.length > 0 ? (
             userrooms.map((item, index) => (
               <div key={index} className=" gap-10 overflow-y-auto hover:bg-blue-100 grid grid-cols-5  nth-[even]:bg-slate-200 mb-2 py-2">
-                <div className="cursor-auto ">{item._id.slice(0, 8)}...</div>
+                <div
+                onClick={()=>navigate(`/rooms/${item._id}`)}
+                 className="cursor-pointer ">{item._id.slice(0, 8)}...</div>
                 <div className="">{item.roomtitle}</div>
                 <div>Rs {item.room_price_monthly}</div>
                 <div
@@ -112,7 +118,8 @@ function Roomlist() {
                   {item.status}
                 </div>
                 <div className="flex flex-row gap-5">
-                  <div>
+                  <div onClick={()=>{navigate(`/updaterooms/${item._id}`)
+                    }}>
                     <FiEdit size={17} />
 
                   </div>
