@@ -9,12 +9,13 @@ import { setLogout } from "../redux/authredux";
 
 function Navabar() {
   const [popup, setPopup] = useState(false);
+   const [notificationbox, setnotificationbox] = useState(false);
   const user = localStorage.getItem("user");
   const dispatch = useDispatch();
 
   return (
-    <div className="h-[60px] w-full bg-gray-100 sticky top-0 z-50 flex justify-between items-center px-4 sm:px-6 md:px-10 lg:px-20">
-      <div className="flex items-center gap-6">
+    <div className="h-[60px]  w-full bg-gray-100 sticky top-0 z-50 flex justify-between items-center px-4 sm:px-6 md:px-10 lg:px-20">
+      <div className="flex  items-center gap-6">
         <Link to="/" className="flex items-center gap-2">
           <HiHomeModern size={26} className="text-blue-600" />
           <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-blue-600">MeroRoom</h1>
@@ -27,9 +28,20 @@ function Navabar() {
         </nav>
       </div>
 
+
       {user ? (
         <div className="flex items-center gap-4">
-          <FaRegBell size={20} className="text-gray-600" />
+          <div className="relative cursor-default"
+           onClick={()=>setnotificationbox(!notificationbox)}
+           
+           >
+             <FaRegBell size={20} className="text-gray-600"  />
+            {notificationbox && (
+                 <Notificationbox setnotificationbox={setnotificationbox}/>
+            )}
+           
+          </div>
+          
           <AiOutlineMail size={20} className="text-gray-600" />
 
           <div className="relative">
@@ -73,8 +85,18 @@ function Navabar() {
           </Link>
         </div>
       )}
+
+
+
     </div>
   );
 }
 
 export default Navabar;
+const Notificationbox = ({setnotificationbox})=>{
+    return(
+        <div className="absolute top-7 bg-white shadow-sm rounded-md right-1 bottom-2 w-110 h-100 flex flex-col">
+          <button onMouseLeave={setnotificationbox(true)}>cancel</button>
+        </div>
+    )
+}

@@ -4,6 +4,7 @@ import { FaLocationDot, FaStar } from "react-icons/fa6"
 import { FaDollarSign } from "react-icons/fa"
 import { useDispatch, useSelector } from "react-redux"
 import { fetchRoom } from "../redux/roomredux"
+import { LuArrowLeft } from "react-icons/lu";
 function Roomview() {
    const dispatch = useDispatch()
    const { room } = useSelector(state => state.room)
@@ -51,8 +52,9 @@ function Roomview() {
    return (
       <div className="overflow-hidden px-20 bg-gray-50">
 
-         <div className="pt-10 items-center  sticky top-0 flex justify-between">
-            <h1 className="text-2xl font-bold  text-gray-800"> Featured Properties</h1>
+         <div className="pt-10 items-center  sticky top-0 flex flex-wrap justify-between">
+            <button className="flex justify-center border px-2 py-2 rounded-md items-center gap-2" onClick={()=>navigate("/")}><LuArrowLeft/> back</button>
+            <h1 className="text-2xl font-bold  text-gray-800"> Available Properties</h1>
             <input type="text"
                value={search}
                onChange={e => setsearch(e.target.value)}
@@ -94,7 +96,7 @@ function Roomview() {
 
          </div>
 
-         <div className="py-10  justify-center flex  items-center flex-wrap gap-10">
+         <div className="py-10 justify-center flex col-span-4  items-center flex-wrap gap-10">
             {data && data.length > 0 ? (data.map((item, index) => (
 
 

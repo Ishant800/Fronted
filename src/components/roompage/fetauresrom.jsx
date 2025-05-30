@@ -24,7 +24,7 @@ function Fetauresroom() {
     <div className='px-4 sm:px-6 lg:px-20 py-10 bg-gray-100'>
       <div className='flex flex-col sm:flex-row items-center justify-between'>
         <h1 className='text-2xl font-semibold text-slate-900 mb-4 sm:mb-0'>Featured Rooms</h1>
-        <button className='text-md font-medium text-white bg-sky-600 px-4 py-2 rounded-md flex items-center gap-2 hover:bg-sky-700 transition'>
+        <button onClick={()=>navigate("/rooms")} className='text-md font-medium text-white bg-sky-600 px-4 py-2 rounded-md flex items-center gap-2 hover:bg-sky-700 transition'>
           View More <FaArrowCircleRight />
         </button>
       </div>

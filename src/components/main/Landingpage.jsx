@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { FaArrowRight } from 'react-icons/fa';
 
 function Landingpage() {
@@ -38,6 +39,10 @@ function Landingpage() {
 export default Landingpage;
 
 function SearchRoom() {
+  const [searchquery,setsearchquery] = useState({
+    location:"",
+    
+  })
   return (
     <div className='bg-white w-full max-w-md mx-auto lg:mx-20 mt-10 shadow-sky-400 shadow-md rounded-lg'>
       <form className='px-6 sm:px-10 py-10'>
@@ -46,7 +51,9 @@ function SearchRoom() {
         <div className='flex flex-col gap-5 mt-6'>
           <div>
             <label className='text-lg mb-1 font-semibold block'>Location</label>
-            <input type="text" placeholder='Search where you want to stay' className='px-4 py-2 outline-none border rounded-md border-gray-600 w-full shadow placeholder:text-slate-700'/>
+            <input
+            
+            type="text" placeholder='Search where you want to stay' className='px-4 py-2 outline-none border rounded-md border-gray-600 w-full shadow placeholder:text-slate-700'/>
           </div>
 
           <div>

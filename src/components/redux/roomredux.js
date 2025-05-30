@@ -43,7 +43,7 @@ export const fetchuserrooms = createAsyncThunk('room/fetchuserroom', async (thun
             }
 
         })
-
+         console.log(res.data.data)
         return res.data.data
     } catch (error) {
         return thunkAPI.rejectWithValue(error.response?.data || error.message)
@@ -137,7 +137,7 @@ const roomSlice = createSlice({
         })
         builder.addCase(fetchuserrooms.fulfilled, (state, action) => {
             state.userrooms = action.payload
-            //   console.log(action.payload)
+              console.log(action.payload)
             state.loading = false
         })
         builder.addCase(fetchuserrooms.rejected, (state, action) => {
