@@ -5,92 +5,41 @@ import { BsHouseAddFill } from "react-icons/bs";
 import { MdOutlineMessage } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
 import { FaUsers } from "react-icons/fa6";
-import { NavLink,Link } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 
 function Sidebar() {
   return (
-    <div className="w-[200px] px-7 shadow-md  shadow-slate-800 overflow-hidden">
-      <div className="flex flex-row justify-between py-2 items-center">
-        <Link to="/">
-        
-        <h1 className="text-xl font-semibold text-gray-600">MeroRoom</h1>
+    <div className="min-h-screen w-[70px] md:w-[220px] bg-white px-3 py-4 shadow-lg flex flex-col gap-2 transition-all duration-300">
+      {/* Top Brand */}
+      <div className="flex items-center justify-between px-2 mb-6">
+        <Link to="/" className="flex items-center gap-2">
+          <h1 className="text-lg md:text-xl font-bold text-gray-700 hidden md:block">MeroRoom</h1>
         </Link>
-        <IoMenu size={25} color="gray" />
+        <IoMenu size={22} className="text-gray-600 hidden md:block" />
       </div>
 
-      <NavLink
-        to="/dashboard"
-        end
-        className={({ isActive }) =>
-          `flex mt-3 items-center px-4 py-2 rounded-md gap-3 ${
-            isActive ?  "text-sky-500 " : "text-gray-600 "
-          }`
-        }
-      >
-        <IoIosColorPalette size={18} color="gray" />
-        <span className=" font-medium text-md  hover:text-sky-400">Overview</span>
-      </NavLink>
-
-      <NavLink
-        to="/dashboard/profile"
-        className={({ isActive }) =>
-          `flex mt-3 items-center px-4 py-2 rounded-md gap-3 ${
-            isActive ?  "text-sky-500 " : "text-gray-600 "
-          }`
-        }
-      >
-        <CgProfile size={18} color="gray" />
-        <span className="text-slate-600 font-medium text-md  hover:text-sky-400">Account</span>
-      </NavLink>
-
-      <NavLink
-        to="/dashboard/customers"
-        className={({ isActive }) =>
-          `flex mt-3 items-center px-4 py-2 rounded-md gap-3 ${
-            isActive ?  "text-sky-500 " : "text-gray-600 "
-          }`
-        }
-      >
-        <FaUsers size={18} color="gray" />
-        <span className="text-slate-600 font-medium text-md  hover:text-sky-400">Customers</span>
-      </NavLink>
-
-      <NavLink
-        to="/dashboard/message"
-        className={({ isActive }) =>
-          `flex mt-3 items-center px-4 py-2 rounded-md gap-3 ${
-           isActive ?  "text-sky-500 " : "text-gray-600 "
-          }`
-        }
-      >
-        <MdOutlineMessage size={18} color="gray" />
-        <span className="text-slate-600 font-medium text-md  hover:text-sky-400">Message</span>
-      </NavLink>
-
-      <NavLink
-        to="/dashboard/listroom"
-        className={({ isActive }) =>
-          `flex mt-3 items-center px-4 py-2 rounded-md gap-3 ${
-            isActive ?  "text-sky-500 " : "text-gray-600 "
-          }`
-        }
-      >
-        <BsHouseAddFill size={18} color="gray" />
-        <span className="text-slate-600 font-medium text-md  hover:text-sky-400">List Room</span>
-      </NavLink>
-
-      <NavLink
-        to="/dashboard/setting"
-        className={({ isActive }) =>
-          `flex mt-3 items-center px-4 py-2 rounded-md gap-3 ${
-             isActive ?  "text-sky-500 " : "text-gray-600 "
-          }`
-        }
-      >
-        <IoSettingsOutline size={18} color="gray" />
-        <span className="text-slate-600 font-medium text-md  hover:text-sky-400">Settings</span>
-      </NavLink>
-
+      {/* Navigation Links */}
+      {[
+        { to: "/dashboard", label: "Overview", icon: <IoIosColorPalette size={20} /> },
+        { to: "/dashboard/profile", label: "Account", icon: <CgProfile size={20} /> },
+        { to: "/dashboard/customers", label: "Customers", icon: <FaUsers size={20} /> },
+        { to: "/dashboard/message", label: "Message", icon: <MdOutlineMessage size={20} /> },
+        { to: "/dashboard/listroom", label: "List Room", icon: <BsHouseAddFill size={20} /> },
+        { to: "/dashboard/setting", label: "Settings", icon: <IoSettingsOutline size={20} /> },
+      ].map(({ to, label, icon }, index) => (
+        <NavLink
+          key={index}
+          to={to}
+          end
+          className={({ isActive }) =>
+            `flex items-center gap-3 px-3 py-2 rounded-md hover:bg-sky-100 transition-all 
+             ${isActive ? "text-sky-600 font-semibold" : "text-gray-600"}`
+          }
+        >
+          <span className="text-xl">{icon}</span>
+          <span className="text-sm font-medium hidden md:block">{label}</span>
+        </NavLink>
+      ))}
     </div>
   );
 }

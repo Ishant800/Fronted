@@ -1,10 +1,11 @@
 import { Route, Routes } from "react-router-dom"
 import Maincontent from "./pages/maincontent"
-import Navbarmini from "./pages/navbar"
+
 import Sidebar from "./pages/sidebar"
 import Setting from "./pages/setting"
 import Profile from "../profile/profile"
 import Roomlist from "../roompage/roomlist"
+import Customers from "./pages/customers"
 
 function Dashboard() {
   return (
@@ -17,6 +18,7 @@ function Dashboard() {
             <Route path="setting" element={<Setting />} />
             <Route path="profile" element={<Profile/>} />
             <Route path="listroom" element={<Roomlist/>} />
+            <Route path="customers" element={<Customers/>} />
           </Routes>
         </div>
       

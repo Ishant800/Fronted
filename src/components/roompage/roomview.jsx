@@ -50,108 +50,116 @@ function Roomview() {
       }
    }, [search, categories, city, room])
    return (
-      <div className="overflow-hidden px-20 bg-gray-50">
+  <div className="min-h-screen bg-gray-50 px-4 md:px-10">
+    {/* Header + Filter */}
+    <div className="sticky top-0 bg-gray-50 z-10 py-6 flex flex-col lg:flex-row flex-wrap items-center justify-between gap-4">
+      <button
+        className="flex items-center gap-2 px-4 py-2 border rounded-md text-gray-700 hover:bg-gray-100"
+        onClick={() => navigate("/")}
+      >
+        <LuArrowLeft />
+        Back
+      </button>
 
-         <div className="pt-10 items-center  sticky top-0 flex flex-wrap justify-between">
-            <button className="flex justify-center border px-2 py-2 rounded-md items-center gap-2" onClick={()=>navigate("/")}><LuArrowLeft/> back</button>
-            <h1 className="text-2xl font-bold  text-gray-800"> Available Properties</h1>
-            <input type="text"
-               value={search}
-               onChange={e => setsearch(e.target.value)}
-               className="px-4 py-2 rounded-sm border-2 w-1/3"
-               placeholder="enter location where you wanna stay." />
+      <h1 className="text-2xl font-bold text-gray-800">Available Properties</h1>
 
-            <div className="flex">
+      <input
+        type="text"
+        value={search}
+        onChange={(e) => setsearch(e.target.value)}
+        className="px-4 py-2 border rounded-md w-full md:w-1/2 lg:w-1/3"
+        placeholder="Enter location where you want to stay"
+      />
 
-               <div className="">
-                  <label htmlFor="" className="text-md font-medium px-2">Sort By City</label>
-                  <select
-                     value={city}
-                     onChange={e => setcity(e.target.value)}
-                     className="px-2 py-1 border-1 rounded-sm">
-                     <option value="" className="font-medium">select city</option>
-                     <option value="Kathmandu" className="font-medium">Kathmandu</option>
-                     <option value="Pokhara" className="font-medium">pokhara</option>
-                     <option value="Bhaktapur" className="font-medium">Bhaktapur</option>
-
-                  </select>
-
-               </div>
-               <div className="">
-                  <label htmlFor="" className="text-md font-medium px-2">Apply Categories</label>
-                  <select
-                     value={categories}
-                     onChange={e => setcategories(e.target.value)}
-                     className="px-2 py-1 border-1 rounded-sm">
-                     <option value="" className="font-medium">Select categories</option>
-                     <option value="single bed" className="font-medium">Single bed</option>
-                     <option value="double bed" className="font-medium">Double bed</option>
-                     <option value="apartment" className="font-medium">Apartment</option>
-                     <option value="office" className="font-medium">Office</option>
-                     <option value="flat" className="font-medium">Flat</option>
-                  </select>
-
-               </div>
-            </div>
-
-         </div>
-
-         <div className="py-10 justify-center flex col-span-4  items-center flex-wrap gap-10">
-            {data && data.length > 0 ? (data.map((item, index) => (
-
-
-               <div onClick={() => navigate(`/rooms/${item._id}`)} key={index} className=" shadow-sm object-contain rounded-md shadow-gray-400 w-90 h-full" >
-                  <div className="">
-
-                     <img src={item.images[0]} alt="" className="h-50 rounded-t-md  w-full" />
-
-                  </div>
-
-
-                  <div className="px-3 py-2 flex items-center gap-4 justify-between">
-                     <span className="text-xl text-sky-500 block font-medium capitalaize">{item.roomtitle}</span>
-                     <span className="flex "><FaStar color="orange" size={24} /> 4.0</span>
-                  </div>
-
-
-                  <div className="px-3 flex justify-between items-center py-2">
-                     <div className="flex gap-2">
-                        <FaLocationDot color="gray " size={24} />
-                        <span className="font-medium text-gray-700 text-md">{item.city} ,<span>{item.country}</span> </span>
-
-                     </div>
-
-                     <div className="flex">
-                        <span className="text-md capitalize font-medium">{item.categories}</span>
-                     </div>
-                  </div>
-
-                  <div className="px-3 flex gap-2 items-center py-2">
-                     <span className="font-medium capitalize text-gray-500 text-sm">{item.features[0]} ,</span>
-                     <span className="font-medium capitalize text-gray-500 text-sm">{item.features[1]}, </span>
-                     <span className="font-medium capitalize text-gray-500 text-sm">{item.features[2]} </span>
-
-                  </div>
-
-
-
-                  <div className="px-3 flex gap-2  justify-between items-center pb-2">
-                     <span className=" text-sm font-medium capitalaize flex text-gray-600 items-center">Available from: {item.createdAt.slice(0,10)}</span>
-
-                     <span className=" tetx-lg font-semibold capitalaize flex items-center"><FaDollarSign /> {item.room_price_monthly}<span className='text-gray-600 font-medium text-md'>/Month</span></span>
-
-
-                  </div>
-
-
-
-               </div>
-
-            ))) : (<p className="text-xl font-medium text-slate-800">No Data Found</p>)}
-         </div>
-
+      {/* Filters */}
+      <div className="flex flex-wrap gap-4">
+        <div>
+          <label className="text-sm font-medium">Sort by City</label>
+          <select
+            value={city}
+            onChange={(e) => setcity(e.target.value)}
+            className="w-full px-3 py-2 border rounded-md"
+          >
+            <option value="">Select City</option>
+            <option value="Kathmandu">Kathmandu</option>
+            <option value="Pokhara">Pokhara</option>
+            <option value="Bhaktapur">Bhaktapur</option>
+          </select>
+        </div>
+        <div>
+          <label className="text-sm font-medium">Apply Categories</label>
+          <select
+            value={categories}
+            onChange={(e) => setcategories(e.target.value)}
+            className="w-full px-3 py-2 border rounded-md"
+          >
+            <option value="">Select Category</option>
+            <option value="single bed">Single Bed</option>
+            <option value="double bed">Double Bed</option>
+            <option value="apartment">Apartment</option>
+            <option value="office">Office</option>
+            <option value="flat">Flat</option>
+          </select>
+        </div>
       </div>
-   )
+    </div>
+
+    {/* Room Cards */}
+    <div className="py-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {data && data.length > 0 ? (
+        data.map((item, index) => (
+          <div
+            key={index}
+            onClick={() => navigate(`/rooms/${item._id}`)}
+            className="bg-white rounded-lg shadow hover:shadow-lg transition cursor-pointer overflow-hidden"
+          >
+            {/* Image */}
+            <img
+              src={item.images[0]}
+              alt={item.roomtitle}
+              className="h-48 w-full object-cover"
+            />
+
+            {/* Content */}
+            <div className="p-4 space-y-2">
+              <div className="flex justify-between items-center">
+                <h2 className="text-lg font-semibold text-sky-600">{item.roomtitle}</h2>
+                <span className="flex items-center text-orange-500 text-sm">
+                  <FaStar className="mr-1" /> 4.0
+                </span>
+              </div>
+
+              <div className="flex items-center text-sm text-gray-600">
+                <FaLocationDot className="mr-2" />
+                <span>{item.city}, {item.country}</span>
+              </div>
+
+              <p className="text-sm text-gray-600 capitalize">{item.categories}</p>
+ {/* Features */}
+              <div className="flex flex-wrap gap-2 text-xs text-gray-500">
+                {item.features.slice(0, 3).map((feature, i) => (
+                  <span key={i}>{feature}</span>
+                ))}
+              </div>
+
+              
+              <div className="flex justify-between items-center pt-2 border-t mt-2 text-sm text-gray-700">
+                <span>Available from: {item.createdAt.slice(0, 10)}</span>
+                <span className="flex items-center font-semibold">
+                  <FaDollarSign className="mr-1" /> {item.room_price_monthly}
+                  <span className="text-sm font-normal text-gray-500">/month</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        ))
+      ) : (
+        <p className="text-center col-span-full text-xl font-medium text-gray-600">No Data Found</p>
+      )}
+    </div>
+  </div>
+);
+
 }
 
 export default Roomview 

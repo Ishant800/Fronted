@@ -5,14 +5,14 @@ import axios from 'axios'
 function Maincontent() {
 
 const [data,setdata] = useState([])
-
+  const token = localStorage.getItem("user")
 
 const [totalusers,settotalusers] = useState([])
 useEffect(()=>{
    if(totalusers.length === 0){
       fetchusersdata()
    }
-   if(data.length=== 0){
+   if(data.length === 0){
       fetchusersrequest()
    }
 })
@@ -32,7 +32,7 @@ const fetchusersdata = async()=>{
 
 const fetchusersrequest = async()=>{
    try {
-     const token = localStorage.getItem("user")
+   
      console.log(token)
       const res = await axios.post("http://localhost:5000/room/usersbookinglist",{},{
          headers: {
@@ -47,7 +47,30 @@ const fetchusersrequest = async()=>{
    }
 }
 
-
+const handlerequest = async ( id,roomstatus,status,roomid)=>{
+    
+   try {
+      const payload = {
+         id,
+         roomstatus,
+         status,
+         roomid
+      }
+      console.log(payload)
+      const res = await axios.post(`http://localhost:5000/room/updaterequest`,payload,{
+         headers:{
+           Authorization: `Bearer ${token}`
+         }
+      })
+    if(res.status=== 200){
+      alert("sucessfully upate response")
+    }
+    
+   } catch (error) {
+      alert("invalid")
+      console.log(error)
+   }
+}
 
 return (
     <div className="px-10 bg-slate-100 py-5">
@@ -72,7 +95,7 @@ return (
 
       <div className="flex mt-5 items-center justify-between">
  <h1 className="text-md font-medium text-gray-500">
-            Users request for room booking 
+            Users Interested In Your Properties Please Take Action Fast
           </h1>
           <span className="text-md font-medium text-gray-500">Totals request: 24</span>
       </div>
@@ -89,20 +112,24 @@ return (
           <div className="text-md font-semibold capitalize">contact no</div>
            <div className="text-md font-semibold capitalize">Actions</div>
 
-        </div>
+        </div> 
 
          {data.map((item,index)=>(
          <div key={index} className="grid grid-cols-7 nth-[odd]:bg-sky-100 bg-blue-50  gap-5 py-2">
-              <div className="text-md font-medium text-gray-500">{item.roomid.slice(0,10)}</div>
+              <div className="text-md font-medium text-gray-500">{item.roomid.slice(0,10)}..</div>
               <div className="text-md font-medium text-gray-500">{item.roomlocation}</div>
-                <div className="text-md font-medium text-gray-500">{item.usersid}</div>
+                <div className="text-md font-medium text-gray-500"> {item.userid ? item.userid.slice(0, 10) + ".." : "N/A"}</div>
               <div className="text-md font-medium text-gray-500">{item.useremail}</div>
             
               <div className="text-md font-medium text-gray-500">{item.username}</div>
-              <div className="text-md font-medium text-gray-500">{item.contact}</div>
+              <div className="text-md font-medium text-gray-500"> {item.contact || "N/A"}</div>
               <div className="flex gap-2">
-               <button className="text-green-500 font-medium text-md">Accept</button>
-               <button className="text-red-400 font-medium text-md">Decline</button>
+               <button
+               onClick={()=>handlerequest(item._id,"accepted","booked",item.roomid)}
+               className="text-green-500 font-medium text-sm">Accept</button>
+               <button
+               onClick={()=>handlerequest(item._id,"rejected")}
+               className="text-red-400 font-medium text-sm">Decline</button>
               </div>
          </div>
          ))}
