@@ -20,7 +20,7 @@ function Roomview() {
          dispatch(fetchRoom())
       }
       else {
-         setdata(room)
+         setdata(room.filter(item =>item.status === "booked"))
       }
 
    }, [room, dispatch])

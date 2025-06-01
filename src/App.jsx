@@ -8,6 +8,7 @@ import Addroom from "./components/roompage/addroom"
 import Roomview from "./components/roompage/roomview"
 import Roompage from "./components/roompage/roompage"
 import Updateroom from "./components/roompage/updateroom"
+import UpdateProfile from "./components/auth/profileupdate"
  
 function App() {
  
@@ -22,6 +23,7 @@ function App() {
         <Route path="/rooms" element={<Roomview/>} />
          <Route path="/rooms/:id" element={<Roompage/>} />
          <Route path="/updaterooms/:id" element={<Updateroom/>} />
+          <Route path="/updateprofiles" element={<UpdateProfile/>} />
       </Routes>
 
 

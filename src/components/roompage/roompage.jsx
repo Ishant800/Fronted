@@ -18,7 +18,7 @@ function Roompage() {
         const res = await axios.get(`http://localhost:5000/room/rooms/${id}`);
         if (res.data) {
           setdata(res.data.existroom);
-          setSelectedImage(res.data.existroom.images[0]); // Set default image
+          setSelectedImage(res.data.existroom.images[0]);
         }
       } catch (error) {
         alert(error);

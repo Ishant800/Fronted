@@ -1,144 +1,209 @@
-import { useEffect, useState } from "react"
-import { FaUsers } from "react-icons/fa"
-import axios from 'axios'
-
+import { useEffect, useState } from "react";
+import { FaUsers, FaClipboardCheck } from "react-icons/fa";
+import axios from "axios";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
+import { toast } from 'react-toastify';
 function Maincontent() {
+  const [data, setdata] = useState([]);
+  const [totalusers, settotalusers] = useState([]);
+  const [visitData, setVisitData] = useState([]);
+  const token = localStorage.getItem("user");
 
-const [data,setdata] = useState([])
-  const token = localStorage.getItem("user")
+  useEffect(() => {
+    if (totalusers.length === 0) fetchusersdata();
+    if (data.length === 0) fetchusersrequest();
+  }, []);
 
-const [totalusers,settotalusers] = useState([])
-useEffect(()=>{
-   if(totalusers.length === 0){
-      fetchusersdata()
-   }
-   if(data.length === 0){
-      fetchusersrequest()
-   }
-})
+  const fetchusersdata = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/auth/users");
+      if (res.data) {
+        const allUsers = res.data.users;
+        settotalusers(allUsers);
 
+        const visitCount = allUsers.reduce((acc, user) => {
+          const date = new Date(user.createdAt).toLocaleDateString("en-GB");
+          acc[date] = (acc[date] || 0) + 1;
+          return acc;
+        }, {});
 
-const fetchusersdata = async()=>{
-   try {
-     
-      const res = await axios.get("http://localhost:5000/auth/users")
-      if(res.data) {
-         settotalusers(res.data.users)
+        const chartData = Object.entries(visitCount).map(([date, count]) => ({
+          date,
+          count,
+        }));
+
+        setVisitData(chartData);
       }
-   } catch (error) {
-      alert("no users found ")
-   }
-}
-
-const fetchusersrequest = async()=>{
-   try {
-   
-     console.log(token)
-      const res = await axios.post("http://localhost:5000/room/usersbookinglist",{},{
-         headers: {
-                Authorization: `Bearer ${token}`
-            }
-      }) 
-      if(res.data) {
-         setdata(res.data.data)
-      }
-   } catch (error) {
-      alert("no booking request from users ")
-   }
-}
-
-const handlerequest = async ( id,roomstatus,status,roomid)=>{
-    
-   try {
-      const payload = {
-         id,
-         roomstatus,
-         status,
-         roomid
-      }
-      console.log(payload)
-      const res = await axios.post(`http://localhost:5000/room/updaterequest`,payload,{
-         headers:{
-           Authorization: `Bearer ${token}`
-         }
-      })
-    if(res.status=== 200){
-      alert("sucessfully upate response")
+    } catch (error) {
+      alert("No users found");
     }
-    
-   } catch (error) {
-      alert("invalid")
-      console.log(error)
-   }
-}
+  };
 
-return (
-    <div className="px-10 bg-slate-100 py-5">
-       <h2 className="text-gray-700 text-xl py-5 font-semibold">Dashboard Overview </h2>
-     
-     <div className="flex justify-between items-center">
+  const fetchusersrequest = async () => {
+    try {
+      const res = await axios.post(
+        "http://localhost:5000/room/usersbookinglist",
+        {},
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      if (res.data) setdata(res.data.data.filter((item)=>item.status === "booked"));
+      console.log('filtered data ',res.data.data.filter((item)=>item.status !== "booked"))
+      
+    } catch (error) {
+      alert("No booking requests from users");
+    }
+  };
 
-        <div className="px-5 bg-white gap-2 flex items-center rounded-xl">
-          
-           <div className="flex-col pb-2 justify-between">
-            <span className="text-md block font-medium py-3 px-5">Total Users</span>
-             <span className="text-gray-600 text-md   px-5 font-bold">{totalusers.length}+</span>
-           </div>
-           <div className="py-3 px-3 bg-slate-100 rounded-full">
-                <FaUsers size={20} color="blue"/>
-           </div>
-          
-           
-        </div>
-     </div>
-
-
-      <div className="flex mt-5 items-center justify-between">
- <h1 className="text-md font-medium text-gray-500">
-            Users Interested In Your Properties Please Take Action Fast
-          </h1>
-          <span className="text-md font-medium text-gray-500">Totals request: 24</span>
-      </div>
-         
-   
-       <div className="grid grid-cols-7 bg-blue-50  gap-5 py-2">
-          <div className="text-md font-semibold capitalize">Roomid</div>
-          
-          <div className="text-md font-semibold capitalize">Roomlocation</div>
-          <div className="text-md font-semibold capitalize">usersid</div>
-          <div className="text-md font-semibold capitalize">useremail</div>
-          
-          <div className="text-md font-semibold capitalize">username</div>
-          <div className="text-md font-semibold capitalize">contact no</div>
-           <div className="text-md font-semibold capitalize">Actions</div>
-
-        </div> 
-
-         {data.map((item,index)=>(
-         <div key={index} className="grid grid-cols-7 nth-[odd]:bg-sky-100 bg-blue-50  gap-5 py-2">
-              <div className="text-md font-medium text-gray-500">{item.roomid.slice(0,10)}..</div>
-              <div className="text-md font-medium text-gray-500">{item.roomlocation}</div>
-                <div className="text-md font-medium text-gray-500"> {item.userid ? item.userid.slice(0, 10) + ".." : "N/A"}</div>
-              <div className="text-md font-medium text-gray-500">{item.useremail}</div>
+  const handlerequest = async (id, roomstatus, status, roomid) => {
+    try {
+      const payload = { id, roomstatus, status, roomid };
+      const res = await axios.post(
+        `http://localhost:5000/room/updaterequest`,
+        payload,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      if (res.status === 200) {
+         toast.success(
+        roomstatus === "reject"
+          ? "Request rejected successfully"
+          : "Request accepted successfully",
+        { autoClose: 2000, hideProgressBar: true }
+      );
             
-              <div className="text-md font-medium text-gray-500">{item.username}</div>
-              <div className="text-md font-medium text-gray-500"> {item.contact || "N/A"}</div>
-              <div className="flex gap-2">
-               <button
-               onClick={()=>handlerequest(item._id,"accepted","booked",item.roomid)}
-               className="text-green-500 font-medium text-sm">Accept</button>
-               <button
-               onClick={()=>handlerequest(item._id,"rejected")}
-               className="text-red-400 font-medium text-sm">Decline</button>
-              </div>
-         </div>
-         ))}
+      setdata((prev) => prev.filter((item) => item._id !== id));
+        
+        fetchusersrequest();
+      }
+    } catch (error) {
+      console.log(error)
+      alert("failed to update request");
+    }
+  };
 
+ return (
+  <div className="px-6 py-5 bg-gray-100 min-h-screen">
+    <h2 className="text-2xl font-bold text-gray-700 mb-6">Admin Dashboard</h2>
+
+    
+    <div className="grid grid-cols-1 md:grid-cols-4 grid-rows-2 gap-4 mb-8">
+     
+      <div className="bg-white p-4 rounded-xl shadow-sm flex items-center justify-between col-span-1 row-span-1">
+        <div>
+          <h3 className="text-sm font-semibold text-gray-500">Total Users</h3>
+          <p className="text-2xl font-bold text-blue-600">{totalusers.length}+</p>
+        </div>
+        <div className="p-2 bg-blue-100 rounded-full">
+          <FaUsers size={20} color="blue" />
+        </div>
+      </div>
 
      
-   
+      <div className="bg-white p-4 rounded-xl shadow-sm flex items-center justify-between col-span-1 row-span-1">
+        <div>
+          <h3 className="text-sm font-semibold text-gray-500">Booking Requests</h3>
+          <p className="text-2xl font-bold text-purple-600">{data.length}</p>
+        </div>
+        <div className="p-2 bg-purple-100 rounded-full">
+          <FaClipboardCheck size={20} color="purple" />
+        </div>
+      </div>
+
+    
+      <div className="bg-white p-4 rounded-xl shadow-sm col-span-2 row-span-2">
+        <h3 className="text-sm font-semibold text-gray-500 mb-3">Users Joined by Day</h3>
+        <ResponsiveContainer width="100%" height={280}>
+          <LineChart
+            data={[
+              { date: 'Mon', count: 3 },
+              { date: 'Tue', count: 8 },
+              { date: 'Wed', count: 5 },
+              { date: 'Thu', count: 10 },
+              { date: 'Fri', count: 7 },
+              { date: 'Sat', count: 6 },
+              { date: 'Sun', count: 4 },
+            ]}
+          >
+            <CartesianGrid stroke="#ccc" />
+            <XAxis dataKey="date" />
+            <YAxis allowDecimals={false} />
+            <Tooltip />
+            <Line type="monotone" dataKey="count" stroke="#3b82f6" strokeWidth={2} />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
     </div>
-  )
+
+    
+    <div className="bg-white p-4 rounded-xl shadow-sm">
+      <div className="flex justify-between items-center mb-4">
+        <h3 className="text-lg font-semibold text-gray-700">Room Booking Requests</h3>
+        <p className="text-gray-500">Total: {data.length}</p>
+      </div>
+
+      <div className="overflow-x-auto">
+        <table className="w-full text-sm text-left">
+          <thead className="bg-blue-100 text-gray-700 font-semibold">
+            <tr>
+              <th className="px-4 py-2">Room ID</th>
+              <th className="px-4 py-2">Location</th>
+              <th className="px-4 py-2">User ID</th>
+              <th className="px-4 py-2">Email</th>
+              <th className="px-4 py-2">Name</th>
+              <th className="px-4 py-2">Contact</th>
+              <th className="px-4 py-2 text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((item, index) => (
+              <tr key={index} className="border-b hover:bg-blue-50">
+                <td className="px-4 py-2">{item.roomid?.slice(0, 10)}..</td>
+                <td className="px-4 py-2">{item.roomlocation}</td>
+                <td className="px-4 py-2">{item.userid?.slice(0, 10)}</td>
+                <td className="px-4 py-2">{item.useremail}</td>
+                <td className="px-4 py-2">{item.username}</td>
+                <td className="px-4 py-2">{item.contact}</td>
+                <td className="px-4 py-2 flex justify-center gap-2">
+                  <button
+                    onClick={() =>
+                      handlerequest(item._id, 'accept', 'booked', item.roomid)
+                    }
+                    className="bg-green-100 text-green-700 px-3 py-1 rounded-md text-sm hover:bg-green-200"
+                  >
+                    Accept
+                  </button>
+                  <button
+                    onClick={() => handlerequest(item._id, 'reject','',item.roomid)}
+                    className="bg-red-100 text-red-500 px-3 py-1 rounded-md text-sm hover:bg-red-200"
+                  >
+                    Decline
+                  </button>
+                </td>
+              </tr>
+            ))}
+            {data.length === 0 && (
+              <tr>
+                <td colSpan="7" className="text-center py-5 text-gray-500">
+                  No booking requests found.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+);
+
 }
 
-export default Maincontent
+export default Maincontent;

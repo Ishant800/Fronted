@@ -1,18 +1,23 @@
 import { LiaUserEditSolid } from "react-icons/lia";
 import { MdEmail } from "react-icons/md";
 import { CiLocationOn } from "react-icons/ci";
+import {Link} from 'react-router-dom'
 
 function Profile() {
+  
   return (
     <div className="min-h-screen bg-gray-50 px-4 py-6 md:px-10">
       <div className="max-w-5xl mx-auto">
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl md:text-3xl font-bold text-slate-700">Profile Overview</h1>
+          <Link to="/updateprofiles">
+         
           <button className="flex items-center gap-2 text-sm font-medium text-blue-600 hover:text-blue-800">
             <LiaUserEditSolid size={20} />
             Edit Profile
           </button>
+           </Link>
         </div>
 
         {/* Main Content */}

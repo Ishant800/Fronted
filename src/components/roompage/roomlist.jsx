@@ -8,145 +8,132 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 function Roomlist() {
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
-  const { userrooms } = useSelector(state => state.room)
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { userrooms } = useSelector((state) => state.room);
   const [isShowed, setIsShowed] = useState(false);
- 
 
   const handledelete = async (id) => {
     try {
-      const res = await dispatch(deleteroom(id))
-      console.log('res from roomlist jsx ', res)
+      const res = await dispatch(deleteroom(id));
       if (deleteroom.fulfilled.match(res)) {
-        toast.success("room deleted sucessfully", {
-          hideProgressBar: true,
+        toast.success("Room deleted successfully", {
           autoClose: 2000,
-          closeButton: false,
-          draggable: false,
-          pauseOnHover: false,
-        })
+          hideProgressBar: true,
+        });
       } else {
-        toast.error('failed to delete room', {
-          hideProgressBar: true,
+        toast.error("Failed to delete room", {
           autoClose: 2000,
-          closeButton: false,
-          draggable: false,
-          pauseOnHover: false,
-        })
+          hideProgressBar: true,
+        });
       }
-
     } catch (error) {
       toast.error("Error deleting room", {
-        hideProgressBar: true,
         autoClose: 2000,
-        closeButton: false,
-        draggable: false,
-        pauseOnHover: false,
+        hideProgressBar: true,
       });
     }
+  };
 
-
-
-  }
   useEffect(() => {
-
-    if (userrooms.length === 0)
-      dispatch(fetchuserrooms())
-
-
+    if (userrooms.length === 0) dispatch(fetchuserrooms());
   }, [dispatch]);
 
   return (
-    <div className="bg-gray-100 relative mx-auto h-screen overflow-x-hidden font-sans ">
-       
-      <div className="w-full py-5 px-10">
-
-          
-
-        <div className="flex-row justify-between mb-3 w-full">
-          <h1 className="text-xl font-medium ">Your properties</h1>
-          <div className="flex justify-between mt-2 mb-3 w-full">
-            <input
-              type="text"
-              placeholder="Search room"
-              className="px-5 py-2 rounded-sm outline-none bg-white border w-80"
-            />
-            <button
-              onClick={() => setIsShowed(true)}
-              className="text-sm font-medium px-2 py-1 rounded-sm text-white bg-black"
-            >
-              Add Room
-            </button>
-          </div>
-
+    <div className="bg-gray-100 min-h-screen px-6 py-8">
+      <div className="max-w-6xl mx-auto">
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-2xl font-semibold text-gray-800">Your Properties</h1>
+          <button
+            onClick={() => setIsShowed(true)}
+            className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
+          >
+            Add Room
+          </button>
         </div>
-        
 
         {isShowed && (
-          <div className="ml-50 absolute right-3 mb-10 top-20 left-20">
-            <Addroom setIsShowed={setIsShowed}/>
-            
+          <div className="fixed top-20 left-10 right-10 z-50">
+            <Addroom setIsShowed={setIsShowed} />
           </div>
         )}
 
-        <div className="grid grid-cols-5 bg-blue-50  gap-5 py-2">
-          <div className="text-md font-semibold capitalize">Room ID</div>
-          <div className="text-md font-semibold capitalize">Room Title</div>
-          <div className="text-md font-semibold capitalize">Alloted Price</div>
-          <div className="text-md font-semibold capitalize">Status</div>
-          <div className="text-md font-semibold capitalize">Actions</div>
-
+        <div className="grid grid-cols-5 bg-blue-100 text-gray-700 py-3 px-4 font-semibold rounded-t-lg">
+          <div>Room ID</div>
+          <div>Title</div>
+          <div>Price</div>
+          <div>Status</div>
+          <div>Actions</div>
         </div>
 
-        
-
-        <div className="mt-4 space-y-3 ">
+        <div className="divide-y bg-white rounded-b-lg">
           {userrooms.length > 0 ? (
             userrooms.map((item, index) => (
-              <div key={index} className=" gap-10 overflow-y-auto hover:bg-blue-100 grid grid-cols-5  nth-[even]:bg-slate-200 mb-2 py-2">
+              <div
+                key={index}
+                className="grid grid-cols-5 gap-4 px-4 py-3 hover:bg-gray-50 text-gray-700"
+              >
                 <div
-                onClick={()=>navigate(`/rooms/${item._id}`)}
-                 className="cursor-pointer ">{item._id.slice(0, 8)}...</div>
-                <div className="">{item.roomtitle}</div>
-                <div>Rs {item.room_price_monthly}</div>
+                  className="cursor-pointer text-blue-600 hover:underline"
+                  onClick={() => navigate(`/rooms/${item._id}`)}
+                >
+                  {item._id.slice(0, 8)}...
+                </div>
+                <div>{item.roomtitle}</div>
+                <div>₹{item.room_price_monthly}</div>
                 <div
-                  className={
-                    item.status === "available" ? "text-gray-800" : "text-red-600"
-                  }
+                  className={`font-medium ${
+                    item.status === "available"
+                      ? "text-green-600"
+                      : "text-red-500"
+                  }`}
                 >
                   {item.status}
                 </div>
-                <div className="flex flex-row gap-5">
-                  <div onClick={()=>{navigate(`/updaterooms/${item._id}`)
-                    }}>
-                    <FiEdit size={17} />
-
-                  </div>
-
-                  <div onClick={() => handledelete(item._id)}>
-                    <MdDelete color="red" size={20} />
-                  </div>
+                <div className="flex gap-4 items-center">
+                  <button
+                    onClick={() => navigate(`/updaterooms/${item._id}`)}
+                    className="hover:text-blue-600"
+                    title="Edit"
+                  >
+                    <FiEdit size={18} />
+                  </button>
+                  <button
+                    onClick={() => handledelete(item._id)}
+                    className="hover:text-red-600"
+                    title="Delete"
+                  >
+                    <MdDelete size={20} />
+                  </button>
                 </div>
               </div>
             ))
           ) : (
-            <p className="text-red-500">No properties found</p>
+            <div className="text-center text-red-500 py-6">No properties found</div>
           )}
-          {
-            userrooms.length > 9 ? (
-            <div className="flex justify-between items-center mt-4">
-            <p className="text-sm text-gray-600 font-medium">Total items: {userrooms.length}</p>
-            <div className="flex space-x-2">
-              <button className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">Previous</button>
-              <button className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">1</button>
-              <button className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">2</button>
-              <button className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">Next</button>
-            </div>
-          </div>) :''
-          }
-          
         </div>
+
+        {userrooms.length > 9 && (
+          <div className="flex justify-between items-center mt-6">
+            <p className="text-sm text-gray-600">
+              Total items: {userrooms.length}
+            </p>
+            <div className="flex space-x-2">
+              <button className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">
+                Previous
+              </button>
+              <button className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">
+                1
+              </button>
+              <button className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">
+                2
+              </button>
+              <button className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">
+                Next
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

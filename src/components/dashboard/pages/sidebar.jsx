@@ -23,7 +23,6 @@ function Sidebar() {
         { to: "/dashboard", label: "Overview", icon: <IoIosColorPalette size={20} /> },
         { to: "/dashboard/profile", label: "Account", icon: <CgProfile size={20} /> },
         { to: "/dashboard/customers", label: "Customers", icon: <FaUsers size={20} /> },
-        { to: "/dashboard/message", label: "Message", icon: <MdOutlineMessage size={20} /> },
         { to: "/dashboard/listroom", label: "List Room", icon: <BsHouseAddFill size={20} /> },
         { to: "/dashboard/setting", label: "Settings", icon: <IoSettingsOutline size={20} /> },
       ].map(({ to, label, icon }, index) => (

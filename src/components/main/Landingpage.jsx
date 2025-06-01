@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { FaArrowRight } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 function Landingpage() {
   return (
@@ -16,15 +17,14 @@ function Landingpage() {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-5 mt-8">
-            <button className="bg-sky-500 text-center hover:bg-blue-700 transition text-white font-medium px-5 py-3 flex items-center gap-2 rounded-md">
-              Book Now
-              <FaArrowRight />
-            </button>
-
-            <button className="bg-slate-50 text-center text-sky-500 font-medium px-5 py-3 flex items-center gap-2 rounded-md">
+           
+             <Link to="/rooms">
+             
+            <button  className="bg-slate-50 text-center text-sky-500 font-medium px-5 py-3 flex items-center gap-2 rounded-md">
               Browse Properties
               <FaArrowRight />
             </button>
+            </Link>
           </div>
         </div>
 
@@ -39,10 +39,7 @@ function Landingpage() {
 export default Landingpage;
 
 function SearchRoom() {
-  const [searchquery,setsearchquery] = useState({
-    location:"",
-    
-  })
+ 
   return (
     <div className='bg-white w-full max-w-md mx-auto lg:mx-20 mt-10 shadow-sky-400 shadow-md rounded-lg'>
       <form className='px-6 sm:px-10 py-10'>
@@ -52,7 +49,6 @@ function SearchRoom() {
           <div>
             <label className='text-lg mb-1 font-semibold block'>Location</label>
             <input
-            
             type="text" placeholder='Search where you want to stay' className='px-4 py-2 outline-none border rounded-md border-gray-600 w-full shadow placeholder:text-slate-700'/>
           </div>
 
@@ -72,8 +68,10 @@ function SearchRoom() {
               <option value="office">Office</option>
             </select>
           </div>
-
+         <Link to="/rooms">
+         
           <button className='px-4 py-2 w-full bg-sky-500 text-white rounded-md mt-4'>Search Available Rooms</button>
+        </Link>
         </div>
       </form>
     </div>

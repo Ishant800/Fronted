@@ -28,7 +28,8 @@ export const addRoom = createAsyncThunk('room/addRoom', async (data, thunkAPI) =
 export const fetchRoom = createAsyncThunk('room/fetchRoom', async (thunkAPI) => {
     try {
         const res = await axios.get(`${api}/rooms`)
-        return res.data.rooms
+        const filtereddata = res.data.rooms.filter((items)=>items.status === "booked")
+        return filtereddata
     } catch (error) {
         return thunkAPI.rejectWithValue(error.response?.data || error.message)
     }

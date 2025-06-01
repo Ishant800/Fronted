@@ -42,7 +42,6 @@ function Navabar() {
            
           </div>
           
-          <AiOutlineMail size={20} className="text-gray-600" />
 
           <div className="relative">
             <img
