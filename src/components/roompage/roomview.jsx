@@ -3,32 +3,32 @@ import { useNavigate } from 'react-router-dom'
 import { FaLocationDot, FaStar } from "react-icons/fa6"
 import { FaDollarSign } from "react-icons/fa"
 import { useDispatch, useSelector } from "react-redux"
-import { fetchRoom } from "../redux/roomredux"
 import { LuArrowLeft } from "react-icons/lu";
+import { fetchRooms } from "../redux/thunk/roomthunks"
 function Roomview() {
    const dispatch = useDispatch()
-   const { room } = useSelector(state => state.room)
+   const { rooms } = useSelector(state => state.room)
    const [data, setdata] = useState([])
    const [search, setsearch] = useState("")
    const [categories, setcategories] = useState("")
    const [city, setcity] = useState("")
-
+  console.log(data)
    const navigate = useNavigate()
    useEffect(() => {
 
-      if (room.length === 0) {
-         dispatch(fetchRoom())
+      if (rooms.length === 0) {
+         dispatch(fetchRooms())
       }
       else {
-         setdata(room.filter(item =>item.status === "booked"))
+         setdata(rooms.filter(item =>item.status === "booked"))
       }
 
-   }, [room, dispatch])
+   }, [rooms, dispatch])
 
 
    useEffect(() => {
       if (search || categories || city) {
-         let updatedata = [...room]
+         let updatedata = [...rooms]
 
          if (search) {
             updatedata = updatedata.filter(f =>
@@ -46,12 +46,12 @@ function Roomview() {
          }
          setdata(updatedata)
       } else {
-         setdata(room)
+         setdata(rooms)
       }
-   }, [search, categories, city, room])
+   }, [search, categories, city, rooms])
    return (
   <div className="min-h-screen bg-gray-50 px-4 md:px-10">
-    {/* Header + Filter */}
+  
     <div className="sticky top-0 bg-gray-50 z-10 py-6 flex flex-col lg:flex-row flex-wrap items-center justify-between gap-4">
       <button
         className="flex items-center gap-2 px-4 py-2 border rounded-md text-gray-700 hover:bg-gray-100"
@@ -71,7 +71,7 @@ function Roomview() {
         placeholder="Enter location where you want to stay"
       />
 
-      {/* Filters */}
+     
       <div className="flex flex-wrap gap-4">
         <div>
           <label className="text-sm font-medium">Sort by City</label>
@@ -104,7 +104,7 @@ function Roomview() {
       </div>
     </div>
 
-    {/* Room Cards */}
+   
     <div className="py-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       {data && data.length > 0 ? (
         data.map((item, index) => (
@@ -113,14 +113,14 @@ function Roomview() {
             onClick={() => navigate(`/rooms/${item._id}`)}
             className="bg-white rounded-lg shadow hover:shadow-lg transition cursor-pointer overflow-hidden"
           >
-            {/* Image */}
+           
             <img
               src={item.images[0]}
               alt={item.roomtitle}
               className="h-48 w-full object-cover"
             />
 
-            {/* Content */}
+        
             <div className="p-4 space-y-2">
               <div className="flex justify-between items-center">
                 <h2 className="text-lg font-semibold text-sky-600">{item.roomtitle}</h2>
@@ -135,7 +135,7 @@ function Roomview() {
               </div>
 
               <p className="text-sm text-gray-600 capitalize">{item.categories}</p>
- {/* Features */}
+
               <div className="flex flex-wrap gap-2 text-xs text-gray-500">
                 {item.features.slice(0, 3).map((feature, i) => (
                   <span key={i}>{feature}</span>

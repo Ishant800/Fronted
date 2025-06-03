@@ -1,8 +1,8 @@
 import { IoMenu } from "react-icons/io5";
 import { IoIosColorPalette } from "react-icons/io";
-import { IoSettingsOutline } from "react-icons/io5";
+
 import { BsHouseAddFill } from "react-icons/bs";
-import { MdOutlineMessage } from "react-icons/md";
+
 import { CgProfile } from "react-icons/cg";
 import { FaUsers } from "react-icons/fa6";
 import { NavLink, Link } from "react-router-dom";
@@ -10,7 +10,7 @@ import { NavLink, Link } from "react-router-dom";
 function Sidebar() {
   return (
     <div className="min-h-screen w-[70px] md:w-[220px] bg-white px-3 py-4 shadow-lg flex flex-col gap-2 transition-all duration-300">
-      {/* Top Brand */}
+
       <div className="flex items-center justify-between px-2 mb-6">
         <Link to="/" className="flex items-center gap-2">
           <h1 className="text-lg md:text-xl font-bold text-gray-700 hidden md:block">MeroRoom</h1>
@@ -18,13 +18,13 @@ function Sidebar() {
         <IoMenu size={22} className="text-gray-600 hidden md:block" />
       </div>
 
-      {/* Navigation Links */}
+
       {[
         { to: "/dashboard", label: "Overview", icon: <IoIosColorPalette size={20} /> },
         { to: "/dashboard/profile", label: "Account", icon: <CgProfile size={20} /> },
         { to: "/dashboard/customers", label: "Customers", icon: <FaUsers size={20} /> },
         { to: "/dashboard/listroom", label: "List Room", icon: <BsHouseAddFill size={20} /> },
-        { to: "/dashboard/setting", label: "Settings", icon: <IoSettingsOutline size={20} /> },
+       
       ].map(({ to, label, icon }, index) => (
         <NavLink
           key={index}

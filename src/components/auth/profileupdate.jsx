@@ -1,10 +1,14 @@
 import { useState } from "react";
-import { toast } from "react-toastify";
+
 import { FaCamera } from "react-icons/fa";
 import Navabar from "../navbar/navbar";
 import Footer from "../footer/footer";
+import { useDispatch } from "react-redux";
+import { userupdateDetails } from "../redux/thunk/auththunk";
+import { showErrorToast, showSuccessToast } from "../toastutils/toast";
 
 function UpdateProfile() {
+  const dispatch = useDispatch()
   const [profileData, setProfileData] = useState({
     fullName: "",
     Phone_no: "",
@@ -31,35 +35,18 @@ function UpdateProfile() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
-
-    // Append form fields
     Object.entries(profileData).forEach(([key, val]) => {
       if (val) formData.append(key, val);
     });
-
     if (profilePic) formData.append("profile_pic", profilePic);
-
-    try {
      
-      const token = localStorage.getItem("user");
-      const res = await fetch("http://localhost:5000/user/update-profile", {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      });
-
-      const result = await res.json();
-      if (res.status === 200) {
-        toast.success("Profile updated successfully");
-        // Optionally: refresh user data
-      } else {
-        toast.error(result.message || "Update failed");
-      }
-    } catch (err) {
-      toast.error("Something went wrong");
-    }
+   const matched = await dispatch(userupdateDetails(formData))
+   if(userupdateDetails.fulfilled.match(matched)){
+    showSuccessToast("user details update sucessfully")
+   }
+   else{
+    showErrorToast("user details update failed")
+   }
   };
 
   return (
@@ -73,13 +60,13 @@ function UpdateProfile() {
       >
         <h2 className="text-xl font-semibold text-gray-800 mb-6">Update Profile</h2>
 
-        {/* Profile Image */}
+     
         <div className="flex justify-center mb-6">
           <div className="relative w-32 h-32 rounded-full overflow-hidden border-4 border-gray-200">
             <img
               src={
                 preview ||
-                "https://www.gravatar.com/avatar/?d=mp&f=y" // default image
+                "https://www.gravatar.com/avatar/?d=mp&f=y" 
               }
               alt="Profile"
               className="w-full h-full object-cover"

@@ -62,7 +62,7 @@ function Roompage() {
       <div className="w-full px-4 md:px-20 py-10">
         {data ? (
           <div className="flex flex-col lg:flex-row gap-10">
-            {/* Left image section */}
+   
             <div className="w-full lg:w-1/2">
              <img
   src={selectedImage}
@@ -70,7 +70,7 @@ function Roompage() {
   className="w-full h-[400px] object-cover rounded-md shadow-md"
 />
 
-              {/* Thumbnail images */}
+           
               <div className="flex flex-wrap gap-2 mt-4">
                 {data.images.map((img, idx) => (
                   <img
@@ -84,9 +84,9 @@ function Roompage() {
               </div>
             </div>
 
-            {/* Right text section */}
+           
             <div className="w-full lg:w-1/2">
-              {/* Landlord Info */}
+              
               <div className="shadow-md p-4 rounded-md flex items-center gap-4">
                 <img
                   src="https://static-cse.canva.com/blob/1911653/tools_transparent-background_promo-showcase_01-AFTER.jpg"
@@ -100,7 +100,7 @@ function Roompage() {
                 <CiChat1 onClick={() => setismessageshow(true)} className="cursor-pointer" size={20} />
               </div>
 
-              {/* Room Details */}
+             
               <h1 className="text-2xl mt-6 font-bold text-slate-700">{data.roomtitle}</h1>
               <div className="flex items-center gap-2 mt-2 text-gray-600">
                 <FaLocationDot />
@@ -112,7 +112,7 @@ function Roompage() {
                 <p className="text-md text-gray-600 mt-2">{data.description}</p>
               </div>
 
-              {/* Features */}
+           
               <div className="mt-6">
                 <h2 className="text-xl font-semibold text-slate-800">Features:</h2>
                 <div className="flex gap-3 flex-wrap mt-2">
@@ -124,7 +124,7 @@ function Roompage() {
                 </div>
               </div>
 
-              {/* Buttons */}
+             
               <div className="flex flex-wrap gap-4 mt-6">
              
                 <button
@@ -140,7 +140,7 @@ function Roompage() {
             </div>
           </div>
         ) : (
-          <p className="text-center text-gray-600 font-semibold">Loading Room Details...</p>
+          <Loadinganimation/>
         )}
       </div>
     </div>
@@ -150,11 +150,12 @@ function Roompage() {
 export default Roompage;
 
 import { RxCross2 } from "react-icons/rx";
+import Loadinganimation from "../404page/loadinganimation";
 const Messagebox = ({ setismessageshow }) => {
   return (
     <div className="absolute bg-slate-100 shadow-md rounded-md right-1 bottom-2 w-96 h-96 flex flex-col">
       
-      {/* Header */}
+      
       <div className="bg-blue-200 px-4 py-2 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <img
@@ -171,13 +172,13 @@ const Messagebox = ({ setismessageshow }) => {
         <RxCross2 onClick={() => setismessageshow(false)} size={20} color="red" className="cursor-pointer" />
       </div>
 
-      {/* Messages */}
+     
       <div className="flex-1 overflow-y-auto px-4 py-2 space-y-2">
         <p className="text-slate-700 text-start">hi</p>
         <p className="text-blue-500 text-end">hello</p>
       </div>
 
-      {/* Input */}
+     
       <div className="flex border-t border-gray-300 p-2">
         <input
           type="text"

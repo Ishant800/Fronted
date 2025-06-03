@@ -1,17 +1,19 @@
 import { useState, useEffect } from "react";
-import Addroom from "./addroom";
+
 import { FiEdit } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteroom, fetchuserrooms } from "../redux/roomredux";
+
 import { MdDelete } from "react-icons/md";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { fetchRooms } from "../redux/thunk/roomthunks";
 
 function Roomlist() {
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { userrooms } = useSelector((state) => state.room);
-  const [isShowed, setIsShowed] = useState(false);
+  const { rooms } = useSelector((state) => state.room);
+
 
   const handledelete = async (id) => {
     try {
@@ -36,7 +38,7 @@ function Roomlist() {
   };
 
   useEffect(() => {
-    if (userrooms.length === 0) dispatch(fetchuserrooms());
+    if (rooms.length === 0) dispatch(fetchRooms());
   }, [dispatch]);
 
   return (
@@ -45,33 +47,29 @@ function Roomlist() {
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-semibold text-gray-800">Your Properties</h1>
           <button
-            onClick={() => setIsShowed(true)}
+            onClick={()=>navigate("/addroom")}
             className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
           >
             Add Room
           </button>
         </div>
 
-        {isShowed && (
-          <div className="fixed top-20 left-10 right-10 z-50">
-            <Addroom setIsShowed={setIsShowed} />
-          </div>
-        )}
 
-        <div className="grid grid-cols-5 bg-blue-100 text-gray-700 py-3 px-4 font-semibold rounded-t-lg">
+        <div className="grid grid-cols-6 bg-blue-100 text-gray-700 py-3 px-4 font-semibold rounded-t-lg">
           <div>Room ID</div>
           <div>Title</div>
           <div>Price</div>
+          <div>Locations</div>
           <div>Status</div>
           <div>Actions</div>
         </div>
 
         <div className="divide-y bg-white rounded-b-lg">
-          {userrooms.length > 0 ? (
-            userrooms.map((item, index) => (
+          {rooms.length > 0 ? (
+            rooms.map((item, index) => (
               <div
                 key={index}
-                className="grid grid-cols-5 gap-4 px-4 py-3 hover:bg-gray-50 text-gray-700"
+                className="grid grid-cols-6 gap-4 px-4 py-3 hover:bg-gray-50 text-gray-700"
               >
                 <div
                   className="cursor-pointer text-blue-600 hover:underline"
@@ -81,6 +79,7 @@ function Roomlist() {
                 </div>
                 <div>{item.roomtitle}</div>
                 <div>₹{item.room_price_monthly}</div>
+                 <div>{item.location}</div>
                 <div
                   className={`font-medium ${
                     item.status === "available"
@@ -113,7 +112,7 @@ function Roomlist() {
           )}
         </div>
 
-        {userrooms.length > 9 && (
+        {rooms.length > 9 && (
           <div className="flex justify-between items-center mt-6">
             <p className="text-sm text-gray-600">
               Total items: {userrooms.length}

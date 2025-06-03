@@ -8,13 +8,13 @@ function Customers() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const token = localStorage.getItem("user");
+        const token = localStorage.getItem("token");
         const res = await axios.get("http://localhost:5000/room/customers", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        // Only show booked customers
+        
         const bookedCustomers = res.data.requestdata.filter(
           (item) => item.status === "booked"
         );
@@ -28,8 +28,8 @@ function Customers() {
   }, []);
 
   return (
-    <div className="p-6 min-h-screen bg-gray-50">
-      <h1 className="text-3xl font-bold mb-6 text-gray-800">Booked Customers</h1>
+    <div className="p-6 min-h-screen bg-blue-100">
+      <h1 className="text-xl font-medium mb-6 text-gray-800">Booked Customers</h1>
 
       <div className="grid grid-cols-7 gap-5 bg-blue-100 text-gray-700 py-3 px-4 font-semibold rounded-md">
         <div>Room ID</div>

@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useDispatch } from "react-redux";
-import { updateroom } from "../redux/roomredux";
+
 import Navabar from "../navbar/navbar";
 import Footer from "../footer/footer";
 import { useParams } from "react-router-dom";
@@ -49,14 +49,14 @@ export default function Updateroom() {
     
         const data = new FormData();
     
-        // Append formData fields to FormData
+        
         for (const key in formData) {
           if (formData[key]) {
             data.append(key, formData[key]);
           }
         }
     
-        // Append image files
+        
         files.forEach((file) => data.append("images", file));
     
         

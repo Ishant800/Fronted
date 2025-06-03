@@ -1,20 +1,13 @@
 import { useEffect, useState } from "react";
 import { FaUsers, FaClipboardCheck } from "react-icons/fa";
 import axios from "axios";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts";
-import { toast } from 'react-toastify';
+
+
+import { showErrorToast, showInfoToast, showSuccessToast} from "../../toastutils/toast";
 function Maincontent() {
   const [data, setdata] = useState([]);
   const [totalusers, settotalusers] = useState([]);
-  const [visitData, setVisitData] = useState([]);
+ 
   const token = localStorage.getItem("user");
 
   useEffect(() => {
@@ -28,22 +21,9 @@ function Maincontent() {
       if (res.data) {
         const allUsers = res.data.users;
         settotalusers(allUsers);
-
-        const visitCount = allUsers.reduce((acc, user) => {
-          const date = new Date(user.createdAt).toLocaleDateString("en-GB");
-          acc[date] = (acc[date] || 0) + 1;
-          return acc;
-        }, {});
-
-        const chartData = Object.entries(visitCount).map(([date, count]) => ({
-          date,
-          count,
-        }));
-
-        setVisitData(chartData);
       }
     } catch (error) {
-      alert("No users found");
+     showInfoToast("no users found")
     }
   };
 
@@ -58,7 +38,7 @@ function Maincontent() {
       console.log('filtered data ',res.data.data.filter((item)=>item.status !== "booked"))
       
     } catch (error) {
-      alert("No booking requests from users");
+      showInfoToast("No booking requests from users");
     }
   };
 
@@ -73,7 +53,7 @@ function Maincontent() {
         }
       );
       if (res.status === 200) {
-         toast.success(
+         showSuccessToast(
         roomstatus === "reject"
           ? "Request rejected successfully"
           : "Request accepted successfully",
@@ -86,16 +66,16 @@ function Maincontent() {
       }
     } catch (error) {
       console.log(error)
-      alert("failed to update request");
+     showErrorToast("failed to update request");
     }
   };
 
  return (
   <div className="px-6 py-5 bg-gray-100 min-h-screen">
-    <h2 className="text-2xl font-bold text-gray-700 mb-6">Admin Dashboard</h2>
+    <h2 className="text-2xl font-medium text-gray-700 mb-6">Admin Dashboard</h2>
 
     
-    <div className="grid grid-cols-1 md:grid-cols-4 grid-rows-2 gap-4 mb-8">
+    <div className="grid grid-cols-1 md:grid-cols-4 grid-rows-2 gap-4 ">
      
       <div className="bg-white p-4 rounded-xl shadow-sm flex items-center justify-between col-span-1 row-span-1">
         <div>
@@ -116,30 +96,6 @@ function Maincontent() {
         <div className="p-2 bg-purple-100 rounded-full">
           <FaClipboardCheck size={20} color="purple" />
         </div>
-      </div>
-
-    
-      <div className="bg-white p-4 rounded-xl shadow-sm col-span-2 row-span-2">
-        <h3 className="text-sm font-semibold text-gray-500 mb-3">Users Joined by Day</h3>
-        <ResponsiveContainer width="100%" height={280}>
-          <LineChart
-            data={[
-              { date: 'Mon', count: 3 },
-              { date: 'Tue', count: 8 },
-              { date: 'Wed', count: 5 },
-              { date: 'Thu', count: 10 },
-              { date: 'Fri', count: 7 },
-              { date: 'Sat', count: 6 },
-              { date: 'Sun', count: 4 },
-            ]}
-          >
-            <CartesianGrid stroke="#ccc" />
-            <XAxis dataKey="date" />
-            <YAxis allowDecimals={false} />
-            <Tooltip />
-            <Line type="monotone" dataKey="count" stroke="#3b82f6" strokeWidth={2} />
-          </LineChart>
-        </ResponsiveContainer>
       </div>
     </div>
 
@@ -165,13 +121,13 @@ function Maincontent() {
           </thead>
           <tbody>
             {data.map((item, index) => (
-              <tr key={index} className="border-b hover:bg-blue-50">
-                <td className="px-4 py-2">{item.roomid?.slice(0, 10)}..</td>
+              <tr key={index} className="border-b border-gray-200 hover:bg-blue-50">
+                <td className="px-4 py-2">{item.roomid?.slice(0, 10) }..</td>
                 <td className="px-4 py-2">{item.roomlocation}</td>
-                <td className="px-4 py-2">{item.userid?.slice(0, 10)}</td>
+                <td className="px-4 py-2">{item.userid?.slice(0, 10)  || "N/A"}</td>
                 <td className="px-4 py-2">{item.useremail}</td>
                 <td className="px-4 py-2">{item.username}</td>
-                <td className="px-4 py-2">{item.contact}</td>
+                <td className="px-4 py-2">{item.contact  || "N/A"}</td>
                 <td className="px-4 py-2 flex justify-center gap-2">
                   <button
                     onClick={() =>

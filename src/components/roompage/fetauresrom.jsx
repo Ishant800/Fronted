@@ -4,21 +4,22 @@ import { useNavigate } from 'react-router-dom';
 import { FaArrowCircleRight } from "react-icons/fa";
 import { FaLocationDot, FaStar } from "react-icons/fa6";
 import { FaDollarSign } from "react-icons/fa";
-import { fetchRoom } from "../redux/roomredux";
+import { fetchRooms } from '../redux/thunk/roomthunks';
+
 
 function Fetauresroom() {
-  const { room } = useSelector(state => state.room);
+  const {rooms} = useSelector((state)=>state.room)
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [data, setData] = useState([]);
-
+console.log(data)
   useEffect(() => {
-    if (room.length === 0) {
-      dispatch(fetchRoom());
+    if (rooms.length === 0) {
+      dispatch(fetchRooms());
     } else {
-      setData(room);
+      setData(rooms);
     }
-  }, [room, dispatch]);
+  }, [rooms, dispatch]);
 
   return (
     <div className='px-4 sm:px-6 lg:px-20 py-10 bg-gray-100'>
@@ -37,11 +38,11 @@ function Fetauresroom() {
               key={index}
               className="cursor-pointer bg-white rounded-md shadow hover:shadow-md transition overflow-hidden"
             >
-              <img
-                src={item.images[0]}
-                alt="Room"
-                className="h-48 w-full object-cover"
-              />
+             <img
+  src={item.images?.[0] || "https://via.placeholder.com/300x200?text=No+Image"}
+  alt="Room"
+  className="h-48 w-full object-cover"
+/>
 
               <div className="px-4 py-3">
                 <div className="flex justify-between items-center mb-2">
@@ -63,13 +64,13 @@ function Fetauresroom() {
                 </div>
 
                 <div className="text-sm text-gray-500 mb-2">
-                  {item.features.slice(0, 3).map((feat, i) => (
-                    <span key={i}>{feat}{i < 2 ? ', ' : ''}</span>
-                  ))}
+                <span>{item.features}</span>
+                 
                 </div>
 
                 <div className="flex justify-between text-sm text-gray-700">
-                  <span>Available from: {item.createdAt.slice(0, 10)}</span>
+                  {/* <span>Available from: {item.createdAt}</span> */}
+                  <button className='text-sm px-3 py-2 rounded-md bg-sky-300'>View details</button>
                   <span className="flex items-center font-medium">
                     <FaDollarSign className="mr-1" />{item.room_price_monthly}<span className="text-gray-500 ml-1">/Month</span>
                   </span>

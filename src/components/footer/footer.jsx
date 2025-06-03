@@ -22,10 +22,10 @@ function Footer() {
           </div>
         </div>
 
-        {/* Quick Links */}
+        
         <div>
-          <h2 className="text-sm font-semibold text-slate-200 mb-2">Quick Links</h2>
-          <ul className="text-xs text-slate-400 space-y-1">
+          <h2 className="text-md font-semibold text-slate-200 mb-2">Quick Links</h2>
+          <ul className="text-sm font-medium text-slate-400 space-y-1">
             <li><a href="#">Find Rooms</a></li>
             <li><a href="#">List Property</a></li>
             <li><a href="#">How It Works</a></li>
@@ -34,10 +34,10 @@ function Footer() {
           </ul>
         </div>
 
-        {/* Resources */}
+       
         <div>
-          <h2 className="text-sm font-semibold text-slate-200 mb-2">Resources</h2>
-          <ul className="text-xs text-slate-400 space-y-1">
+          <h2 className="text-md font-semibold text-slate-200 mb-2">Resources</h2>
+          <ul className="text-sm font-medium text-slate-400 space-y-1">
             <li><a href="#">Renter's Guide</a></li>
             <li><a href="#">Landlord's Guide</a></li>
             <li><a href="#">Safety Tips</a></li>
@@ -46,10 +46,10 @@ function Footer() {
           </ul>
         </div>
 
-        {/* Contact */}
+     
         <div>
-          <h2 className="text-sm font-semibold text-slate-200 mb-2">Contact</h2>
-          <ul className="text-xs text-slate-400 space-y-1">
+          <h2 className="text-md font-semibold text-slate-200 mb-2">Contact</h2>
+          <ul className="text-sm font-medium text-slate-400 space-y-1">
             <li><a href="#">support@roomease.com</a></li>
             <li><a href="#">+91 9800000000</a></li>
             <li><a href="#">123 Mark Street, Nepal</a></li>

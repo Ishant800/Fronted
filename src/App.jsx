@@ -9,13 +9,16 @@ import Roomview from "./components/roompage/roomview"
 import Roompage from "./components/roompage/roompage"
 import Updateroom from "./components/roompage/updateroom"
 import UpdateProfile from "./components/auth/profileupdate"
+import Loadinganimation from "./components/404page/loadinganimation"
+import { useAuthSync } from "./components/hooks/useAuth"
  
 function App() {
- 
+ useAuthSync()
   return (
     <BrowserRouter>   
       <Routes>
         <Route path="/" element={<Homepage />} />
+        <Route path="/loading" element={<Loadinganimation />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Loginpage />} />
         <Route path="/dashboard/*" element={<Dashboard />} />
