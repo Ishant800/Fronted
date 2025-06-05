@@ -4,11 +4,12 @@ import axios from "axios";
 
 
 import { showErrorToast, showInfoToast, showSuccessToast} from "../../toastutils/toast";
+import { getToken } from "../../redux/utils/auth";
 function Maincontent() {
   const [data, setdata] = useState([]);
   const [totalusers, settotalusers] = useState([]);
- 
-  const token = localStorage.getItem("user");
+ const[aceept,setaccept] = useState(false)
+
 
   useEffect(() => {
     if (totalusers.length === 0) fetchusersdata();
@@ -32,9 +33,9 @@ function Maincontent() {
       const res = await axios.post(
         "http://localhost:5000/room/usersbookinglist",
         {},
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: getToken() }
       );
-      if (res.data) setdata(res.data.data.filter((item)=>item.status === "booked"));
+      if (res.data) setdata(res.data.data.filter((item)=>item.status !== "booked"));
       console.log('filtered data ',res.data.data.filter((item)=>item.status !== "booked"))
       
     } catch (error) {
@@ -49,10 +50,17 @@ function Maincontent() {
         `http://localhost:5000/room/updaterequest`,
         payload,
         {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: getToken(),
         }
       );
       if (res.status === 200) {
+       if(roomstatus === "accept"){
+           setaccept(true)
+       }
+       else{
+        setaccept(false)
+       }
+        
          showSuccessToast(
         roomstatus === "reject"
           ? "Request rejected successfully"
@@ -129,6 +137,13 @@ function Maincontent() {
                 <td className="px-4 py-2">{item.username}</td>
                 <td className="px-4 py-2">{item.contact  || "N/A"}</td>
                 <td className="px-4 py-2 flex justify-center gap-2">
+                 
+                 {aceept ? (  <button
+                    onClick={() => handlerequest(item._id, 'reject','',item.roomid)}
+                    className="bg-red-100 text-red-500 px-3 py-1 rounded-md text-sm hover:bg-red-200"
+                  >
+                    Decline
+                  </button>) : (<>
                   <button
                     onClick={() =>
                       handlerequest(item._id, 'accept', 'booked', item.roomid)
@@ -137,12 +152,16 @@ function Maincontent() {
                   >
                     Accept
                   </button>
-                  <button
+                
+                 <button
                     onClick={() => handlerequest(item._id, 'reject','',item.roomid)}
                     className="bg-red-100 text-red-500 px-3 py-1 rounded-md text-sm hover:bg-red-200"
                   >
                     Decline
-                  </button>
+                  </button></>)}
+                 
+                  
+                 
                 </td>
               </tr>
             ))}

@@ -14,10 +14,10 @@ function Customers() {
             Authorization: `Bearer ${token}`,
           },
         });
-        
         const bookedCustomers = res.data.requestdata.filter(
-          (item) => item.status === "booked"
+          (item) => item.status !== "booked"
         );
+        console.log(bookedCustomers)
         setCustomersList(bookedCustomers);
       } catch (error) {
         console.error("Failed to fetch customer data", error);

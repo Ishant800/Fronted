@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { usersignup } from "../redux/thunk/auththunk";
 import { useDispatch } from "react-redux";
+import { showErrorToast, showSuccessToast } from "../toastutils/toast";
 
 
 function Signup() {
@@ -22,16 +23,10 @@ function Signup() {
     
    const matched =  dispatch(usersignup(formdata));
    if(usersignup.fulfilled.match(matched)){
-    toast.success("signup successful",{
-    hideProgressBar:true,
-    autoClose:2000,
-    closeButton:false,
-    draggable:false,
-    pauseOnHover:false,
-  });
+    showSuccessToast("sucessfully signup")
    }
    else{
-    toast.error("failed to create account")
+    showErrorToast("failed to create account")
    }
    
   

@@ -79,7 +79,7 @@ function Roomlist() {
                 </div>
                 <div>{item.roomtitle}</div>
                 <div>₹{item.room_price_monthly}</div>
-                 <div>{item.location}</div>
+                 <div>{item.city}</div>
                 <div
                   className={`font-medium ${
                     item.status === "available"

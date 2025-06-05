@@ -1,5 +1,3 @@
-import React from "react";
-
 function Categories() {
   const data = [
     {
@@ -43,13 +41,13 @@ function Categories() {
             <img
               src={item.images}
               alt={item.destinations}
-              className="w-full h-full object-cover transform duration-300 group-hover:scale-105"
+              className="w-full h-2/3 object-cover transform duration-300 group-hover:scale-105"
             />
-            <div className="absolute bottom-0 left-0 w-full bg-black opacity-30 text-white p-3">
-              <h3 className="text-lg font-semibold capitalize">
+            <div className=" bottom-0 left-0 w-full p-3">
+              <h3 className="text-lg text-black font-semibold capitalize">
                 {item.destinations}
               </h3>
-              <p className="text-sm">10+ properties</p>
+              <p className="text-sm text-black">10+ properties</p>
             </div>
           </div>
         ))}

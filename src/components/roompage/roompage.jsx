@@ -4,20 +4,27 @@ import { CiChat1 } from "react-icons/ci";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { toast } from "react-toastify";
 
 function Roompage() {
   const { id } = useParams();
   const [data, setdata] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
   const [ismessageshow, setismessageshow] = useState(false);
+ const [ownerdata,setownerdata] = useState(null)
 
-  useEffect(() => {
+
+ useEffect(() => {
     const fetchdata = async () => {
       try {
         const res = await axios.get(`http://localhost:5000/room/rooms/${id}`);
-        if (res.data) {
+        var userid = res.data.existroom.userid
+        console.log(userid)
+        const ownerdetails = await axios.get(`http://localhost:5000/auth/users/${userid}`)
+        
+        console.log(ownerdetails.data.usersdata)
+        if (res.data && ownerdetails.data.usersdata) {
           setdata(res.data.existroom);
+          setownerdata(ownerdetails.data.usersdata)
           setSelectedImage(res.data.existroom.images[0]);
         }
       } catch (error) {
@@ -29,7 +36,7 @@ function Roompage() {
 
   const handlesubmit = async () => {
     try {
-      const token = localStorage.getItem("user");
+      const token = localStorage.getItem("token");
       const bookingdata = {
         ownerid: data.userid,
         roomid: id,
@@ -41,34 +48,29 @@ function Roompage() {
       });
 
       if (res.status === 200) {
-        toast.success("Booking request sent successfully", {
-          hideProgressBar: true,
-          autoClose: 2000,
-          closeButton: false,
-          draggable: false,
-          pauseOnHover: false,
-        });
+       showSuccessToast("thanks for request we will contact back soon.")
       }
     } catch (error) {
-      alert(error);
+      showErrorToast(error)
     }
   };
 
+
   return (
-    <div className="relative">
+    <div className="relative bg-blue-100">
       <Navabar />
       {ismessageshow && <Messagebox setismessageshow={setismessageshow} />}
 
-      <div className="w-full px-4 md:px-20 py-10">
+      <div className="w-full px-4 md:px-10 py-10">
         {data ? (
           <div className="flex flex-col lg:flex-row gap-10">
    
-            <div className="w-full lg:w-1/2">
+            <div className="w-full overflow-y-hidden lg:w-1/2">
              <img
-  src={selectedImage}
-  alt="Room"
-  className="w-full h-[400px] object-cover rounded-md shadow-md"
-/>
+           src={selectedImage}
+            alt="Room"
+           className="w-full h-[400px] object-cover rounded-md shadow-md"
+            />
 
            
               <div className="flex flex-wrap gap-2 mt-4">
@@ -85,17 +87,17 @@ function Roompage() {
             </div>
 
            
-            <div className="w-full lg:w-1/2">
+            <div className="w-full overflow-y-scroll lg:w-1/2">
               
               <div className="shadow-md p-4 rounded-md flex items-center gap-4">
                 <img
-                  src="https://static-cse.canva.com/blob/1911653/tools_transparent-background_promo-showcase_01-AFTER.jpg"
-                  className="rounded-full h-14 w-14"
+              src={ownerdata.profilepic}
+                className="rounded-full h-14 w-14"
                   alt=""
                 />
                 <div>
-                  <span className="block font-medium text-slate-800 text-lg">Alex Jenda</span>
-                  <span className="text-sm font-medium text-gray-500">alexjenda@gmail.com</span>
+                  <span className="block font-medium text-slate-800 text-lg">{ownerdata.name}</span>
+                  <span className="text-sm font-medium text-gray-500">{ownerdata.email}</span>
                 </div>
                 <CiChat1 onClick={() => setismessageshow(true)} className="cursor-pointer" size={20} />
               </div>
@@ -124,24 +126,28 @@ function Roompage() {
                 </div>
               </div>
 
-             
-              <div className="flex flex-wrap gap-4 mt-6">
-             
-                <button
+           {data?.location && data.location.lat && data.location.lng && (
+  <div className="mt-6 ">
+    <h3 className="text-lg font-semibold">Room Location on Map</h3>
+    <LeafletMap location={data.location} setLocation={() => {}} />
+   
+  </div>
+)}
+
+               <button
                   onClick={handlesubmit}
-                  className="text-sm px-6 py-2 font-medium bg-sky-500 text-white rounded-md hover:bg-sky-600 transition"
+                  className="text-sm mt-4 mb-5 px-6 py-2 font-medium bg-sky-500 text-white rounded-md hover:bg-sky-600 transition"
                 >
                   Request to Book
                 </button>
-                <button className="text-sm px-6 py-2 font-medium text-red-500 border border-red-400 rounded-md hover:bg-red-50 transition">
-                  Cancel Booking
-                </button>
-              </div>
+                <Reviews/>
             </div>
+            
           </div>
         ) : (
           <Loadinganimation/>
         )}
+        
       </div>
     </div>
   );
@@ -151,6 +157,10 @@ export default Roompage;
 
 import { RxCross2 } from "react-icons/rx";
 import Loadinganimation from "../404page/loadinganimation";
+import { showErrorToast, showSuccessToast } from "../toastutils/toast";
+import LeafletMap from "../404page/map";
+import Reviews from "./review";
+
 const Messagebox = ({ setismessageshow }) => {
   return (
     <div className="absolute bg-slate-100 shadow-md rounded-md right-1 bottom-2 w-96 h-96 flex flex-col">

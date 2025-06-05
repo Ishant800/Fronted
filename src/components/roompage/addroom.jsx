@@ -6,10 +6,12 @@ import { addrooms } from "../redux/thunk/roomthunks";
 import Navabar from "../navbar/navbar";
 import Footer from "../footer/footer";
 import { useNavigate } from "react-router-dom";
+import LeafletMap from "../404page/map";
 
 function Addroom() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+const [location, setLocation] = useState({ lat: 27.7172, lng: 85.3240 }); 
 
   const [formData, setFormData] = useState({
     roomtitle: "",
@@ -17,7 +19,7 @@ function Addroom() {
     roomsize: "",
     description: "",
     features: "",
-    location: "",
+   
     city: "",
     address: "",
     country: "Nepal",
@@ -50,6 +52,9 @@ function Addroom() {
     }
 
     const data = new FormData();
+     data.append("location[lat]", location.lat);
+  data.append("location[lng]", location.lng);
+
     for (const key in formData) {
       if (formData[key]) {
         data.append(key, formData[key]);
@@ -82,6 +87,13 @@ function Addroom() {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
+
+     <h2>Select Room Location</h2>
+      <LeafletMap location={location} setLocation={setLocation} />
+
+      <p>Latitude: {location.lat}</p>
+      <p>Longitude: {location.lng}</p>
+
           <div>
             <label className="text-sm font-medium text-gray-700">Room Title</label>
             <input
@@ -170,18 +182,6 @@ function Addroom() {
               value={formData.features}
               onChange={handleInputChange}
               placeholder="e.g. WiFi, AC, Balcony"
-              className="w-full mt-1 p-2 rounded-md bg-slate-100 outline-none"
-            />
-          </div>
-
-          <div>
-            <label className="text-sm font-medium text-gray-700">Location</label>
-            <input
-              type="text"
-              name="location"
-              value={formData.location}
-              onChange={handleInputChange}
-              placeholder="e.g. City Center"
               className="w-full mt-1 p-2 rounded-md bg-slate-100 outline-none"
             />
           </div>
