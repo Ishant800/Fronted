@@ -4,8 +4,16 @@ This is the **frontend** of the RoomFinder web application — a platform that a
 
 ---
 
-## ✨ Live Demo 
-- comming soon..
+## 🔑 Core Features
+- ✅ Room browsing with image gallery
+- ✅ Authentication (Login / Signup)
+- ✅ Role-based UI: Admin, User, Owner
+- ✅ Room creation + management (Add / Edit / Delete)
+- ✅ ⭐ Reviews & 🧠 Q&A Sections
+- ✅ Real-time booking requests
+- ✅ Interactive maps for room locations
+- ✅ Notification system with Toasts
+- ✅ Responsive layout with Tailwind
 
 ---
 
@@ -22,6 +30,14 @@ This is the **frontend** of the RoomFinder web application — a platform that a
 - 🔔 **React Toastify** for alerts
 
 ---
+
+
+## ✨ Live Demo 
+- comming soon..
+
+---
+
+
 
 
 
