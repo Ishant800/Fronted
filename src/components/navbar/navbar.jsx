@@ -1,4 +1,3 @@
-
 import { HiHomeModern } from "react-icons/hi2";
 import { MdOutlineLogout } from "react-icons/md";
 import { useState } from "react";
@@ -17,12 +16,8 @@ function Navabar() {
     <div className="h-[60px]  w-full bg-blue-200 sticky top-0 z-50 flex justify-between items-center px-4 sm:px-6 md:px-10 lg:px-20">
        <Link to="/" className="flex items-center gap-2">
           <HiHomeModern size={26} className="text-blue-600" />
-          <h1 className="text-xl sm:text-2xl lg:text-3xl font-semibold text-blue-600">MeroRoom</h1>
+          <h1 className="text-xl sm:text-2xl lg:text-2xl font-bold text-blue-600">MeroRoom</h1>
         </Link>
-      
-     
-       
-
         <nav className="hidden sm:flex gap-4 text-[16px] font-semibold text-gray-700">
           <Link to='/' className="hover:text-sky-600">Home</Link>
           <Link to='/rooms' className="hover:text-sky-600">Browse Rooms</Link>

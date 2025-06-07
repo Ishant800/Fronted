@@ -7,7 +7,6 @@ export const roomsApi = ()=>{
  return axios.get(`${api}/rooms`)
 }
    
-
 export const addRoomApi = (data)=>{
    return axios.post(`${api}/addroom`,data,{headers:getToken()})
 }

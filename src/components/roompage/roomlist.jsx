@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
 import { FiEdit } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";

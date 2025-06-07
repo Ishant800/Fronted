@@ -12,7 +12,7 @@ function Fetauresroom() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [data, setData] = useState([]);
-console.log(data)
+
   useEffect(() => {
     if (rooms.length === 0) {
       dispatch(fetchRooms());
@@ -22,7 +22,7 @@ console.log(data)
   }, [rooms, dispatch]);
 
   return (
-    <div className='px-4 sm:px-6 lg:px-20 py-10 bg-gray-100'>
+    <div className=' lg:px-20 py-10 bg-gray-100'>
       <div className='flex flex-col sm:flex-row items-center justify-between'>
         <h1 className='text-2xl font-semibold text-slate-900 mb-4 sm:mb-0'>Featured Rooms</h1>
         <button onClick={()=>navigate("/rooms")} className='text-md font-medium text-white bg-sky-600 px-4 py-2 rounded-md flex items-center gap-2 hover:bg-sky-700 transition'>
@@ -69,11 +69,11 @@ console.log(data)
                 </div>
 
                 <div className="flex justify-between text-sm text-gray-700">
-                  {/* <span>Available from: {item.createdAt}</span> */}
-                  <button className='text-sm px-3 py-2 rounded-md bg-sky-300'>View details</button>
                   <span className="flex items-center font-medium">
                     <FaDollarSign className="mr-1" />{item.room_price_monthly}<span className="text-gray-500 ml-1">/Month</span>
                   </span>
+                  <button className='text-sm px-3 text-white py-2 rounded-md bg-sky-400'>View details</button>
+                  
                 </div>
               </div>
             </div>

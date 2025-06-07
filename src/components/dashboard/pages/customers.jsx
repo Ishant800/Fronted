@@ -15,7 +15,7 @@ function Customers() {
           },
         });
         const bookedCustomers = res.data.requestdata.filter(
-          (item) => item.status !== "booked"
+          (item) => item.status !== "booked" && item.roomstatus === "accept"
         );
         console.log(bookedCustomers)
         setCustomersList(bookedCustomers);

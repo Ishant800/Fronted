@@ -63,10 +63,9 @@ const [location, setLocation] = useState({ lat: 27.7172, lng: 85.3240 });
     files.forEach((file) => data.append("images", file));
 
     try {
+      
       const res = await dispatch(addrooms(data));
       if (addrooms.fulfilled.match(res)) {
-        toast.success("Room added successfully!");
-       
         navigate("/dashboard/listroom");
       } else {
         throw new Error(res.payload?.message || "Something went wrong");

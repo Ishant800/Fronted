@@ -2,7 +2,7 @@ import { IoPerson, IoHomeSharp } from "react-icons/io5";
 import { MdEmail } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { usersignup } from "../redux/thunk/auththunk";
 import { useDispatch } from "react-redux";
 import { showErrorToast, showSuccessToast } from "../toastutils/toast";
@@ -10,7 +10,7 @@ import { showErrorToast, showSuccessToast } from "../toastutils/toast";
 
 function Signup() {
   const dispatch = useDispatch();
-
+ const navigate = useNavigate()
   const [formdata, setformdata] = useState({
     username: "",
     email: "",
@@ -24,6 +24,7 @@ function Signup() {
    const matched =  dispatch(usersignup(formdata));
    if(usersignup.fulfilled.match(matched)){
     showSuccessToast("sucessfully signup")
+    navigate("/login")
    }
    else{
     showErrorToast("failed to create account")

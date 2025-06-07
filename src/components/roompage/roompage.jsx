@@ -4,24 +4,55 @@ import { CiChat1 } from "react-icons/ci";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { RxCross2 } from "react-icons/rx";
+import Loadinganimation from "../404page/loadinganimation";
+import { showErrorToast, showSuccessToast, showWarningToast } from "../toastutils/toast";
+import LeafletMap from "../404page/map";
+import { useDispatch, useSelector } from "react-redux";
+import { Addreview, getReviews } from "../redux/thunk/reviewthunk";
 
 function Roompage() {
+  const dispatch = useDispatch()
   const { id } = useParams();
+  const {review} = useSelector((state)=>state.review)
+  console.log(review)
   const [data, setdata] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
   const [ismessageshow, setismessageshow] = useState(false);
  const [ownerdata,setownerdata] = useState(null)
+const [reviewdata,setreviewdata] = useState({
+  comment:'',
+  rating:0
 
+})
+const {userdetails} = useSelector((state)=>state.auth)
+
+ const handlereview = async(e)=>{
+ 
+  e.preventDefault()
+
+  if(reviewdata.rating === 0 || reviewdata.comment.trim() === ""){
+    showWarningToast("please rate and write comments")
+  }
+  else{
+ const paylaod ={
+    userid:userdetails.userid,
+    comment:reviewdata.comment,
+    rating:reviewdata.rating
+  }
+ dispatch(Addreview({id,data:paylaod}))
+  }
+ 
+ }
 
  useEffect(() => {
     const fetchdata = async () => {
       try {
         const res = await axios.get(`http://localhost:5000/room/rooms/${id}`);
         var userid = res.data.existroom.userid
-        console.log(userid)
-        const ownerdetails = await axios.get(`http://localhost:5000/auth/users/${userid}`)
         
-        console.log(ownerdetails.data.usersdata)
+        const ownerdetails = await axios.get(`http://localhost:5000/auth/users/${userid}`)
+        dispatch(getReviews(id))
         if (res.data && ownerdetails.data.usersdata) {
           setdata(res.data.existroom);
           setownerdata(ownerdetails.data.usersdata)
@@ -32,7 +63,7 @@ function Roompage() {
       }
     };
     fetchdata();
-  }, [id]);
+  }, [id,dispatch]);
 
   const handlesubmit = async () => {
     try {
@@ -57,15 +88,15 @@ function Roompage() {
 
 
   return (
-    <div className="relative bg-blue-100">
+    <div className="relative bg-blue-50">
       <Navabar />
       {ismessageshow && <Messagebox setismessageshow={setismessageshow} />}
 
-      <div className="w-full px-4 md:px-10 py-10">
+      <div className="w-full px-4 md:px-10 lg:px-30 py-10">
         {data ? (
-          <div className="flex flex-col lg:flex-row gap-10">
+          <div className="gap-10">
    
-            <div className="w-full overflow-y-hidden lg:w-1/2">
+            <div className="w-full overflow-y-hidden ">
              <img
            src={selectedImage}
             alt="Room"
@@ -80,46 +111,33 @@ function Roompage() {
                     src={img}
                     alt={`thumb-${idx}`}
                     onClick={() => setSelectedImage(img)}
-                    className={`h-20 w-28 object-cover cursor-pointer rounded-md border ${img === selectedImage ? 'border-blue-500' : 'border-gray-300'}`}
+                    className={`h-30 w-38 object-cover cursor-pointer rounded-md border ${img === selectedImage ? 'border-blue-500' : 'border-gray-300'}`}
                   />
                 ))}
               </div>
             </div>
 
            
-            <div className="w-full overflow-y-scroll lg:w-1/2">
-              
-              <div className="shadow-md p-4 rounded-md flex items-center gap-4">
-                <img
-              src={ownerdata.profilepic}
-                className="rounded-full h-14 w-14"
-                  alt=""
-                />
-                <div>
-                  <span className="block font-medium text-slate-800 text-lg">{ownerdata.name}</span>
-                  <span className="text-sm font-medium text-gray-500">{ownerdata.email}</span>
-                </div>
-                <CiChat1 onClick={() => setismessageshow(true)} className="cursor-pointer" size={20} />
-              </div>
-
-             
-              <h1 className="text-2xl mt-6 font-bold text-slate-700">{data.roomtitle}</h1>
-              <div className="flex items-center gap-2 mt-2 text-gray-600">
-                <FaLocationDot />
+            <div className="mt-3 bg-white px-4 rounded-md overflow-y-scroll">
+            
+              <h1 className="text-xl  mt-6 font-semibold text-slate-900">{data.roomtitle}</h1>
+              <div className="flex items-center  gap-1 mt-2 text-gray-600">
+                <FaLocationDot color="black"/>
                 <span className="text-lg font-semibold">{data.address}</span>
               </div>
 
-              <div className="mt-6">
+              <div className="mt-6 ">
                 <h2 className="text-xl font-semibold text-slate-800">About This Room:</h2>
-                <p className="text-md text-gray-600 mt-2">{data.description}</p>
+                <p className="text-md font-medium text-gray-600 mt-2">{data.description}</p>
+                <button className="text-md font-medium text-blue-500">Read more.. </button>
+              
               </div>
 
-           
-              <div className="mt-6">
+              <div className="mt-6 ">
                 <h2 className="text-xl font-semibold text-slate-800">Features:</h2>
                 <div className="flex gap-3 flex-wrap mt-2">
                   {data.features.map((feature, i) => (
-                    <span key={i} className="text-sm bg-gray-100 px-3 py-1 rounded-md text-gray-700">
+                    <span key={i} className="text-sm font-medium bg-gray-100 px-3 py-1 rounded-md text-gray-700">
                       {feature}
                     </span>
                   ))}
@@ -127,23 +145,122 @@ function Roompage() {
               </div>
 
            {data?.location && data.location.lat && data.location.lng && (
-  <div className="mt-6 ">
+  <div className="mt-6 relative bg-white p-4 rounded-md">
     <h3 className="text-lg font-semibold">Room Location on Map</h3>
     <LeafletMap location={data.location} setLocation={() => {}} />
    
   </div>
 )}
 
-               <button
+           <h1 className="text-xl pt-4 font-medium text-slate-900">Landowners details:</h1>
+              <div className=" mt-4 rounded-md flex items-center gap-4">
+              
+                <img
+              src={ownerdata.profilepic}
+                className="rounded-full h-14 object-cover w-14"
+                />
+                <div className="leading-3">
+                  <span className="block font-medium text-slate-800 text-md">{ownerdata.name}</span>
+                  <span className="text-sm font-medium text-gray-500">{ownerdata.email}</span>
+                </div>
+                <CiChat1 onClick={() => setismessageshow(true)} className="cursor-pointer" size={20} />
+              </div>
+            
+            <button
                   onClick={handlesubmit}
                   className="text-sm mt-4 mb-5 px-6 py-2 font-medium bg-sky-500 text-white rounded-md hover:bg-sky-600 transition"
                 >
-                  Request to Book
-                </button>
-                <Reviews/>
+                  Request to Book </button>
+                
+
+
+ <div className="py-10">
+  <div className="max-w-full mx-auto space-y-8">
+
+    <h1 className="text-2xl font-semibold text-gray-800">Reviews</h1>
+    <div className="bg-white shadow-md rounded-lg p-6 space-y-4">
+      <h2 className="text-lg font-medium text-gray-700">Write a Review</h2>
+      
+     <div className="flex gap-1 text-yellow-400 text-xl">
+  {[1, 2, 3, 4, 5].map((star) => (
+    <button
+      key={star}
+      type="button"
+      onClick={() => setreviewdata({ ...reviewdata, rating: star })}
+      className={star <= reviewdata.rating ? "text-yellow-400" : "text-gray-300"}
+    >
+      ★
+    </button>
+  ))}
+</div>
+
+  
+      <textarea 
+      name="comment"
+      value={reviewdata.comment}
+      onChange={(e)=>setreviewdata({...reviewdata,comment:e.target.value})}
+        rows="4"
+        className="w-full border border-gray-300 rounded-md p-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+        placeholder="Write your honest feedback here..."
+      ></textarea>
+
+     
+      <button
+      onClick={handlereview}
+        className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition"
+      >
+        Submit Review
+      </button>
+    </div>
+
+
+          {review.map((review,index)=>(
+             <div key={index} className="bg-white  shadow-md rounded-lg p-5 space-y-3">
+      <div className="flex items-center gap-4">
+        <img 
+          src={review.profilepic}
+          className="h-12 w-12 rounded-full object-cover" alt=""
+        />
+        <div>
+          <span className="text-base font-semibold text-gray-700 block">{review.username}</span>
+        <span className="text-xs text-gray-500">
+  {new Date(review.time).toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  })}
+</span>
+        </div>
+      </div>
+
+ 
+      <div className="flex items-center gap-1 text-lg">
+  {[...Array(5)].map((_, i) => (
+    <span key={i} className={i < review.rating ? "text-yellow-400" : "text-gray-300"}>
+      ★
+    </span>
+  ))}
+  <span className="text-sm text-gray-600 ml-2 font-medium">{review.rating}.0</span>
+</div>
+
+
+      <p className="text-sm font-medium text-gray-700 leading-relaxed">
+        {review.comment}
+      </p>
+    </div>
+          ))}
+    </div>
+   
+    
+
+  </div>
+</div>
+
+
+
+
             </div>
-            
-          </div>
+     
         ) : (
           <Loadinganimation/>
         )}
@@ -155,11 +272,7 @@ function Roompage() {
 
 export default Roompage;
 
-import { RxCross2 } from "react-icons/rx";
-import Loadinganimation from "../404page/loadinganimation";
-import { showErrorToast, showSuccessToast } from "../toastutils/toast";
-import LeafletMap from "../404page/map";
-import Reviews from "./review";
+
 
 const Messagebox = ({ setismessageshow }) => {
   return (

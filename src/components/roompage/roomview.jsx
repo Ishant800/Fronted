@@ -1,80 +1,68 @@
-import { useEffect, useState } from "react"
-import { useNavigate } from 'react-router-dom'
-import { FaLocationDot, FaStar } from "react-icons/fa6"
-import { FaDollarSign } from "react-icons/fa"
-import { useDispatch, useSelector } from "react-redux"
-import { LuArrowLeft } from "react-icons/lu";
-import { fetchRooms } from "../redux/thunk/roomthunks"
+import { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
+import { FaStar, FaSearch, FaFilter } from "react-icons/fa";
+import { FaLocationDot } from "react-icons/fa6";
+import { FaDollarSign } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchRooms } from "../redux/thunk/roomthunks";
+
 function Roomview() {
-   const dispatch = useDispatch()
-   const { rooms } = useSelector(state => state.room)
-   const [data, setdata] = useState([])
-   const [search, setsearch] = useState("")
-   const [categories, setcategories] = useState("")
-   const [city, setcity] = useState("")
-  console.log(data)
-   const navigate = useNavigate()
-   useEffect(() => {
+  const dispatch = useDispatch();
+  const { rooms } = useSelector(state => state.room);
+  const [data, setdata] = useState([]);
+  const [search, setsearch] = useState("");
+  const [categories, setcategories] = useState("");
+  const [city, setcity] = useState("");
+  const navigate = useNavigate();
 
-      if (rooms.length === 0) {
-         dispatch(fetchRooms())
-      }
-      else {
-         setdata(rooms.filter(item =>item.status === "booked"))
-      }
+  useEffect(() => {
+    if (rooms.length === 0) dispatch(fetchRooms());
+    else setdata(rooms.filter(item => item.status === "booked"));
+  }, [rooms, dispatch]);
 
-   }, [rooms, dispatch])
+  useEffect(() => {
+    let updatedata = rooms.filter(item => item.status === "booked");
 
+    if (search) {
+      updatedata = updatedata.filter(f =>
+        f.city.toLowerCase().includes(search.toLowerCase()) ||
+        f.categories.toLowerCase().includes(search.toLowerCase())
+      );
+    }
 
-   useEffect(() => {
-      if (search || categories || city) {
-         let updatedata = [...rooms]
+    if (city) {
+      updatedata = updatedata.filter(f => f.city.toLowerCase().includes(city.toLowerCase()));
+    }
 
-         if (search) {
-            updatedata = updatedata.filter(f =>
-               f.city.toLowerCase().includes(search.toLowerCase()) || f.categories.toLowerCase().includes(search.toLowerCase()))
+    if (categories) {
+      updatedata = updatedata.filter(f => f.categories.toLowerCase().includes(categories.toLowerCase()));
+    }
 
-         }
+    setdata(updatedata);
+  }, [search, categories, city, rooms]);
 
-         if (city) {
-            updatedata = updatedata.filter(f => f.city.toLowerCase().includes(city.toLowerCase()))
+  return (
+    <div className="min-h-screen flex flex-col md:flex-row bg-gray-100">
 
-         }
-         if (categories) {
-            updatedata = updatedata.filter(f => f.categories.toLowerCase().includes(categories.toLowerCase()))
+      <aside className="md:w-1/4 w-full  p-6  sticky top-0 h-full z-10">
+        <h2 className="text-xl font-semibold text-gray-800 mb-6">Filters</h2>
 
-         }
-         setdata(updatedata)
-      } else {
-         setdata(rooms)
-      }
-   }, [search, categories, city, rooms])
-   return (
-  <div className="min-h-screen bg-gray-50 px-4 md:px-10">
-  
-    <div className="sticky top-0 bg-gray-50 z-10 py-6 flex flex-col lg:flex-row flex-wrap items-center justify-between gap-4">
-      <button
-        className="flex items-center gap-2 px-4 py-2 border rounded-md text-gray-700 hover:bg-gray-100"
-        onClick={() => navigate("/")}
-      >
-        <LuArrowLeft />
-        Back
-      </button>
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700 mb-1">Search</label>
+          <div className="flex items-center border rounded-md overflow-hidden">
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => setsearch(e.target.value)}
+              className="w-full px-3 py-2 focus:outline-none"
+              placeholder="Search by location/category"
+            />
+            <FaSearch className="mx-2 text-gray-500" />
+          </div>
+        </div>
 
-      <h1 className="text-2xl font-bold text-gray-800">Available Properties</h1>
-
-      <input
-        type="text"
-        value={search}
-        onChange={(e) => setsearch(e.target.value)}
-        className="px-4 py-2 border rounded-md w-full md:w-1/2 lg:w-1/3"
-        placeholder="Enter location where you want to stay"
-      />
-
-     
-      <div className="flex flex-wrap gap-4">
-        <div>
-          <label className="text-sm font-medium">Sort by City</label>
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700 mb-1">City</label>
           <select
             value={city}
             onChange={(e) => setcity(e.target.value)}
@@ -86,8 +74,9 @@ function Roomview() {
             <option value="Bhaktapur">Bhaktapur</option>
           </select>
         </div>
-        <div>
-          <label className="text-sm font-medium">Apply Categories</label>
+
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700 mb-1">Categories</label>
           <select
             value={categories}
             onChange={(e) => setcategories(e.target.value)}
@@ -101,65 +90,66 @@ function Roomview() {
             <option value="flat">Flat</option>
           </select>
         </div>
-      </div>
+      </aside>
+
+
+      <main className="flex-1 p-4 md:p-10">
+        <h1 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+           Room Listings
+        </h1>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {data.length > 0 ? (
+            data.map((item, index) => (
+              <div
+                key={index}
+                onClick={() => navigate(`/rooms/${item._id}`)}
+                className="bg-white rounded-xl shadow hover:shadow-lg transition cursor-pointer overflow-hidden"
+              >
+                <img
+                  src={item.images[0]}
+                  alt={item.roomtitle}
+                  className="h-48 w-full object-cover"
+                />
+
+                <div className="p-4 space-y-2">
+                  <div className="flex justify-between items-center">
+                    <h2 className="text-lg font-semibold text-sky-600">{item.roomtitle}</h2>
+                    <span className="flex items-center text-orange-500 text-sm">
+                      <FaStar className="mr-1" /> 4.0
+                    </span>
+                  </div>
+
+                  <div className="flex items-center text-sm text-gray-600">
+                    <FaLocationDot className="mr-2" />
+                    <span>{item.city}, {item.country}</span>
+                  </div>
+
+                  <p className="text-sm text-gray-600 capitalize">{item.categories}</p>
+
+                  <div className="flex flex-wrap gap-2 text-xs text-gray-500">
+                    {item.features.slice(0, 3).map((feature, i) => (
+                      <span key={i}>{feature}</span>
+                    ))}
+                  </div>
+
+                  <div className="flex justify-between items-center pt-2 border-t mt-2 text-sm text-gray-700">
+                    <span>Available from: {item.createdAt.slice(0, 10)}</span>
+                    <span className="flex items-center font-semibold">
+                      <FaDollarSign className="mr-1" /> {item.room_price_monthly}
+                      <span className="text-sm font-normal text-gray-500">/month</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p className="text-center col-span-full text-xl font-medium text-gray-600">No Data Found</p>
+          )}
+        </div>
+      </main>
     </div>
-
-   
-    <div className="py-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      {data && data.length > 0 ? (
-        data.map((item, index) => (
-          <div
-            key={index}
-            onClick={() => navigate(`/rooms/${item._id}`)}
-            className="bg-white rounded-lg shadow hover:shadow-lg transition cursor-pointer overflow-hidden"
-          >
-           
-            <img
-              src={item.images[0]}
-              alt={item.roomtitle}
-              className="h-48 w-full object-cover"
-            />
-
-        
-            <div className="p-4 space-y-2">
-              <div className="flex justify-between items-center">
-                <h2 className="text-lg font-semibold text-sky-600">{item.roomtitle}</h2>
-                <span className="flex items-center text-orange-500 text-sm">
-                  <FaStar className="mr-1" /> 4.0
-                </span>
-              </div>
-
-              <div className="flex items-center text-sm text-gray-600">
-                <FaLocationDot className="mr-2" />
-                <span>{item.city}, {item.country}</span>
-              </div>
-
-              <p className="text-sm text-gray-600 capitalize">{item.categories}</p>
-
-              <div className="flex flex-wrap gap-2 text-xs text-gray-500">
-                {item.features.slice(0, 3).map((feature, i) => (
-                  <span key={i}>{feature}</span>
-                ))}
-              </div>
-
-              
-              <div className="flex justify-between items-center pt-2 border-t mt-2 text-sm text-gray-700">
-                <span>Available from: {item.createdAt.slice(0, 10)}</span>
-                <span className="flex items-center font-semibold">
-                  <FaDollarSign className="mr-1" /> {item.room_price_monthly}
-                  <span className="text-sm font-normal text-gray-500">/month</span>
-                </span>
-              </div>
-            </div>
-          </div>
-        ))
-      ) : (
-        <p className="text-center col-span-full text-xl font-medium text-gray-600">No Data Found</p>
-      )}
-    </div>
-  </div>
-);
-
+  );
 }
 
-export default Roomview 
+export default Roomview;

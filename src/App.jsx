@@ -13,7 +13,7 @@ import Loadinganimation from "./components/404page/loadinganimation"
 import { useAuthSync } from "./components/hooks/useAuth"
  
 function App() {
- useAuthSync()
+ useAuthSync() 
   return (
     <BrowserRouter>   
       <Routes>

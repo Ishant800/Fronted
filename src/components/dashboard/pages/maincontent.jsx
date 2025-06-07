@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
 import { FaUsers, FaClipboardCheck } from "react-icons/fa";
 import axios from "axios";
-
-
 import { showErrorToast, showInfoToast, showSuccessToast} from "../../toastutils/toast";
 import { getToken } from "../../redux/utils/auth";
+
+
 function Maincontent() {
   const [data, setdata] = useState([]);
   const [totalusers, settotalusers] = useState([]);
  const[aceept,setaccept] = useState(false)
-
 
   useEffect(() => {
     if (totalusers.length === 0) fetchusersdata();
@@ -60,7 +59,6 @@ function Maincontent() {
        else{
         setaccept(false)
        }
-        
          showSuccessToast(
         roomstatus === "reject"
           ? "Request rejected successfully"
@@ -69,7 +67,6 @@ function Maincontent() {
       );
             
       setdata((prev) => prev.filter((item) => item._id !== id));
-        
         fetchusersrequest();
       }
     } catch (error) {
@@ -139,7 +136,7 @@ function Maincontent() {
                 <td className="px-4 py-2 flex justify-center gap-2">
                  
                  {aceept ? (  <button
-                    onClick={() => handlerequest(item._id, 'reject','',item.roomid)}
+                    onClick={() => handlerequest(item._id, 'reject','available',item.roomid)}
                     className="bg-red-100 text-red-500 px-3 py-1 rounded-md text-sm hover:bg-red-200"
                   >
                     Decline
@@ -154,7 +151,7 @@ function Maincontent() {
                   </button>
                 
                  <button
-                    onClick={() => handlerequest(item._id, 'reject','',item.roomid)}
+                    onClick={() => handlerequest(item._id, 'reject','available',item.roomid)}
                     className="bg-red-100 text-red-500 px-3 py-1 rounded-md text-sm hover:bg-red-200"
                   >
                     Decline

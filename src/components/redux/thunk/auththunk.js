@@ -3,9 +3,9 @@ import { myDetails, userdetailsUpdate, userLogin, userSignup} from "../services/
 
 export const loginuser = createAsyncThunk('auth/login',async(data,thunkAPI)=>{
     try {
-        console.log(data)
+        
         const res = await userLogin(data)
-        console.log(res.data.acesstoken)
+       
     
         return res.data.acesstoken
           
@@ -17,7 +17,7 @@ export const loginuser = createAsyncThunk('auth/login',async(data,thunkAPI)=>{
 export const usersignup = createAsyncThunk('auth/signup',async(data,thunkAPI)=>{
     try {
         const res = await userSignup(data)
-        console.log(res.data)
+        
         return res.data
     } catch (error) {
         return thunkAPI.rejectWithValue(error.response?.data || error.message)
