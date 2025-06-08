@@ -22,3 +22,8 @@ export const updateRooms = (id,data)=>{
     return axios.post(`${api}/rooms/${id}`,data,{headers:getToken()})
 }
 
+export const getproperties = ()=>{
+   return axios.get(`${api}/getproperties`,{
+      headers:getToken()
+   })
+}

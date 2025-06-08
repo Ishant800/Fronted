@@ -6,13 +6,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { MdDelete } from "react-icons/md";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { fetchRooms } from "../redux/thunk/roomthunks";
+import { getProperties } from "../redux/thunk/roomthunks";
 
 function Roomlist() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { rooms } = useSelector((state) => state.room);
+  const { userRooms } = useSelector((state) => state.room);
 
 
   const handledelete = async (id) => {
@@ -38,14 +38,18 @@ function Roomlist() {
   };
 
   useEffect(() => {
-    if (rooms.length === 0) dispatch(fetchRooms());
+    if (userRooms.length === 0) dispatch(getProperties());
   }, [dispatch]);
 
   return (
-    <div className="bg-gray-100 min-h-screen px-6 py-8">
+    <div className="bg-gray-100 overflow-hidden min-h-screen px-6 py-8">
       <div className="max-w-6xl mx-auto">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-semibold text-gray-800">Your Properties</h1>
+          <div className="flex items-center gap-20 text-slate-500 justify-between ">
+            <h1 className="text-2xl font-semibold text-gray-800">Properties</h1>
+             <span className="text-md font-medium ">Total properties: {userRooms.length || ""}</span>
+          </div>
+          
           <button
             onClick={()=>navigate("/addroom")}
             className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
@@ -64,12 +68,12 @@ function Roomlist() {
           <div>Actions</div>
         </div>
 
-        <div className="divide-y bg-white rounded-b-lg">
-          {rooms.length > 0 ? (
-            rooms.map((item, index) => (
+        <div className="divide-y bg-white max-h-[70vh] overflow-y-auto  rounded-b-lg">
+          {userRooms.length > 0 ? (
+            userRooms.map((item, index) => (
               <div
                 key={index}
-                className="grid grid-cols-6 gap-4 px-4 py-3 hover:bg-gray-50 text-gray-700"
+                className="grid text-sm  grid-cols-6 gap-4 px-4 py-3 overflow-y-scroll hover:bg-gray-50 text-gray-700"
               >
                 <div
                   className="cursor-pointer text-blue-600 hover:underline"
@@ -77,14 +81,14 @@ function Roomlist() {
                 >
                   {item._id.slice(0, 8)}...
                 </div>
-                <div>{item.roomtitle}</div>
-                <div>₹{item.room_price_monthly}</div>
-                 <div>{item.city}</div>
+                <div className="font-medium">{item.roomtitle}</div>
+                <div className="font-medium">₹{item.room_price_monthly}</div>
+                 <div className="font-medium">{item.city}</div>
                 <div
                   className={`font-medium ${
                     item.status === "available"
-                      ? "text-green-600"
-                      : "text-red-500"
+                      ? "text-green-600 capitalize"
+                      : "black capitalize"
                   }`}
                 >
                   {item.status}
@@ -112,10 +116,10 @@ function Roomlist() {
           )}
         </div>
 
-        {rooms.length > 9 && (
+        {userRooms.length > 9 && (
           <div className="flex justify-between items-center mt-6">
             <p className="text-sm text-gray-600">
-              Total items: {userrooms.length}
+              Total items: {userRooms.length}
             </p>
             <div className="flex space-x-2">
               <button className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">

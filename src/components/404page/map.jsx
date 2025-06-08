@@ -25,7 +25,7 @@ function LocationMarker({ setLocation }) {
 
 export default function LeafletMap({ location, setLocation }) {
   return (
-    <MapContainer center={location} zoom={13} style={{ height: "400px", width: "100%" }}>
+    <MapContainer center={location} zoom={13} style={{ height: "300px", width: "100%" }}>
       <TileLayer
         attribution='&copy; <a href="https://openstreetmap.org">OpenStreetMap</a>'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

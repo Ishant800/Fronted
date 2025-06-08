@@ -1,21 +1,22 @@
-import { IoMenu } from "react-icons/io5";
+import { IoHomeSharp, IoMenu } from "react-icons/io5";
 import { IoIosColorPalette } from "react-icons/io";
 
 import { BsHouseAddFill } from "react-icons/bs";
 
 import { CgProfile } from "react-icons/cg";
 import { FaUsers } from "react-icons/fa6";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink,Link } from "react-router-dom";
 
 function Sidebar() {
   return (
-    <div className="min-h-screen w-[70px] md:w-[220px] bg-white px-3 py-4 shadow-lg flex flex-col gap-2 transition-all duration-300">
+    <div className="min-h-screen w-[70px] md:w-[220px] bg-blue-200 px-3 py-4 shadow-lg flex flex-col gap-2 transition-all duration-300">
 
       <div className="flex items-center justify-between px-2 mb-6">
         <Link to="/" className="flex items-center gap-2">
-          <h1 className="text-lg md:text-xl font-bold text-gray-700 hidden md:block">MeroRoom</h1>
+         <IoHomeSharp size={28} className="text-blue-600" />
+          <h1 className="text-xl md:text-xl font-bold text-gray-900 hidden md:block">MeroRoom</h1>
         </Link>
-        <IoMenu size={22} className="text-gray-600 hidden md:block" />
+        
       </div>
 
 
@@ -36,7 +37,7 @@ function Sidebar() {
           }
         >
           <span className="text-xl">{icon}</span>
-          <span className="text-sm font-medium hidden md:block">{label}</span>
+          <span className="text-sm text-slate-900 font-medium hidden md:block">{label}</span>
         </NavLink>
       ))}
     </div>

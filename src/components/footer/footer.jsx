@@ -3,9 +3,9 @@ import { FaFacebookF, FaInstagram, FaLinkedin, FaTwitter } from "react-icons/fa"
 
 function Footer() {
   return (
-    <div className="w-full bg-slate-800 px-4 sm:px-6 lg:px-20 py-6">
+    <div className="w-full overflow-hidden bg-slate-800 px-4 sm:px-6 lg:px-20 py-6">
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-10">
-        {/* Brand */}
+     
         <div>
           <div className="flex items-center gap-2">
             <IoHomeSharp size={24} className="text-white" />

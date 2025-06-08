@@ -14,43 +14,43 @@ import { Addreview, getReviews } from "../redux/thunk/reviewthunk";
 function Roompage() {
   const dispatch = useDispatch()
   const { id } = useParams();
-  const {review} = useSelector((state)=>state.review)
+  const { review } = useSelector((state) => state.review)
   console.log(review)
   const [data, setdata] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
   const [ismessageshow, setismessageshow] = useState(false);
- const [ownerdata,setownerdata] = useState(null)
-const [reviewdata,setreviewdata] = useState({
-  comment:'',
-  rating:0
+  const [ownerdata, setownerdata] = useState(null)
+  const [reviewdata, setreviewdata] = useState({
+    comment: '',
+    rating: 0
 
-})
-const {userdetails} = useSelector((state)=>state.auth)
+  })
+  const { userdetails } = useSelector((state) => state.auth)
 
- const handlereview = async(e)=>{
- 
-  e.preventDefault()
+  const handlereview = async (e) => {
 
-  if(reviewdata.rating === 0 || reviewdata.comment.trim() === ""){
-    showWarningToast("please rate and write comments")
+    e.preventDefault()
+
+    if (reviewdata.rating === 0 || reviewdata.comment.trim() === "") {
+      showWarningToast("please rate and write comments")
+    }
+    else {
+      const paylaod = {
+        userid: userdetails.userid,
+        comment: reviewdata.comment,
+        rating: reviewdata.rating
+      }
+      dispatch(Addreview({ id, data: paylaod }))
+    }
+
   }
-  else{
- const paylaod ={
-    userid:userdetails.userid,
-    comment:reviewdata.comment,
-    rating:reviewdata.rating
-  }
- dispatch(Addreview({id,data:paylaod}))
-  }
- 
- }
 
- useEffect(() => {
+  useEffect(() => {
     const fetchdata = async () => {
       try {
         const res = await axios.get(`http://localhost:5000/room/rooms/${id}`);
         var userid = res.data.existroom.userid
-        
+
         const ownerdetails = await axios.get(`http://localhost:5000/auth/users/${userid}`)
         dispatch(getReviews(id))
         if (res.data && ownerdetails.data.usersdata) {
@@ -63,11 +63,14 @@ const {userdetails} = useSelector((state)=>state.auth)
       }
     };
     fetchdata();
-  }, [id,dispatch]);
+  }, [id, dispatch]);
 
   const handlesubmit = async () => {
     try {
       const token = localStorage.getItem("token");
+      if (userdetails.role === "admin") {
+        showWarningToast("you are not allowed to request")
+      }
       const bookingdata = {
         ownerid: data.userid,
         roomid: id,
@@ -79,7 +82,7 @@ const {userdetails} = useSelector((state)=>state.auth)
       });
 
       if (res.status === 200) {
-       showSuccessToast("thanks for request we will contact back soon.")
+        showSuccessToast("thanks for request we will contact back soon.")
       }
     } catch (error) {
       showErrorToast(error)
@@ -88,185 +91,212 @@ const {userdetails} = useSelector((state)=>state.auth)
 
 
   return (
-    <div className="relative bg-blue-50">
+    <div>
       <Navabar />
-      {ismessageshow && <Messagebox setismessageshow={setismessageshow} />}
+      <div className="relative bg-blue-50">
 
-      <div className="w-full px-4 md:px-10 lg:px-30 py-10">
-        {data ? (
-          <div className="gap-10">
-   
-            <div className="w-full overflow-y-hidden ">
-             <img
-           src={selectedImage}
-            alt="Room"
-           className="w-full h-[400px] object-cover rounded-md shadow-md"
-            />
+        {ismessageshow && <Messagebox setismessageshow={setismessageshow} />}
 
-           
-              <div className="flex flex-wrap gap-2 mt-4">
-                {data.images.map((img, idx) => (
-                  <img
-                    key={idx}
-                    src={img}
-                    alt={`thumb-${idx}`}
-                    onClick={() => setSelectedImage(img)}
-                    className={`h-30 w-38 object-cover cursor-pointer rounded-md border ${img === selectedImage ? 'border-blue-500' : 'border-gray-300'}`}
-                  />
-                ))}
-              </div>
-            </div>
+        <div className="w-full px-4 md:px-10 lg:px-30 py-20">
+          {data ? (
+            <div className="gap-10">
 
-           
-            <div className="mt-3 bg-white px-4 rounded-md overflow-y-scroll">
-            
-              <h1 className="text-xl  mt-6 font-semibold text-slate-900">{data.roomtitle}</h1>
-              <div className="flex items-center  gap-1 mt-2 text-gray-600">
-                <FaLocationDot color="black"/>
-                <span className="text-lg font-semibold">{data.address}</span>
-              </div>
+              <div className="w-full h-full overflow-y-hidden ">
+                <img
+                  src={selectedImage}
+                  alt="Room"
+                  className="w-full h-[500px] rounded-md shadow-md"
+                />
 
-              <div className="mt-6 ">
-                <h2 className="text-xl font-semibold text-slate-800">About This Room:</h2>
-                <p className="text-md font-medium text-gray-600 mt-2">{data.description}</p>
-                <button className="text-md font-medium text-blue-500">Read more.. </button>
-              
-              </div>
 
-              <div className="mt-6 ">
-                <h2 className="text-xl font-semibold text-slate-800">Features:</h2>
-                <div className="flex gap-3 flex-wrap mt-2">
-                  {data.features.map((feature, i) => (
-                    <span key={i} className="text-sm font-medium bg-gray-100 px-3 py-1 rounded-md text-gray-700">
-                      {feature}
-                    </span>
+                <div className="flex flex-wrap gap-2 mt-4">
+                  {data.images.map((img, idx) => (
+                    <img
+                      key={idx}
+                      src={img}
+                      alt={`thumb-${idx}`}
+                      onClick={() => setSelectedImage(img)}
+                      className={`h-30 w-38 object-cover bg-cover cursor-pointer rounded-md border ${img === selectedImage ? 'border-blue-500' : 'border-gray-300'}`}
+                    />
                   ))}
                 </div>
               </div>
 
-           {data?.location && data.location.lat && data.location.lng && (
-  <div className="mt-6 relative bg-white p-4 rounded-md">
-    <h3 className="text-lg font-semibold">Room Location on Map</h3>
-    <LeafletMap location={data.location} setLocation={() => {}} />
-   
-  </div>
-)}
 
-           <h1 className="text-xl pt-4 font-medium text-slate-900">Landowners details:</h1>
-              <div className=" mt-4 rounded-md flex items-center gap-4">
-              
-                <img
-              src={ownerdata.profilepic}
-                className="rounded-full h-14 object-cover w-14"
-                />
-                <div className="leading-3">
-                  <span className="block font-medium text-slate-800 text-md">{ownerdata.name}</span>
-                  <span className="text-sm font-medium text-gray-500">{ownerdata.email}</span>
-                </div>
-                <CiChat1 onClick={() => setismessageshow(true)} className="cursor-pointer" size={20} />
+              <div className="mt-3 bg-white px-4 rounded-md overflow-y-scroll">
+                <div className="flex items-center justify-between">
+                  {/* // */}
+                  <div className="w-1/2">
+                    <h1 className="text-xl  mt-6 font-semibold text-slate-900">{data.roomtitle}</h1>
+                    <div className="flex items-center  gap-1 mt-2 text-gray-600">
+                      <FaLocationDot color="black" />
+                      <span className="text-lg font-semibold">{data.address}</span>
+                    </div>
+
+                    <div className="mt-6 ">
+                      <h2 className="text-xl font-semibold text-slate-800">About This Room:</h2>
+                      <p className="text-md font-medium text-gray-600 mt-2">{data.description}</p>
+                      <button className="text-md font-medium text-blue-500">Read more.. </button>
+                    </div>
+
+                    <div className="mt-6 ">
+                      <h2 className="text-xl font-semibold text-slate-800">Features:</h2>
+                      <div className="flex gap-3 flex-wrap mt-2">
+                        {data.features.map((feature, i) => (
+                          <span key={i} className="text-sm font-medium bg-gray-100 px-3 py-1 rounded-md text-gray-700">
+                            {feature}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                    </div>
+
+                                    <div class="px-10 py-5  rouded-sm shadow-md  h-full w-80">
+                 <div class="flex gap-2 justify-center mb-4 items-center ">
+                  <span class="text-xl font-bold">M</span>
+                  <span class="text-xl font-medium">MeroRoom</span>
+                 </div>
+                  
+                     <span class="text-xs  text-gray-500 line-clamp-2 pt-2 font-medium ">If you interested in this room then request for booking by submiting this form with required information</span>
+                  <div class="mt-4 flex">
+                     <span class="font-medium  text-sm">Price: Rs.2000.00 month</span>
+                  </div>
+
+
+              <div class="items-center mt-2">
+                <label for="" class="font-medium text-sm">Your name</label>
+                <input type="text" name="" placeholder="your name" id="" class="py-1 px-2 border w-full rounded-sm border-blue-500 outline-none"/>
               </div>
-            
-            <button
-                  onClick={handlesubmit}
-                  className="text-sm mt-4 mb-5 px-6 py-2 font-medium bg-sky-500 text-white rounded-md hover:bg-sky-600 transition"
+
+                <div class="items-center mt-2">
+                <label for="" class="font-medium text-sm">contact no</label>
+                <input type="text" name="" placeholder="98000000000" id="" class="py-1 px-2 border w-full rounded-sm border-blue-500 placeholder:text-sm font-medium text-md  outline-none"/>
+              </div>
+
+                 <button
+                 onClick={handlesubmit}
+                  class="text-sm mt-4 w-full  mb-5 px-6 py-2 font-medium bg-sky-500 text-white rounded-md hover:bg-sky-600 transition"
                 >
                   Request to Book </button>
-                
+                </div>
+                    </div>
+
+                {data?.location && data.location.lat && data.location.lng && (
+                  <div className="mt-6 bg-white p-4 rounded-md">
+                    <h3 className="text-lg font-semibold">Room Location on Map</h3>
+                    <LeafletMap location={data.location} setLocation={() => { }} />
+
+                  </div>
+                )}
+
+                <h1 className="text-xl pt-4 font-medium text-slate-900">Landowners details:</h1>
+                <div className=" mt-4 rounded-md flex items-center gap-4">
+
+                  <img
+                    src={ownerdata.profilepic}
+                    className="rounded-full h-14 object-cover w-14"
+                  />
+                  <div className="leading-3">
+                    <span className="block font-medium text-slate-800 text-md">{ownerdata.name}</span>
+                    <span className="text-sm font-medium text-gray-500">{ownerdata.email}</span>
+                  </div>
+                  <CiChat1 onClick={() => setismessageshow(true)} className="cursor-pointer" size={20} />
+                </div>
+                <div className="py-5">
+                  <div className="max-w-full mx-auto space-y-8">
+
+                    <h1 className="text-xl font-semibold text-gray-800">Reviews</h1>
+                    <div className="bg-white shadow-md rounded-lg px-4 py-3 space-y-4">
+                      <h2 className="text-lg font-medium text-gray-700">Write a Review</h2>
+
+                      <div className="flex gap-1 text-yellow-400 text-xl">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <button
+                            key={star}
+                            type="button"
+                            onClick={() => setreviewdata({ ...reviewdata, rating: star })}
+                            className={star <= reviewdata.rating ? "text-yellow-400" : "text-gray-300"}
+                          >
+                            ★
+                          </button>
+                        ))}
+                      </div>
 
 
- <div className="py-10">
-  <div className="max-w-full mx-auto space-y-8">
-
-    <h1 className="text-2xl font-semibold text-gray-800">Reviews</h1>
-    <div className="bg-white shadow-md rounded-lg p-6 space-y-4">
-      <h2 className="text-lg font-medium text-gray-700">Write a Review</h2>
-      
-     <div className="flex gap-1 text-yellow-400 text-xl">
-  {[1, 2, 3, 4, 5].map((star) => (
-    <button
-      key={star}
-      type="button"
-      onClick={() => setreviewdata({ ...reviewdata, rating: star })}
-      className={star <= reviewdata.rating ? "text-yellow-400" : "text-gray-300"}
-    >
-      ★
-    </button>
-  ))}
-</div>
-
-  
-      <textarea 
-      name="comment"
-      value={reviewdata.comment}
-      onChange={(e)=>setreviewdata({...reviewdata,comment:e.target.value})}
-        rows="4"
-        className="w-full border border-gray-300 rounded-md p-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
-        placeholder="Write your honest feedback here..."
-      ></textarea>
-
-     
-      <button
-      onClick={handlereview}
-        className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition"
-      >
-        Submit Review
-      </button>
-    </div>
+                      <textarea
+                        name="comment"
+                        value={reviewdata.comment}
+                        onChange={(e) => setreviewdata({ ...reviewdata, comment: e.target.value })}
+                        rows="4"
+                        className="w-full border border-gray-300 rounded-md p-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                        placeholder="Write your honest feedback here..."
+                      ></textarea>
 
 
-          {review.map((review,index)=>(
-             <div key={index} className="bg-white  shadow-md rounded-lg p-5 space-y-3">
-      <div className="flex items-center gap-4">
-        <img 
-          src={review.profilepic}
-          className="h-12 w-12 rounded-full object-cover" alt=""
-        />
-        <div>
-          <span className="text-base font-semibold text-gray-700 block">{review.username}</span>
-        <span className="text-xs text-gray-500">
-  {new Date(review.time).toLocaleDateString("en-GB", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  })}
-</span>
-        </div>
-      </div>
-
- 
-      <div className="flex items-center gap-1 text-lg">
-  {[...Array(5)].map((_, i) => (
-    <span key={i} className={i < review.rating ? "text-yellow-400" : "text-gray-300"}>
-      ★
-    </span>
-  ))}
-  <span className="text-sm text-gray-600 ml-2 font-medium">{review.rating}.0</span>
-</div>
+                      <button
+                        onClick={handlereview}
+                        className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition"
+                      >
+                        Submit Review
+                      </button>
+                    </div>
 
 
-      <p className="text-sm font-medium text-gray-700 leading-relaxed">
-        {review.comment}
-      </p>
-    </div>
-          ))}
-    </div>
-   
-    
+                    {review.map((review, index) => (
+                      <div key={index} className="bg-white  shadow-md rounded-lg p-5 space-y-3">
+                        <div className="flex items-center gap-4">
+                          <img
+                            src={review.profilepic}
+                            className="h-12 w-12 rounded-full object-cover" alt=""
+                          />
+                          <div>
+                            <span className="text-base font-semibold text-gray-700 block">{review.username}</span>
+                            <span className="text-xs text-gray-500">
+                              {new Date(review.time).toLocaleDateString("en-GB", {
+                                day: "numeric",
+                                month: "long",
+                                year: "numeric",
+                              })}
+                            </span>
+                          </div>
+                        </div>
 
-  </div>
-</div>
+
+                        <div className="flex items-center gap-1 text-lg">
+                          {[...Array(5)].map((_, i) => (
+                            <span key={i} className={i < review.rating ? "text-yellow-400" : "text-gray-300"}>
+                              ★
+                            </span>
+                          ))}
+                          <span className="text-sm text-gray-600 ml-2 font-medium">{review.rating}.0</span>
+                        </div>
+
+
+                        <p className="text-sm font-medium text-gray-700 leading-relaxed">
+                          {review.comment}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+
+
+
+                </div>
+              </div>
 
 
 
 
             </div>
-     
-        ) : (
-          <Loadinganimation/>
-        )}
-        
+
+          ) : (
+            <Loadinganimation />
+          )}
+
+        </div>
       </div>
     </div>
+
   );
 }
 
@@ -277,8 +307,8 @@ export default Roompage;
 const Messagebox = ({ setismessageshow }) => {
   return (
     <div className="absolute bg-slate-100 shadow-md rounded-md right-1 bottom-2 w-96 h-96 flex flex-col">
-      
-      
+
+
       <div className="bg-blue-200 px-4 py-2 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <img
@@ -295,13 +325,13 @@ const Messagebox = ({ setismessageshow }) => {
         <RxCross2 onClick={() => setismessageshow(false)} size={20} color="red" className="cursor-pointer" />
       </div>
 
-     
+
       <div className="flex-1 overflow-y-auto px-4 py-2 space-y-2">
         <p className="text-slate-700 text-start">hi</p>
         <p className="text-blue-500 text-end">hello</p>
       </div>
 
-     
+
       <div className="flex border-t border-gray-300 p-2">
         <input
           type="text"

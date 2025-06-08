@@ -76,23 +76,19 @@ const [location, setLocation] = useState({ lat: 27.7172, lng: 85.3240 });
   };
 
   return (
-    <div className="bg-blue-100 min-h-screen">
-      <Navabar />
+    <div className="bg-blue-100 min-h-screen py-20">
 
-      <div className="max-w-3xl mb-10 mx-auto sm:px-4  mt-10 bg-white rounded-xl shadow-md p-8">
-        <div className="flex items-center gap-2 mb-6">
+
+      <div className="max-w-2xl mx-auto sm:px-4 bg-white pb-10 py-5 rounded-md shadow-md ">
+        <div className="flex items-center gap-2 mb-2 justify-center">
           <IoHomeSharp size={28} className="text-blue-600" />
-          <h2 className="text-xl font-semibold text-blue-600">List Your Room</h2>
+          <h2 className="text-xl font-semibold text-blue-600">Mero Room</h2>
+
         </div>
-
+         <p className="text-center text-sm font-normal text-gray-500">please provide full information regarding rooms,such as location,image,features and many more..</p>
         <form onSubmit={handleSubmit} className="space-y-4">
-
-     <h2>Select Room Location</h2>
-      <LeafletMap location={location} setLocation={setLocation} />
-
-      <p>Latitude: {location.lat}</p>
-      <p>Longitude: {location.lng}</p>
-
+      <h1 className="text-lg pt-3 font-medium text-slate-900">Add Room</h1>
+  
           <div>
             <label className="text-sm font-medium text-gray-700">Room Title</label>
             <input
@@ -186,6 +182,15 @@ const [location, setLocation] = useState({ lat: 27.7172, lng: 85.3240 });
           </div>
 
           <div>
+            <span lassName="text-sm font-medium text-gray-700">Select locations on map</span>
+              <LeafletMap location={location} setLocation={setLocation} />
+    
+      <p>Latitude: {location.lat}</p>
+      <p>Longitude: {location.lng}</p>
+          </div>
+             
+
+          <div>
             <label className="text-sm font-medium text-gray-700">City</label>
             <select
               name="city"
@@ -253,7 +258,7 @@ const [location, setLocation] = useState({ lat: 27.7172, lng: 85.3240 });
         </form>
       </div>
 
-      <Footer />
+  
     </div>
   );
 }

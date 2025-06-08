@@ -21,16 +21,11 @@ function Signup() {
     e.preventDefault();
     console.log(formdata)
     
-   const matched =  dispatch(usersignup(formdata));
-   if(usersignup.fulfilled.match(matched)){
+       dispatch(usersignup(formdata));
+   
     showSuccessToast("sucessfully signup")
     navigate("/login")
-   }
-   else{
-    showErrorToast("failed to create account")
-   }
-   
-  
+
   };
 
   return (

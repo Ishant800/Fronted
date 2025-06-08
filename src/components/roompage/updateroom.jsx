@@ -5,10 +5,11 @@ import Navabar from "../navbar/navbar";
 import Footer from "../footer/footer";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import { updaterooms } from "../redux/thunk/roomthunks";
+import { showErrorToast, showSuccessToast } from "../toastutils/toast";
 export default function Updateroom() {
   const {id} = useParams()
-  
-  console.log(id)
+
   const dispatch = useDispatch()
    const [formData, setFormData] = useState({
       roomtitle: "",
@@ -63,16 +64,10 @@ export default function Updateroom() {
     
         try {
          
-          const res = await dispatch(updateroom({id,data}));
+          const res = await dispatch(updaterooms({id,data}));
     
-          if (updateroom.fulfilled.match(res)) {
-            toast.success("Room added successfully!",{
-               hideProgressBar:true,
-        autoClose:2000,
-        closeButton:false,
-        draggable:false,
-        pauseOnHover:false,
-            });
+          if (updaterooms.fulfilled.match(res)) {
+            showSuccessToast("room details update sucessfully")
             setFormData({
               roomtitle: "",
               categories: "",
@@ -91,13 +86,7 @@ export default function Updateroom() {
             throw new Error(res.payload?.message || "Something went wrong");
           }
         } catch (err) {
-          toast.error(err.message,{
-            hideProgressBar:true,
-        autoClose:2000,
-        closeButton:false,
-        draggable:false,
-        pauseOnHover:false,
-          });
+         showErrorToast("failed to update")
         }
       console.log(files)
       console.log(formData)
@@ -109,7 +98,7 @@ export default function Updateroom() {
     <div>
 
    <Navabar/>
-    <div className="h-full overflow-y-auto items-center flex justify-center rounded-md bg-white">
+    <div className="h-full pt-10 overflow-y-auto items-center flex justify-center rounded-md bg-white">
 
        <form action="" 
        onSubmit={handleSubmit}

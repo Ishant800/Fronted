@@ -3,10 +3,8 @@ import { Link } from "react-router-dom";
 
 function Landingpage() {
   return (
-    <div className="min-h-screen bg-blue-100 text-black">
+    <div className="min-h-full bg-blue-100 text-black">
       <div className="flex flex-col-reverse lg:flex-row items-center justify-center px-6 md:px-10 lg:px-20 py-16 gap-10">
-        
-        
         <div className="lg:w-1/2 text-center lg:text-left">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight">
             Find A Perfect Room <span className="text-sky-400">In MeroRoom</span>

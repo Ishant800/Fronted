@@ -31,7 +31,7 @@ function Customers() {
     <div className="p-6 min-h-screen bg-blue-100">
       <h1 className="text-xl font-medium mb-6 text-gray-800">Booked Customers</h1>
 
-      <div className="grid grid-cols-7 gap-5 bg-blue-100 text-gray-700 py-3 px-4 font-semibold rounded-md">
+      <div className="grid grid-cols-7  gap-5 bg-blue-100 text-gray-700 py-3 px-4 font-semibold rounded-md">
         <div>Room ID</div>
         <div>Location</div>
         <div>User ID</div>
@@ -48,9 +48,7 @@ function Customers() {
       {customersList.map((item, index) => (
         <div
           key={index}
-          className={`grid grid-cols-7 gap-5 py-3 px-4 ${
-            index % 2 === 0 ? "bg-white" : "bg-gray-100"
-          } text-sm items-center rounded-md shadow-sm`}
+          className={`grid border-b bg-white grid-cols-7 gap-5 py-3 px-4 text-sm items-center  shadow-sm`}
         >
           <div className="truncate text-gray-600">{item.roomid?.slice(0, 10)}..</div>
           <div className="truncate text-gray-600">{item.roomlocation || "N/A"}</div>

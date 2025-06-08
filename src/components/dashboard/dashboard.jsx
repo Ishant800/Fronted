@@ -9,7 +9,7 @@ import Customers from "./pages/customers"
 
 function Dashboard() {
   return (
-    <div className=" max-h-screen bg-white overflow-hidden flex flex-row">
+    <div className=" max-h-screen bg-white flex flex-row">
       
         <Sidebar />
         <div className="flex-1">

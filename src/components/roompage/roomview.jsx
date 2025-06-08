@@ -5,6 +5,8 @@ import { FaLocationDot } from "react-icons/fa6";
 import { FaDollarSign } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchRooms } from "../redux/thunk/roomthunks";
+import Navabar from "../navbar/navbar";
+import Footer from "../footer/footer";
 
 function Roomview() {
   const dispatch = useDispatch();
@@ -17,11 +19,11 @@ function Roomview() {
 
   useEffect(() => {
     if (rooms.length === 0) dispatch(fetchRooms());
-    else setdata(rooms.filter(item => item.status === "booked"));
+    else setdata(rooms.filter(item => item.status === "available"));
   }, [rooms, dispatch]);
 
   useEffect(() => {
-    let updatedata = rooms.filter(item => item.status === "booked");
+    let updatedata = rooms.filter(item => item.status === "available");
 
     if (search) {
       updatedata = updatedata.filter(f =>
@@ -42,19 +44,21 @@ function Roomview() {
   }, [search, categories, city, rooms]);
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row bg-gray-100">
+    <>
+    <Navabar/>
+    <div className=" min-h-[calc(100vh-4rem)] overflow-y-hidden flex flex-col md:flex-row bg-gray-100">
 
-      <aside className="md:w-1/4 w-full  p-6  sticky top-0 h-full z-10">
-        <h2 className="text-xl font-semibold text-gray-800 mb-6">Filters</h2>
+      <aside className="md:w-1/5 w-full px-4 py-8 md:sticky md:top-16 md:h-[calc(100vh-4rem)] overflow-y-auto bg-gray-100">
+        <h2 className="text-xl font-semibold text-gray-800 mb-6">Add Filters</h2>
 
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700 mb-1">Search</label>
-          <div className="flex items-center border rounded-md overflow-hidden">
+          <div className="flex items-center border border-blue-600 rounded-md overflow-hidden bg-white shadow-md">
             <input
               type="text"
               value={search}
               onChange={(e) => setsearch(e.target.value)}
-              className="w-full px-3 py-2 focus:outline-none"
+              className="w-full px-3 py-2 outline-none bg-white shadow-md  "
               placeholder="Search by location/category"
             />
             <FaSearch className="mx-2 text-gray-500" />
@@ -66,7 +70,7 @@ function Roomview() {
           <select
             value={city}
             onChange={(e) => setcity(e.target.value)}
-            className="w-full px-3 py-2 border rounded-md"
+            className="w-full px-3 py-2  rounded-md outline-none bg-white shadow-md "
           >
             <option value="">Select City</option>
             <option value="Kathmandu">Kathmandu</option>
@@ -80,8 +84,8 @@ function Roomview() {
           <select
             value={categories}
             onChange={(e) => setcategories(e.target.value)}
-            className="w-full px-3 py-2 border rounded-md"
-          >
+            className="w-full px-3 py-2  rounded-md outline-none bg-white shadow-md "
+          >      
             <option value="">Select Category</option>
             <option value="single bed">Single Bed</option>
             <option value="double bed">Double Bed</option>
@@ -93,9 +97,9 @@ function Roomview() {
       </aside>
 
 
-      <main className="flex-1 p-4 md:p-10">
-        <h1 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
-           Room Listings
+      <main className="flex-1 overflow-y-scroll max-h-[calc(100vh-4rem)] mt-10 md:p-10">
+        <h1 className="text-xl capitalize font-medium text-gray-800 mb-4 flex items-center gap-2">
+          All Rooms Available On the basis of location Listings
         </h1>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -149,6 +153,8 @@ function Roomview() {
         </div>
       </main>
     </div>
+   
+     </>
   );
 }
 

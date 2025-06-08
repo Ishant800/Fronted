@@ -14,3 +14,11 @@
 }
 
  @import "leaflet/dist/leaflet.css";
+ /* Tailwind class overrides or inline */
+.scrollbar-thin {
+  scrollbar-width: thin;
+}
+.scrollbar-thumb-gray-300 {
+  scrollbar-color: #d1d5db transparent;
+}
+

@@ -1,5 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit'
-import { addrooms, deleteroom, fetchroomdetails, fetchRooms, } from '../thunk/roomthunks'
+import { addrooms, deleteroom, fetchroomdetails, fetchRooms, getProperties, } from '../thunk/roomthunks'
 
 const roomSlice = createSlice({
  name:"room",
@@ -8,7 +8,7 @@ const roomSlice = createSlice({
     userRooms:[],
     loading:false,
     error:null      
- },  
+   },  
 
    reducers:{},
    extraReducers:(builder)=>{
@@ -28,6 +28,16 @@ const roomSlice = createSlice({
         state.error = action.payload  
     })
 
+     //fetch own properties
+     .addCase(getProperties.pending,(state)=>{
+        state.loading = true
+     })
+
+     .addCase(getProperties.fulfilled,(state,action)=>{
+        state.loading = false
+        state.userRooms = action.payload
+     })
+
     //addRomms
     .addCase(addrooms.fulfilled,(state,action)=>{
         state.rooms.push(action.payload)
@@ -35,12 +45,12 @@ const roomSlice = createSlice({
     })
 
     .addCase(deleteroom.fulfilled,(state,action)=>{
-   state.userRooms = state.userRooms.filter((r)=>r._id !== action.payload)
+    state.userRooms = state.userRooms.filter((r)=>r._id !== action.payload)
     })
-
+    
     //fetchrooms
     .addCase(fetchroomdetails.fulfilled,(state,action)=>{
-        state.userRooms = action.payload
+    state.userRooms = action.payload
     })
    }
 

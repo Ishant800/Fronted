@@ -30,14 +30,13 @@ function Fetauresroom() {
         </button>
       </div>
 
-      <div className="py-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+      <div className="py-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {data && data.length > 0 ? (
           data.map((item, index) => (
             <div
               onClick={() => navigate(`/rooms/${item._id}`)}
               key={index}
-              className="cursor-pointer bg-white rounded-md shadow hover:shadow-md transition overflow-hidden"
-            >
+              className="cursor-pointer bg-white rounded-sm shadow hover:shadow-md transition overflow-hidden">
              <img
   src={item.images?.[0] || "https://via.placeholder.com/300x200?text=No+Image"}
   alt="Room"

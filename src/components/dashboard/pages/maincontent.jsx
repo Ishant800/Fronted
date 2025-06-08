@@ -78,9 +78,7 @@ function Maincontent() {
  return (
   <div className="px-6 py-5 bg-gray-100 min-h-screen">
     <h2 className="text-2xl font-medium text-gray-700 mb-6">Admin Dashboard</h2>
-
-    
-    <div className="grid grid-cols-1 md:grid-cols-4 grid-rows-2 gap-4 ">
+    <div className="grid grid-cols-1 md:grid-cols-4 mb-4 gap-4 ">
      
       <div className="bg-white p-4 rounded-xl shadow-sm flex items-center justify-between col-span-1 row-span-1">
         <div>
@@ -105,9 +103,9 @@ function Maincontent() {
     </div>
 
     
-    <div className="bg-white p-4 rounded-xl shadow-sm">
+    <div className="bg-white p-4 rounded-xl mt-5 shadow-sm">
       <div className="flex justify-between items-center mb-4">
-        <h3 className="text-lg font-semibold text-gray-700">Room Booking Requests</h3>
+        <h3 className="text-lg font-semibold text-gray-700">Users Interested In Your Property </h3>
         <p className="text-gray-500">Total: {data.length}</p>
       </div>
 

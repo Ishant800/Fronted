@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { loginuser, mydetails, usersignup, userupdateDetails } from "../thunk/auththunk";
-
+import { loginuser, mydetails, usersignup} from "../thunk/auththunk";
 const authSlice = createSlice({
   name: "auth",
   initialState: {
@@ -14,6 +13,7 @@ const authSlice = createSlice({
     Logout:(state)=>{
         state.userdetails = null
         localStorage.removeItem("token")
+        localStorage.removeItem("userdetails")
     }
    
   },
@@ -36,9 +36,8 @@ const authSlice = createSlice({
       })
       
       .addCase(mydetails.fulfilled, (state, action) => {
-        console.log(action.payload)
-        state.userdetails = action.payload;
-        console.log(state.userdetails)
+        localStorage.setItem("userdetails", JSON.stringify(action.payload))
+        state.userdetails = action.payload
       });
   },
 });

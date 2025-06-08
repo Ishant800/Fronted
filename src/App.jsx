@@ -10,10 +10,11 @@ import Roompage from "./components/roompage/roompage"
 import Updateroom from "./components/roompage/updateroom"
 import UpdateProfile from "./components/auth/profileupdate"
 import Loadinganimation from "./components/404page/loadinganimation"
-import { useAuthSync } from "./components/hooks/useAuth"
- 
+import PageNotfound from "./components/404page/pagenotfound"
+
+
 function App() {
- useAuthSync() 
+
   return (
     <BrowserRouter>   
       <Routes>
@@ -27,6 +28,7 @@ function App() {
          <Route path="/rooms/:id" element={<Roompage/>} />
          <Route path="/updaterooms/:id" element={<Updateroom/>} />
           <Route path="/updateprofiles" element={<UpdateProfile/>} />
+           <Route path="*" element={<PageNotfound/>} />
       </Routes>
 
 

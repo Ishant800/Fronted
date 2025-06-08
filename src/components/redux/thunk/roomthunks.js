@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { addRoomApi, deleteRoomApi, roomdetailsApi, roomsApi, updateRooms } from "../services/roomservices";
+import { addRoomApi, deleteRoomApi, getproperties, roomdetailsApi, roomsApi, updateRooms } from "../services/roomservices";
 import { showErrorToast, showInfoToast, showSuccessToast } from "../../toastutils/toast";
 export const fetchRooms = createAsyncThunk("room/fetch",async(_,thunkAPI)=>{
 try {
@@ -18,7 +18,7 @@ export const addrooms = createAsyncThunk("room/add",async(data,thunkAPI)=>{
     try {
        const res = await addRoomApi(data)
          showSuccessToast("room added sucessfully")
-       return res.data
+       return res.data.room
     } catch (error) {
         showErrorToast("failed to add room")
         return thunkAPI.rejectWithValue(error.response?.data || error.message)
@@ -54,6 +54,16 @@ export const updaterooms = createAsyncThunk("room/details",async(id,data,thunkAP
     try {
         const res = await updateRooms(id,data)
         return res.data
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error.response?.data || error.message)
+    }
+})
+
+
+export const getProperties = createAsyncThunk("roo/ownproperties",async(thunkAPI)=>{
+    try {
+        const res = await getproperties()
+        return res.data.data
     } catch (error) {
         return thunkAPI.rejectWithValue(error.response?.data || error.message)
     }
