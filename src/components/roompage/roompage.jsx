@@ -246,7 +246,7 @@ function Roompage() {
                       <div key={index} className="bg-white  shadow-md rounded-lg p-5 space-y-3">
                         <div className="flex items-center gap-4">
                           <img
-                            src={review.profilepic}
+                            src={review.profilepic || "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg"}
                             className="h-12 w-12 rounded-full object-cover" alt=""
                           />
                           <div>
