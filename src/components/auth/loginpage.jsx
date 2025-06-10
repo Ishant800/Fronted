@@ -3,7 +3,6 @@ import { RiLockPasswordLine } from "react-icons/ri";
 import { IoHomeSharp } from "react-icons/io5";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { toast } from "react-toastify";
 import { useNavigate, Link } from "react-router-dom";
 import { loginuser } from "../redux/thunk/auththunk";
 import { showErrorToast, showSuccessToast } from "../toastutils/toast";

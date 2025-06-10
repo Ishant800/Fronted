@@ -1,9 +1,8 @@
 import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
-import { useState } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-// Fix marker icon issue
+
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconUrl:   'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',

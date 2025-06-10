@@ -6,7 +6,7 @@ export const Addreview = createAsyncThunk("review/add",async({id,data},thunkAPI)
  try {
     const res = await reviewAdd(id,data);
     if(res) showSuccessToast("Thanks for your reviews.")
-    return {id,data}
+    return res.data.review
  } catch (error) {
     showErrorToast("failed to submit reviews")
     return thunkAPI.rejectWithValue(error.response?.data || error.message)

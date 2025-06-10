@@ -14,7 +14,7 @@ function Categories() {
     },
     {
       id: 3,
-      destinations: "dharan",
+      destinations: "Bhaktapur",
       images:
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqMWMfcyfl-BiK4f_ibly4pUlO-ELWBencwQ&s",
     },

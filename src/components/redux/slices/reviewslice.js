@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Addreview, getReviews } from "../thunk/reviewthunk";
 
+
 const reviewslice = createSlice({
     name:"review",
     initialState:{
@@ -22,7 +23,7 @@ const reviewslice = createSlice({
 
         .addCase(Addreview.fulfilled,(state,action)=>{
            state.loading = false
-           state.review = action.payload
+           state.review.push(action.payload)  
         })
 
         .addCase(getReviews.pending,(state)=>{
