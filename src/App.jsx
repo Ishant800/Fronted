@@ -11,6 +11,8 @@ import Updateroom from "./components/roompage/updateroom"
 import UpdateProfile from "./components/auth/profileupdate"
 import Loadinganimation from "./components/404page/loadinganimation"
 import PageNotfound from "./components/404page/pagenotfound"
+import AboutPage from "./components/main/about"
+import ContactPage from "./components/main/contact"
 
 
 function App() {
@@ -28,6 +30,8 @@ function App() {
          <Route path="/rooms/:id" element={<Roompage/>} />
          <Route path="/updaterooms/:id" element={<Updateroom/>} />
           <Route path="/updateprofiles" element={<UpdateProfile/>} />
+          <Route path="/about" element={<AboutPage/>} />
+          <Route path="/contact" element={<ContactPage/>} />
            <Route path="*" element={<PageNotfound/>} />
       </Routes>
 
